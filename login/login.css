@@ -7,7 +7,8 @@ body, html {
 
 /* Apply the background image to the body */
 body {
-  background-image: url(./images/login.jpeg);
+  /* background-image: url(./images/login.jpeg); */
+  background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
