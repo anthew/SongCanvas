@@ -1,7 +1,7 @@
-var http = require('http');
+const app = express()
 
-//Creating server object:
-http.createServer(function (req, res) {
-  res.write('A Monk in Cloud'); //write a response to the client
-  res.end(); //end the response
-}).listen(80); //the server object listens on port 80
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms"))
+
+app.get("/test", (req, res) => {
+  res.send("<h1>It's working 🤗</h1>")
+})
