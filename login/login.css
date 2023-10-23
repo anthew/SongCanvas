@@ -1,421 +1,377 @@
-body, html {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* Apply the background image to the body */
-body {
-  /* background-image: url(./images/login.jpeg); */
+/* ----------------------------------------------------- */
+/* .login-anthony {
+  width: 1455px;
+  height: 1035px;
+  background-color: #212020;
   background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&);
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-family: 'Kalam', cursive;
-}
+  background-position: 50% 50%;
+} */
 
-.login-EJ {
-  width: 100%;
-  height: 100%;
+body{
+  background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&);
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  transform: scale(0.8);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.login-EJ .overlap {
-  position: relative;
-  width: 1439px;
-  height: 1022px;
-  left: 1px;
-  /* background-image: url(./images/login.jpeg); */
+.login-anthony {
+  width: 100%;
+  height: 100%;
+  /* background-color: #212020; */
+  /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
+  background-size: cover;
+  background-position: 50% 50%;
+  transform: scale(0.8); /* Apply the same scale transformation to the .login-anthony element */
+}
+
+
+.login-anthony .overlap {
+  height: 1035px;
+  /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
   background-size: cover;
   background-position: 50% 50%;
 }
 
-.login-EJ .rectangle {
-  position: absolute;
-  width: 760px;
-  height: 940px;
-  top: 40px;
-  left: 347px;
-  background-color: #ecb5a2d9;
-  border-radius: 30px;
-  box-shadow: inset 0px 4px 4px #00000040;
+.login-anthony .login-box {
+  position: relative;
+  width: 100%;
+  max-width: 768px;
+  height: 100%;
+  /* top: 40%;
+  left: 25%; */
+  margin: 0 auto;
 }
 
-.login-EJ .text-wrapper {
+/* Add a media query to adjust the max-width of the login box when the screen size is smaller */
+@media (max-width: 768px) {
+  .login-anthony .login-box {
+    max-width: 90%; /* Adjust the maximum width for smaller screens */
+  }
+}
+
+.login-anthony .overlap-group {
+  position: relative;
+  height: 872px;
+}
+
+.login-anthony .orange-box {
+  position: relative;
+  width: 768px;
+  height: 847px;
+  top: 25px;
+  left: 0;
+  background-color: #ecb5a2e6;
+  border-radius: 20.21px;
+}
+
+.login-anthony .sign-in-logos {
   position: absolute;
-  top: 472px;
-  left: 794px;
+  width: 732px;
+  height: 140px;
+  top: 700px;
+  left: 22px;
+}
+
+.login-anthony .div {
+  position: absolute;
+  width: 223px;
+  height: 87px;
+  top: 53px;
+  left: 501px;
+  background-color: #d9d9d9;
+  border-radius: 20.21px;
+  border: 1.01px solid;
+  border-color: #000000;
+}
+
+.login-anthony .text-wrapper {
+  position: absolute;
+  width: 99px;
+  top: 25px;
+  left: 94px;
+  font-family: 'Kaisei Decol', serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .image {
+  position: absolute;
+  width: 73px;
+  height: 69px;
+  top: 9px;
+  left: 13px;
+  object-fit: cover;
+}
+
+.login-anthony .overlap-2 {
+  position: absolute;
+  width: 223px;
+  height: 88px;
+  top: 53px;
+  left: 251px;
+}
+
+.login-anthony .rectangle {
+  width: 223px;
+  height: 87px;
+  top: 0;
+  left: 0;
+  border-radius: 20.21px;
+  border: 1.01px solid;
+  border-color: #000000;
+  position: absolute;
+  background-color: #d9d9d9;
+}
+
+.login-anthony .text-wrapper-2 {
+  position: absolute;
+  width: 118px;
+  top: 26px;
+  left: 95px;
+  font-family: 'Kaisei Decol', serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .img {
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  top: 0;
+  left: 0;
+}
+
+.login-anthony .overlap-group-2 {
+  position: absolute;
+  width: 223px;
+  height: 88px;
+  top: 53px;
+  left: 0;
+}
+
+.login-anthony .text-wrapper-3 {
+  position: absolute;
+  width: 85px;
+  top: 25px;
+  left: 95px;
+  font-family: 'Kaisei Decol', serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .text-wrapper-4 {
+  position: absolute;
+  top: 0;
+  left: 296px;
+  font-family: 'Kalam', cursive;
+  font-weight: 400;
+  color: #000000;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .sign-up-create {
+  position: absolute;
+  width: 326px;
+  height: 39px;
+  top: 592px;
+  left: 219px;
+}
+
+.login-anthony .overlap-3 {
+  position: relative;
+  width: 322px;
+  height: 39px;
+}
+
+.login-anthony .text-wrapper-5 {
+  position: absolute;
+  top: 0;
+  left: 165px;
+  font-family: 'Kalam', cursive;
+  font-weight: 400;
+  color: #2974e3;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .text-wrapper-6 {
+  position: absolute;
+  width: 173px;
+  top: 0;
+  left: 0;
+  font-family: 'Kalam', cursive;
+  font-weight: 400;
+  color: #000000;
+  font-size: 24.2px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .login {
+  position: absolute;
+  width: 518px;
+  height: 311px;
+  top: 256px;
+  left: 129px;
+}
+
+.login-anthony .div-wrapper {
+  position: absolute;
+  width: 362px;
+  height: 62px;
+  top: 250px;
+  left: 78px;
+  background-color: #4384e5;
+  border-radius: 20.21px;
+}
+
+.login-anthony .text-wrapper-7 {
+  position: absolute;
+  top: 12px;
+  left: 154px;
+  font-family: "Open Sans-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .overlap-4 {
+  position: absolute;
+  width: 510px;
+  height: 62px;
+  top: 138px;
+  left: 0;
+  /* background-image: url(./img/rectangle-7.svg); */
+  background-color: #d9d9d9;
+  border-radius: 20.21px;
+  background-size: 100% 100%;
+}
+
+.login-anthony .eye {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 12px;
+  left: 449px;
+}
+
+.login-anthony .text-wrapper-8 {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-family: "Open Sans-Regular", Helvetica;
+  font-weight: 400;
+  color: #8b8b8b;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .overlap-5 {
+  position: absolute;
+  width: 510px;
+  height: 62px;
+  top: 0;
+  left: 0;
+  background-color: #d9d9d9;
+  border-radius: 20.21px;
+}
+
+.login-anthony .text-wrapper-9 {
+  position: absolute;
+  top: 11px;
+  left: 12px;
+  font-family: "Open Sans-Regular", Helvetica;
+  font-weight: 400;
+  color: #8b8b8b;
+  font-size: 24.2px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-anthony .text-wrapper-10 {
+  position: absolute;
+  top: 98px;
+  left: 326px;
   font-family: 'Kalam', cursive;
   font-weight: 400;
   color: #2a74e4;
-  font-size: 24px;
+  font-size: 24.2px;
   letter-spacing: 0;
   line-height: normal;
   text-decoration: underline;
 }
 
-.login-EJ .login {
+.login-anthony .heading-of-login {
   position: absolute;
-  width: 505px;
-  height: 328px;
-  top: 378px;
-  left: 466px;
-}
-
-.login-EJ .logging-on {
-  position: absolute;
-  width: 360px;
-  height: 61px;
-  top: 267px;
-  left: 82px;
-}
-
-.login-EJ .overlap-group {
-  position: relative;
-  width: 358px;
-  height: 61px;
-  background-color: #4384e5;
-  border-radius: 20px;
-}
-
-.login-EJ .div {
-  position: absolute;
-  top: 17px;
-  left: 152px;
-  font-family: "Open Sans-Regular", Helvetica;
-  font-weight: 400;
-  color: #ffffff;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .password {
-  position: absolute;
-  width: 507px;
-  height: 61px;
-  top: 155px;
-  left: 0;
-}
-
-
-.password-input-wrapper {
-  position: relative;
-  width: 505px;
-  height: 61px;
-  left: 14px;
-  /* Add other CSS properties to match the appearance of .overlap-2 */
-}
-
-.password-input-wrapper input {
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #000;
-    font-size: 24px;
-    width: 100%;
-    height: 100%;
-    /* font-style: italic; */
-    font-family: 'Kalam', cursive;
-    font-weight: 600;
-    /* Add any additional styling for the input field */
-}
-
-.login-EJ .overlap-2 {
-  position: relative;
-  width: 505px;
-  height: 61px;
-  background-color: #d9d9d9;
-  border-radius: 20px;
-  border: 1px solid;
-  border-color: #4a4a4a;
-}
-
-.login-EJ .eye {
-  position: absolute;
-  width: 36px;
-  height: 36px;
-  top: 13px;
-  left: 455px;
-}
-
-.login-EJ .text-wrapper-2 {
-  position: absolute;
-  top: 11px;
-  left: 16px;
-  font-family: 'Kalam', cursive;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-
-.login-EJ .username {
-  position: absolute;
-  width: 507px;
-  height: 61px;
+  width: 681px;
+  height: 271px;
   top: 0;
-  left: 0;
-  font-style: italic;
+  left: 49px;
 }
 
-.text-wrapper-3 input {
-  border: none;
-  outline: none;
-  background: transparent; /* Make the input background transparent */
-  color: #000; /* Set the text color */
-  font-size: 24px; /* Set the font size */
-  /* font-style: italic; */
-  font-family: 'Kalam', cursive;
-  font-weight: 600;
-} 
-
-.login-EJ .text-wrapper-3 {
-  position: absolute;
-  top: 10px;
-  left: 14px;
-  /* font-family: 'Kalam', cursive; */
-  /* font-weight: 400; */
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .sign-up-create {
-  position: absolute;
-  width: 322px;
-  height: 38px;
-  top: 732px;
-  left: 560px;
-}
-
-.login-EJ .overlap-3 {
+.login-anthony .overlap-6 {
   position: relative;
-  width: 318px;
-  height: 38px;
+  width: 679px;
+  height: 182px;
+  top: 35px;
 }
 
-.login-EJ .text-wrapper-4 {
+.login-anthony .polygon {
   position: absolute;
-  top: 0;
-  left: 163px;
-  font-family: 'Kalam', cursive;
-  font-weight: 400;
-  color: #2974e3;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .text-wrapper-5 {
-  position: absolute;
-  width: 171px;
-  top: 0;
-  left: 0;
-  font-family: 'Kalam', cursive;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .sign-in-logos {
-  position: absolute;
-  width: 719px;
-  height: 139px;
-  top: 821px;
-  left: 368px;
-}
-
-.login-EJ .twitter {
-  position: absolute;
-  width: 223px;
-  height: 87px;
-  top: 52px;
-  left: 496px;
-}
-
-.login-EJ .overlap-group-2 {
-  position: relative;
-  width: 221px;
-  height: 86px;
-  background-color: #d9d9d9;
-  border: 1px solid;
-  border-color: #000000;
-}
-
-.login-EJ .text-wrapper-6 {
-  position: absolute;
-  width: 98px;
-  top: 25px;
-  left: 93px;
-  font-family: 'Kaisei Decol', serif;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .image {
-  position: absolute;
-  width: 72px;
-  height: 70px;
-  top: 7px;
-  left: 7px;
-  object-fit: cover;
-}
-
-.login-EJ .facebook {
-  position: absolute;
-  width: 223px;
-  height: 87px;
-  top: 52px;
-  left: 248px;
-}
-
-.login-EJ .overlap-4 {
-  position: relative;
-  width: 221px;
-  height: 87px;
-}
-
-.login-EJ .rectangle-2 {
-  position: absolute;
-  width: 221px;
-  height: 86px;
-  top: 0;
-  left: 0;
-  background-color: #d9d9d9;
-  border: 1px solid;
-  border-color: #000000;
-}
-
-.login-EJ .text-wrapper-7 {
-  position: absolute;
-  width: 117px;
-  top: 26px;
-  left: 94px;
-  font-family: 'Kaisei Decol', serif;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .img {
-  position: absolute;
-  width: 87px;
-  height: 87px;
-  top: 0;
-  left: 0;
-}
-
-.login-EJ .google {
-  position: absolute;
-  width: 223px;
-  height: 87px;
-  top: 52px;
-  left: 0;
-}
-
-.login-EJ .text-wrapper-8 {
-  position: absolute;
-  width: 84px;
-  top: 25px;
-  left: 94px;
-  font-family: 'Kaisei Decol', serif;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .text-wrapper-9 {
-  position: absolute;
-  top: 0;
-  left: 293px;
-  font-family: 'Kalam', cursive;
-  font-weight: 400;
-  color: #000000;
-  font-size: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-}
-
-.login-EJ .heading-of-login {
-  position: absolute;
-  width: 676px;
-  height: 298px;
+  width: 90px;
+  height: 113px;
   top: 69px;
-  left: 384px;
+  left: 97px;
 }
 
-.login-EJ .overlap-5 {
-  position: relative;
-  width: 672px;
-  height: 245px;
-}
-
-.login-EJ .polygon {
+.login-anthony .s-ngcanvas {
   position: absolute;
-  width: 89px;
-  height: 112px;
-  top: 133px;
-  left: 88px;
-}
-
-.login-EJ .s-ngcanvas {
-  position: absolute;
-  top: 65px;
+  top: 0;
   left: 0;
   font-family: 'Concert One', cursive;
   font-weight: 400;
   color: #000000;
-  font-size: 128px;
+  font-size: 129.3px;
   letter-spacing: 0;
   line-height: normal;
   white-space: nowrap;
 }
 
-.login-EJ .polygon-2 {
+.login-anthony .polygon-2 {
   position: absolute;
-  width: 81px;
-  height: 83px;
-  top: 94px;
-  left: 65px;
+  width: 82px;
+  height: 84px;
+  top: 29px;
+  left: 74px;
 }
 
-.login-EJ .rectangle-3 {
-  position: absolute;
-  width: 83px;
+.login-anthony .rectangle-2 {
+  width: 84px;
   height: 9px;
-  top: 135px;
-  left: 65px;
-  background-color: #d9d9d9;
+  top: 70px;
+  left: 73px;
   transform: rotate(-32.07deg);
-}
-
-.login-EJ .text-wrapper-10 {
   position: absolute;
-  width: 273px;
-  top: 0;
-  left: 191px;
-  font-family: 'Kalam', cursive;
-  font-weight: 400;
-  color: #000000;
-  font-size: 48px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-}  
+  background-color: #d9d9d9;
+}
