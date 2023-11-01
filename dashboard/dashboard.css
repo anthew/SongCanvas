@@ -1,0 +1,229 @@
+.dashboard {
+    position: relative;
+    width: 1440px;
+    height: 935px;
+    background-color: #ffffff;
+  }
+  
+  .dashboard .overlap {
+    position: absolute;
+    width: 1440px;
+    height: 869px;
+    top: 66px;
+    left: 0;
+    background-image: url(/images/Dashboard.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+  }
+  
+  .dashboard .player-view {
+    position: absolute;
+    width: 643px;
+    height: 825px;
+    top: 17px;
+    left: 758px;
+  }
+  
+  .dashboard .overlap-group {
+    position: relative;
+    width: 641px;
+    height: 825px;
+  }
+  
+  .dashboard .rectangle {
+    position: absolute;
+    width: 618px;
+    height: 814px;
+    top: 11px;
+    left: 17px;
+    background-color: #ffffffcc;
+    border-radius: 50px;
+    border: 10px solid;
+    border-color: #000000;
+    opacity: 0.75;
+  }
+  
+  .dashboard .playpage {
+    position: absolute;
+    width: 485px;
+    height: 617px;
+    top: 162px;
+    left: 83px;
+    object-fit: cover;
+  }
+  
+  .dashboard .text-wrapper {
+    position: absolute;
+    width: 455px;
+    top: 53px;
+    left: 98px;
+    font-family: "Hubballi-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 96px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .dashboard .ellipse {
+    left: 0;
+    position: absolute;
+    width: 641px;
+    height: 290px;
+    top: 0;
+    background-color: #d8b37ab2;
+    border-radius: 320.5px/145px;
+    filter: blur(245px);
+  }
+  
+  .dashboard .editor-view {
+    position: absolute;
+    width: 659px;
+    height: 825px;
+    top: 12px;
+    left: 75px;
+  }
+  
+  .dashboard .div {
+    position: relative;
+    width: 657px;
+    height: 825px;
+  }
+  
+  .dashboard .rectangle-2 {
+    position: absolute;
+    width: 618px;
+    height: 814px;
+    top: 11px;
+    left: 0;
+    background-color: #ffffffd9;
+    border-radius: 50px;
+    border: 10px solid;
+    border-color: #000000;
+    opacity: 0.75;
+  }
+  
+  .dashboard .badasseditpage {
+    position: absolute;
+    width: 485px;
+    height: 617px;
+    top: 162px;
+    left: 66px;
+    object-fit: cover;
+  }
+  
+  .dashboard .text-wrapper-2 {
+    position: absolute;
+    top: 53px;
+    left: 85px;
+    font-family: "Hubballi-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 96px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .dashboard .ellipse-2 {
+    left: 16px;
+    position: absolute;
+    width: 641px;
+    height: 290px;
+    top: 0;
+    background-color: #d8b37ab2;
+    border-radius: 320.5px/145px;
+    filter: blur(245px);
+  }
+  
+  .dashboard .overlap-2 {
+    position: absolute;
+    width: 1440px;
+    height: 66px;
+    top: 0;
+    left: 0;
+  }
+  
+  .dashboard .top-bar {
+    position: absolute;
+    width: 1440px;
+    height: 65px;
+    top: 0;
+    left: 0;
+    background-color: #ecb5a2;
+  }
+  
+  .dashboard .profile-picture {
+    position: absolute;
+    width: 38px;
+    height: 40px;
+    top: 15px;
+    left: 1273px;
+    object-fit: cover;
+  }
+  
+  .dashboard .navbar-button {
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    top: 15px;
+    left: 1363px;
+    object-fit: cover;
+  }
+  
+  .dashboard .songcanvas-logo {
+    position: absolute;
+    width: 239px;
+    height: 66px;
+    top: 0;
+    left: 17px;
+  }
+  
+  .dashboard .overlap-3 {
+    position: relative;
+    width: 237px;
+    height: 59px;
+    top: 7px;
+  }
+  
+  .dashboard .polygon {
+    position: absolute;
+    width: 20px;
+    height: 26px;
+    top: 23px;
+    left: 28px;
+  }
+  
+  .dashboard .img {
+    position: absolute;
+    width: 19px;
+    height: 20px;
+    top: 13px;
+    left: 23px;
+  }
+  
+  .dashboard .rectangle-3 {
+    position: absolute;
+    width: 19px;
+    height: 4px;
+    top: 21px;
+    left: 23px;
+    background-color: #d9d9d9;
+    border-radius: 2px;
+    transform: rotate(-33.91deg);
+  }
+  
+  .dashboard .s-ngcanvas {
+    position: absolute;
+    width: 237px;
+    top: 0;
+    left: 0;
+    font-family: 'Kalam', cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 36px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
