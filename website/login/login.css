@@ -1,7 +1,7 @@
 /*eye-invisible button: https://cdn.discordapp.com/attachments/1156053724377128970/1169339530361442405/EyeInvisible.png?ex=65550b4d&is=6542964d&hm=b92c912bc2d752a9d818693a22a8673060d3c9a9096bdf9fe3419d876109c44d&*/
 
 body{
-  background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&);
+  background-image: url(/images/login.jpeg);
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -13,7 +13,7 @@ body{
 
 .login-anthony {
   width: 100%;
-  height: 100%;
+  height: 690px;
   /* background-color: #212020; */
   /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
   background-size: cover;
@@ -21,19 +21,11 @@ body{
   /* transform: scale(0.8); Apply the same scale transformation to the .login-anthony element */
 }
 
-
-.login-anthony .overlap {
-  height: 100%;
-  /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
 .login-anthony .login-box {
   position: relative;
   width: 100%;
   max-width: 768px;
-  height: 100%;
+  /* height: 100%; */
   /* top: 40%;
   left: 25%; */
   margin: 0 auto;
@@ -275,21 +267,23 @@ body{
   height: 36px;
   top: 12px;
   left: 449px;
-  background-image: url("https://cdn.discordapp.com/attachments/1156053724377128970/1156059748051996766/Eye.png?ex=6513980a&is=6512468a&hm=b05fd8b10fd13b4d489dd8b1448d8ec5bf876cfac3361f61ede71b0c8f0a7682");
+  background-image: url(/images/EyeHide.png);
   background-size: cover;
   border: none;
   cursor: pointer;
   background-color: #d9d9d9;
 }
 
-.login-anthony .text-wrapper-8 {
+.login-anthony .text-wrapper-8 input[type="password"] {
   position: absolute;
   top: 15px;
+  width: 80%;
+  font-size: 16px;
   left: 12px;
   font-family: "Open Sans-Regular", Helvetica;
   font-weight: 400;
   color: #8b8b8b;
-  background-color: #8b8b8b;
+  /* background-color: #8b8b8b; */
   font-size: 24.2px;
   letter-spacing: 0;
   line-height: normal;
@@ -305,10 +299,12 @@ body{
   border-radius: 20.21px;
 }
 
-.login-anthony .text-wrapper-9 {
+.login-anthony .text-wrapper-9 input[type="text"]{
   position: absolute;
   top: 15px;
   left: 12px;
+  width: 80%;
+  font-size: 16px;
   font-family: "Open Sans-Regular", Helvetica;
   font-weight: 400;
   color: #8b8b8b;
