@@ -282,14 +282,16 @@ body{
   background-color: #d9d9d9;
 }
 
-.login-anthony .text-wrapper-8 {
+.login-anthony .text-wrapper-8 input[type="password"] {
   position: absolute;
   top: 15px;
+  width: 80%;
+  font-size: 16px;
   left: 12px;
   font-family: "Open Sans-Regular", Helvetica;
   font-weight: 400;
   color: #8b8b8b;
-  background-color: #8b8b8b;
+  /* background-color: #8b8b8b; */
   font-size: 24.2px;
   letter-spacing: 0;
   line-height: normal;
@@ -305,10 +307,12 @@ body{
   border-radius: 20.21px;
 }
 
-.login-anthony .text-wrapper-9 {
+.login-anthony .text-wrapper-9 input[type="text"]{
   position: absolute;
   top: 15px;
   left: 12px;
+  width: 80%;
+  font-size: 16px;
   font-family: "Open Sans-Regular", Helvetica;
   font-weight: 400;
   color: #8b8b8b;
