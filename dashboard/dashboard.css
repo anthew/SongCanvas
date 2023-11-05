@@ -260,3 +260,10 @@
 .hover-gif:hover .hover-gif-img {
     opacity: 1;
 }
+
+.mini-pic{
+  height: 15px;
+  width: 15px;
+  margin-bottom: 2px;
+
+}
