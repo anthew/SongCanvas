@@ -164,14 +164,14 @@
     background-color: #ecb5a2;
   }
   
-  .dashboard .profile-picture {
+  /* .dashboard .profile-picture {
     position: absolute;
     width: 38px;
     height: 40px;
     margin-top: 1.5%;
     left: 80%;
     object-fit: cover;
-  }
+  } */
   
   .dashboard .songcanvas-logo {
     position: absolute;
@@ -236,3 +236,27 @@
   .card-link{
     text-decoration: none;
   }
+
+  .nav-item:hover {
+    background-color: #ffffff;
+    /* transform: rotate(5deg); */
+    /* background: linear-gradient(45deg, #ffcc00, #ff9900); */
+  }
+
+  .hover-gif {
+    position: absolute;
+    display: inline-block;
+    /* margin-top: 20%; */
+}
+
+.hover-gif-img {
+    position: absolute;
+    top: 0;
+    /* left: 100%; */
+    opacity: 0;
+    transition: opacity 0.2s; /* You can adjust the transition duration */
+}
+
+.hover-gif:hover .hover-gif-img {
+    opacity: 1;
+}

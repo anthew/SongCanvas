@@ -1,22 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const eyeButton = document.getElementById("password-toggle");
-    const passwordInput = document.getElementById("password-input");
+  const eyeButton = document.getElementById("password-toggle");
+  const passwordInput = document.getElementById("password-input");
 
-    let isPasswordVisible = false;
+  let isPasswordVisible = false;
 
-    eyeButton.addEventListener("click", () => {
-      isPasswordVisible = !isPasswordVisible;
-      if (isPasswordVisible) {
-        passwordInput.type = "text"; // Show the password
-        eyeButton.style.backgroundImage = 'url(/images/EyeShow.png)';
-      } else {
-        passwordInput.type = "password"; // Hide the password
-        eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
-      }
-    });
+  eyeButton.style.position = "absolute";
+  eyeButton.style.width = "36px";
+  eyeButton.style.height = "36px";
+  eyeButton.style.top = "13px"; // Adjust this value to match your design
+  eyeButton.style.right = "12px"; // Adjust this value to move the eye button to the right
+  eyeButton.style.backgroundSize = "cover";
+  eyeButton.style.border = "none";
+  eyeButton.style.cursor = "pointer";
+  eyeButton.style.backgroundColor = "#d9d9d9";
+  eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
+
+  passwordInput.style.position = "absolute";
+  passwordInput.style.top = "15px"; // Adjust this value to match your design
+  passwordInput.style.width = "80%";
+  passwordInput.style.fontSize = "16px";
+  passwordInput.style.right = "90px"; // Adjust this value to make space for the eye button
+  passwordInput.style.fontFamily = "Open Sans-Regular, Helvetica";
+  passwordInput.style.fontWeight = "400";
+  passwordInput.style.color = "#8b8b8b";
+  passwordInput.style.fontSize = "24.2px";
+  passwordInput.style.letterSpacing = "0";
+  passwordInput.style.lineHeight = "normal";
+
+  eyeButton.addEventListener("click", () => {
+    isPasswordVisible = !isPasswordVisible;
+    if (isPasswordVisible) {
+      passwordInput.type = "text"; // Show the password
+      eyeButton.style.backgroundImage = 'url(/images/EyeShow.png)';
+    } else {
+      passwordInput.type = "password"; // Hide the password
+      eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
+    }
+  });
 });
-
-// eye-invisible button: https://cdn.discordapp.com/attachments/1156053724377128970/1169339530361442405/EyeInvisible.png?ex=65550b4d&is=6542964d&hm=b92c912bc2d752a9d818693a22a8673060d3c9a9096bdf9fe3419d876109c44d&
 
 /*
 Method used for determining if a user exists

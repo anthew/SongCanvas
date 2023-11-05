@@ -13,7 +13,7 @@ body{
 
 .login-anthony {
   width: 100%;
-  height: 700px;
+  height: 690px;
   /* background-color: #212020; */
   /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
   background-size: cover;
@@ -21,19 +21,11 @@ body{
   /* transform: scale(0.8); Apply the same scale transformation to the .login-anthony element */
 }
 
-
-.login-anthony .overlap {
-  height: 100%;
-  /* background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1156065796544540753/login.jpeg?ex=65139dac&is=65124c2c&hm=e095f02d46b4aae3a0b9a102eea18d0361a52867e5813864ddfc37e65ac88d16&); */
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
 .login-anthony .login-box {
   position: relative;
   width: 100%;
   max-width: 768px;
-  height: 100%;
+  /* height: 100%; */
   /* top: 40%;
   left: 25%; */
   margin: 0 auto;
