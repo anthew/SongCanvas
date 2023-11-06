@@ -280,9 +280,9 @@ body{
   width: 80%;
   font-size: 16px;
   left: 12px;
-  font-family: "Open Sans-Regular", Helvetica;
+  font-family: "Open Sans-Regular";
   font-weight: 400;
-  color: #8b8b8b;
+  color:#000000;
   /* background-color: #8b8b8b; */
   font-size: 24.2px;
   letter-spacing: 0;
@@ -307,7 +307,7 @@ body{
   font-size: 16px;
   font-family: "Open Sans-Regular", Helvetica;
   font-weight: 400;
-  color: #8b8b8b;
+  color: black;
   font-size: 24.2px;
   letter-spacing: 0;
   line-height: normal;

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   passwordInput.style.right = "90px"; // Adjust this value to make space for the eye button
   passwordInput.style.fontFamily = "Open Sans-Regular, Helvetica";
   passwordInput.style.fontWeight = "400";
-  passwordInput.style.color = "#8b8b8b";
+  passwordInput.style.color = "black";
   passwordInput.style.fontSize = "24.2px";
   passwordInput.style.letterSpacing = "0";
   passwordInput.style.lineHeight = "normal";
