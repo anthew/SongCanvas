@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let isPasswordVisible = false;
 
+  // css for eye-button class
   eyeButton.style.position = "absolute";
   eyeButton.style.width = "36px";
   eyeButton.style.height = "36px";
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   passwordInput.style.width = "80%";
   passwordInput.style.fontSize = "16px";
   passwordInput.style.right = "90px"; // Adjust this value to make space for the eye button
-  passwordInput.style.fontFamily = "Open Sans-Regular, Helvetica";
+  passwordInput.style.fontFamily = "\"Kalam\", cursive";
   passwordInput.style.fontWeight = "400";
   passwordInput.style.color = "black";
   passwordInput.style.fontSize = "24.2px";

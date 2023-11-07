@@ -44,7 +44,7 @@
     width: 90%;
     top: 30%;
     left: 3%;
-    font-family: "Open Sans-Regular", Helvetica;
+    font-family: Helvetica;
     font-weight: 400;
     color: #000000;
     font-size: 22px;
@@ -63,6 +63,7 @@
     border-radius: 10px;
     color: azure;
     font-size: 25px;
+    /* font-family:Verdana, Geneva, Tahoma, sans-serif; */
     border: none;
     transition: transform 0.3s;
   }
@@ -98,12 +99,12 @@
     border-radius: 20px;
   }
   
-  .sign-up-EJ .text-wrapper {
+  .sign-up-EJ .text-wrapper input[type="password"] {
     position: absolute;
-    width: 90%;
-    top: 25%;
+    width: 80%;
+    top: 17%;
     left: 2%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -125,6 +126,11 @@
     height: 36px;
     top: 10px;
     left: 88%;
+    background-image: url(/images/EyeHide.png);
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    background-color: #d9d9d9;
   }
   
   .sign-up-EJ .password {
@@ -145,12 +151,12 @@
     border-radius: 20px;
   }
   
-  .sign-up-EJ .text-wrapper-2 {
+  .sign-up-EJ .text-wrapper-2 input[type="password"]{
     position: absolute;
-    width: 90%;
-    top: 25%;
+    width: 80%;
+    top: 17%;
     left: 2%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -179,12 +185,12 @@
     left: 46%;
   }
   
-  .sign-up-EJ .text-wrapper-3 {
+  .sign-up-EJ .text-wrapper-3{
     position: absolute;
     width: 90%;
-    top: 25%;
+    top: 17%;
     left: 2%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -210,10 +216,10 @@
   
   .sign-up-EJ .text-wrapper-4 {
     position: absolute;
-    top: 25%;
-    left: 15px;
+    top: 17%;
+    left: 4%;
     width: 90%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -239,10 +245,10 @@
   
   .sign-up-EJ .text-wrapper-5 {
     position: absolute;
-    top: 25%;
+    top: 17%;
     left: 4%;
     width: 70%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -277,9 +283,9 @@
   .sign-up-EJ .text-wrapper-6 {
     position: absolute;
     width: 85%;
-    top: 25%;
+    top: 17%;
     left: 5%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -306,9 +312,9 @@
   .sign-up-EJ .text-wrapper-7 {
     position: absolute;
     width: 60%;
-    top: 25%;
+    top: 17%;
     left: 15%;
-    font-family: "Kalam-Regular", Helvetica;
+    font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 24px;
@@ -332,15 +338,74 @@
     border-radius: 20px;
   }
   
+  /*.sign-up-EJ .header-title {*/
+    /* position: absolute;
+    width: 90%;
+    top: 30%;
+    left: 3%;
+    font-family: Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal; */
+
+    /* position: absolute;
+    top: 7%;
+    width: 90%;
+    left: 52%;
+    font-family: "Concert One", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 84px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap; */
+  /*}*/
+
   .sign-up-EJ .text-wrapper-8 {
     position: absolute;
     top: 7%;
     left: 52%;
-    font-family: "Concert One-Regular", Helvetica;
+    font-family: "Concert One", cursive;
     font-weight: 400;
     color: #000000;
     font-size: 84px;
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
+
+    /* position: absolute;
+    width: 50%;
+    height: 6%;
+    top: 7%;
+    left: 52%; */
   }  
+
+  .ps {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+  }
+
+  .weak {
+    color: red;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;;
+    font-size: 23px;
+  }
+
+  .average {
+    color: yellow;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 23px;
+  }
+
+  .strong {
+    color: rgb(50, 202, 68);
+    font-weight: bold;
+    /* text-decoration:; */
+    font-family: 'Kalam';
+    font-size: 23px;
+  }
