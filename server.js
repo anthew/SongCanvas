@@ -5,14 +5,14 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'website')));
 app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
+    res.sendFile(path.join(__dirname, 'website', 'login', 'login.html'));
 });
 
 app.use((req, res) => {
     res.status(404) //error message
     res.send(`
-  <h1>Error message</h1>
-  <img src="adassadasdas">
+  <video src = "/videos/CarrieUnderwood.mp4" controls>
+  </video>
   `)})
 
 const PORT = process.env.PORT || 8080;

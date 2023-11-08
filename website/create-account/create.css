@@ -1,0 +1,411 @@
+.sign-up-EJ {
+    /* background-color: #212020; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* width: 100%; */
+  }
+  
+  .sign-up-EJ .overlap-wrapper {
+    background-color: #212020;
+    width: 100%;
+    /* height: 1024px; */
+  }
+  
+  .sign-up-EJ .overlap {
+    position: relative;
+    /* width: 100%; */
+    height: 100vh;
+    background-image: url(/images/create-account/background.png);
+    background-size: cover;
+    background-position: 50% 50%;
+  }
+  
+  .sign-up-EJ .rectangle {
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    top: 5%;
+    left: 45%;
+    background-color: #ecb5a2;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .terms {
+    position: absolute;
+    width: 50%;
+    height: 6%;
+    top: 78%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .by-continuing-you {
+    position: absolute;
+    width: 90%;
+    top: 30%;
+    left: 3%;
+    font-family: Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .create-account {
+    position: absolute;
+    width: 25%;
+    height: 6%;
+    top: 87%;
+    left: 57%;
+    background-color: #4384e5;
+    border-radius: 10px;
+    color: azure;
+    font-size: 25px;
+    /* font-family:Verdana, Geneva, Tahoma, sans-serif; */
+    border: none;
+    transition: transform 0.3s;
+  }
+
+  .sign-up-EJ .create-account:hover {
+    /* background-color: #4384e5; Change the background color on hover */
+    transform: scale(1.1); /* Scale up on hover */
+    transition: transform 0.3s; /* Add a smooth transition for the scale */
+    box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sign-up-EJ .confirm-password {
+    position: absolute;
+    width: 48%;
+    /* height: 10px; */
+    top: 69%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .overlap-group-username {
+    position: relative;
+    width: 100%;
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+
+  .sign-up-EJ .overlap-group-confirm-password {
+    position: relative;
+    width: 100%;
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper input[type="password"] {
+    position: absolute;
+    width: 80%;
+    top: 17%;
+    left: 2%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    /* background-color: rgb(139, 139, 139); */
+    letter-spacing: 0;
+    line-height: normal;
+  }
+
+  input {
+    background-color: #d9d9d9;
+    border: none;
+    outline: none;
+    width: 90%;
+  }
+  
+  .sign-up-EJ .eye {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    top: 10px;
+    left: 88%;
+    background-image: url(/images/EyeHide.png);
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    background-color: #d9d9d9;
+  }
+  
+  .sign-up-EJ .password {
+    position: absolute;
+    width: 48%;
+    height: 93px;
+    top: 56%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .overlap-group-password {
+    position: absolute;
+    width: 100%;
+    height: 55px;
+    top: 0;
+    left: 0;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper-2 input[type="password"]{
+    position: absolute;
+    width: 80%;
+    top: 17%;
+    left: 2%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .p {
+    position: absolute;
+    width: 100%;
+    top: 61px;
+    left: 3%;
+    font-family: "Kalam-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .username {
+    position: absolute;
+    width: 48%;
+    height: 55px;
+    top: 46%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .text-wrapper-3{
+    position: absolute;
+    width: 90%;
+    top: 17%;
+    left: 2%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .email {
+    position: absolute;
+    width: 25%;
+    height: 55px;
+    top: 35%;
+    left: 69%;
+  }
+  
+  .sign-up-EJ .div-wrapper {
+    position: relative;
+    width: 100%;
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper-4 {
+    position: absolute;
+    top: 17%;
+    left: 4%;
+    width: 90%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .date-of-birth {
+    position: absolute;
+    width: 21%;
+    height: 55px;
+    top: 35%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .overlap-2 {
+    position: relative;
+    width: 100%;
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper-5 {
+    position: absolute;
+    top: 17%;
+    left: 4%;
+    width: 70%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .calendar {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    top: 20%;
+    left: 80%;
+  }
+  
+  .sign-up-EJ .last-name {
+    position: absolute;
+    width: 20%;
+    height: 55px;
+    top: 23%;
+    left: 74%;
+  }
+  
+  .sign-up-EJ .overlap-3 {
+    position: relative;
+    /* width: 26%; */
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper-6 {
+    position: absolute;
+    width: 85%;
+    top: 17%;
+    left: 5%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .middle-initial {
+    position: absolute;
+    width: 7%;
+    height: 55px;
+    top: 23%;
+    left: 65%;
+  }
+  
+  .sign-up-EJ .overlap-4 {
+    position: relative;
+    /* width: 83px; */
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .sign-up-EJ .text-wrapper-7 {
+    position: absolute;
+    width: 60%;
+    top: 17%;
+    left: 15%;
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .sign-up-EJ .first-name {
+    position: absolute;
+    width: 17%;
+    height: 55px;
+    top: 23%;
+    left: 46%;
+  }
+  
+  .sign-up-EJ .overlap-5 {
+    position: relative;
+    /* width: 10%; */
+    height: 55px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  /*.sign-up-EJ .header-title {*/
+    /* position: absolute;
+    width: 90%;
+    top: 30%;
+    left: 3%;
+    font-family: Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal; */
+
+    /* position: absolute;
+    top: 7%;
+    width: 90%;
+    left: 52%;
+    font-family: "Concert One", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 84px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap; */
+  /*}*/
+
+  .sign-up-EJ .text-wrapper-8 {
+    position: absolute;
+    top: 7%;
+    left: 52%;
+    font-family: "Concert One", cursive;
+    font-weight: 400;
+    color: #000000;
+    font-size: 84px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+
+    /* position: absolute;
+    width: 50%;
+    height: 6%;
+    top: 7%;
+    left: 52%; */
+  }  
+
+  .ps {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+  }
+
+  .weak {
+    color: red;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;;
+    font-size: 23px;
+  }
+
+  .average {
+    color: yellow;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 23px;
+  }
+
+  .strong {
+    color: rgb(50, 202, 68);
+    font-weight: bold;
+    /* text-decoration:; */
+    font-family: 'Kalam';
+    font-size: 23px;
+  }
