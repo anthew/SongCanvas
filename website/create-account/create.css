@@ -181,11 +181,11 @@
     position: absolute;
     width: 48%;
     height: 55px;
-    top: 46%;
+    top: 45%;
     left: 46%;
   }
   
-  .sign-up-EJ .text-wrapper-3{
+  .sign-up-EJ .text-wrapper-3 input[type="email"]{
     position: absolute;
     width: 90%;
     top: 17%;
@@ -255,21 +255,21 @@
     letter-spacing: 0;
     line-height: normal;
   }
-  
-  .sign-up-EJ .calendar {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    top: 20%;
-    left: 80%;
+
+  /* Style the date input */
+  .sign-up-EJ .text-wrapper-5 input[type="date"] {
+    /* Add your desired styles here */
+    /* For example, you can set the border, font size, or any other properties you want */
+    /* border: 1px solid #000; */
+    font-size: 24px;
   }
   
   .sign-up-EJ .last-name {
     position: absolute;
-    width: 20%;
+    width: 48%;
     height: 55px;
-    top: 23%;
-    left: 74%;
+    top: 34%;
+    left: 46%;
   }
   
   .sign-up-EJ .overlap-3 {
@@ -284,7 +284,7 @@
     position: absolute;
     width: 85%;
     top: 17%;
-    left: 5%;
+    left: 2%;
     font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
@@ -313,7 +313,7 @@
     position: absolute;
     width: 60%;
     top: 17%;
-    left: 15%;
+    left: 2%;
     font-family: "Kalam", cursive;
     font-weight: 400;
     color: #000000;
@@ -324,7 +324,7 @@
   
   .sign-up-EJ .first-name {
     position: absolute;
-    width: 17%;
+    width: 48%;
     height: 55px;
     top: 23%;
     left: 46%;
@@ -338,8 +338,8 @@
     border-radius: 20px;
   }
   
-  /*.sign-up-EJ .header-title {*/
-    /* position: absolute;
+  .sign-up-EJ .header-title {
+    position: absolute;
     width: 90%;
     top: 30%;
     left: 3%;
@@ -349,9 +349,9 @@
     font-size: 22px;
     text-align: center;
     letter-spacing: 0;
-    line-height: normal; */
+    line-height: normal;
 
-    /* position: absolute;
+    position: absolute;
     top: 7%;
     width: 90%;
     left: 52%;
@@ -361,11 +361,11 @@
     font-size: 84px;
     letter-spacing: 0;
     line-height: normal;
-    white-space: nowrap; */
-  /*}*/
+    white-space: nowrap;
+  }
 
   .sign-up-EJ .text-wrapper-8 {
-    position: absolute;
+    /* position: absolute;
     top: 7%;
     left: 52%;
     font-family: "Concert One", cursive;
@@ -374,13 +374,13 @@
     font-size: 84px;
     letter-spacing: 0;
     line-height: normal;
-    white-space: nowrap;
+    white-space: nowrap; */
 
-    /* position: absolute;
-    width: 50%;
+    position: absolute;
+    width: 0%;
     height: 6%;
     top: 7%;
-    left: 52%; */
+    left: 52%;
   }  
 
   .ps {
@@ -409,3 +409,29 @@
     font-family: 'Kalam';
     font-size: 23px;
   }
+
+  /* Style the error messages container */
+.error-messages {
+  display: none;
+  border: 2px solid red;
+  background-color: #ffeeee;
+  position: absolute;
+  top: 50%;
+  color: red;
+  padding: 10px;
+  /* margin-top: 10px; */
+  margin-left: 3%;
+  width: 40%;
+  border-radius: 5px;
+}
+
+/* Style each error message */
+.error-message {
+  margin-bottom: 5px;
+}
+
+/* Style the error messages to be more prominent */
+.error-messages p {
+  margin: 0;
+  padding: 0;
+}
