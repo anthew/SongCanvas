@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// check if the user has a password and username filled in the textfields
+
 /*
 Method used for determining if a user exists
 function checkCredentials()
