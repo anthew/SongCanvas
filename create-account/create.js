@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(password.length >= 8 && numbersCount >= 3 && specialCharCount >= 2) {
             return "<span class=\"strong\">Strong</span>";
-        } else if (password.length >= 8 && (numbersCount >= 3 || specialCharCount >= 3)) {
+        } else if (password.length >= 8 && (numbersCount >= 3 || specialCharCount >= 1)) {
             return "<span class=\"average\">Average</span>";
         } else {
             return "<span class=\"weak\">Weak</span>";

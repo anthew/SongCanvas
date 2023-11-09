@@ -26,9 +26,10 @@
     width: 50%;
     height: 90%;
     top: 5%;
-    left: 45%;
+    left: 10%;
     background-color: #ecb5a2;
     border-radius: 20px;
+    opacity: 0.85;
   }
   
   .sign-up-EJ .terms {
@@ -36,14 +37,14 @@
     width: 50%;
     height: 6%;
     top: 78%;
-    left: 46%;
+    left: 12%;
   }
   
   .sign-up-EJ .by-continuing-you {
     position: absolute;
     width: 90%;
     top: 30%;
-    left: 3%;
+    left: 0%;
     font-family: Helvetica;
     font-weight: 400;
     color: #000000;
@@ -58,7 +59,7 @@
     width: 25%;
     height: 6%;
     top: 87%;
-    left: 57%;
+    left: 22%;
     background-color: #4384e5;
     border-radius: 10px;
     color: azure;
@@ -80,7 +81,7 @@
     width: 48%;
     /* height: 10px; */
     top: 69%;
-    left: 46%;
+    left: 10.75%;
   }
   
   .sign-up-EJ .overlap-group-username {
@@ -138,7 +139,7 @@
     width: 48%;
     height: 93px;
     top: 56%;
-    left: 46%;
+    left: 10.75%;
   }
   
   .sign-up-EJ .overlap-group-password {
@@ -182,7 +183,7 @@
     width: 48%;
     height: 55px;
     top: 45%;
-    left: 46%;
+    left: 10.75%;
   }
   
   .sign-up-EJ .text-wrapper-3 input[type="email"]{
@@ -196,14 +197,6 @@
     font-size: 24px;
     letter-spacing: 0;
     line-height: normal;
-  }
-  
-  .sign-up-EJ .email {
-    position: absolute;
-    width: 25%;
-    height: 55px;
-    top: 35%;
-    left: 69%;
   }
   
   .sign-up-EJ .div-wrapper {
@@ -225,14 +218,6 @@
     font-size: 24px;
     letter-spacing: 0;
     line-height: normal;
-  }
-  
-  .sign-up-EJ .date-of-birth {
-    position: absolute;
-    width: 21%;
-    height: 55px;
-    top: 35%;
-    left: 46%;
   }
   
   .sign-up-EJ .overlap-2 {
@@ -269,7 +254,7 @@
     width: 48%;
     height: 55px;
     top: 34%;
-    left: 46%;
+    left: 10.75%;
   }
   
   .sign-up-EJ .overlap-3 {
@@ -291,14 +276,6 @@
     font-size: 24px;
     letter-spacing: 0;
     line-height: normal;
-  }
-  
-  .sign-up-EJ .middle-initial {
-    position: absolute;
-    width: 7%;
-    height: 55px;
-    top: 23%;
-    left: 65%;
   }
   
   .sign-up-EJ .overlap-4 {
@@ -327,7 +304,7 @@
     width: 48%;
     height: 55px;
     top: 23%;
-    left: 46%;
+    left: 10.75%;
   }
   
   .sign-up-EJ .overlap-5 {
@@ -340,21 +317,8 @@
   
   .sign-up-EJ .header-title {
     position: absolute;
-    width: 90%;
-    top: 30%;
-    left: 3%;
-    font-family: Helvetica;
-    font-weight: 400;
-    color: #000000;
-    font-size: 22px;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-
-    position: absolute;
     top: 7%;
-    width: 90%;
-    left: 52%;
+    /* width: 90%; */
     font-family: "Concert One", cursive;
     font-weight: 400;
     color: #000000;
@@ -377,10 +341,10 @@
     white-space: nowrap; */
 
     position: absolute;
-    width: 0%;
+    width: 50%;
     height: 6%;
     top: 7%;
-    left: 52%;
+    left: 17%;
   }  
 
   .ps {
@@ -416,12 +380,13 @@
   border: 2px solid red;
   background-color: #ffeeee;
   position: absolute;
-  top: 50%;
+  top: 70%;
   color: red;
   padding: 10px;
   /* margin-top: 10px; */
-  margin-left: 3%;
-  width: 40%;
+  right: 10%;
+  width: 20%;
+  font-family: 'Kalam', cursive;
   border-radius: 5px;
 }
 
@@ -434,4 +399,37 @@
 .error-messages p {
   margin: 0;
   padding: 0;
+}
+
+.sign-up-EJ .requirements {
+  position: absolute;
+  width: 30%;
+  height: 35%;
+  top: 19%;
+  right: 5%;
+  background-color: #eccba2;
+  border-radius: 20px;
+  opacity: 0.80;
+}
+
+.sign-up-EJ .rules {
+  position: absolute;
+  width: 37%;
+  height: 6%;
+  top: 19%;
+  right: 0%;
+}
+
+.sign-up-EJ .list {
+  position: absolute;
+  width: 90%;
+  top: 30%;
+  left: 0%;
+  font-family: Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
 }
