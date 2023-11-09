@@ -103,22 +103,33 @@ document.addEventListener("DOMContentLoaded", function() {
     submit_button.addEventListener("click", function(event) {
         const passwordValue = passwordInput.value;
         const confirmPasswordValue = passwordInput2.value;
-
-        // Check if both passwordValue and confirmPasswordValue are empty
+    
+        // Reset error messages
+        const errorMessages = document.getElementById("error-messages");
+        errorMessages.innerHTML = "";
+    
         if (passwordValue !== confirmPasswordValue) {
             event.preventDefault();
-            alert("Password and Confirm Password do not match. Please ensure both passwords match.");
-        } else {
-            if (!passwordValue && !confirmPasswordValue) {
-                event.preventDefault();
-                alert("Please fill out a password and confirm it.");
-            } 
-            else if (passwordValue.length < 8 || !/\W/.test(passwordValue)) {
-                event.preventDefault();
-                alert("Your password does not fit the criteria. Please enter again.");
-            }
+            displayErrorMessage("Password and Confirm Password do not match. Please ensure both passwords match.");
+        } else if (!passwordValue && !confirmPasswordValue) {
+            event.preventDefault();
+            displayErrorMessage("Please fill out a password and confirm it.");
+        } else if (passwordValue.length < 8 || !/\W/.test(passwordValue)) {
+            event.preventDefault();
+            displayErrorMessage("Your password does not fit the criteria. Please enter again.");
         }
     });
+    
+    function displayErrorMessage(message) {
+        const errorMessages = document.getElementById("error-messages");
+        errorMessages.style.display = "block"; // Show the container
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "error-message";
+        errorMessage.textContent = message;
+        errorMessages.appendChild(errorMessage);
+    }
+    
+    
 
 
 });
