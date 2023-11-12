@@ -1,0 +1,177 @@
+
+body{
+    background-size: cover;
+    background-image: url(https://cdn.discordapp.com/attachments/1156053724377128970/1172355830969024522/About_Us_Page.jpg?ex=65600473&is=654d8f73&hm=0d8210dd808812687bf39a07c9d8a8f258c8de6dd6ff99853ea0c95e2be4faba&);
+}
+
+
+
+/*Styling for table, td, */
+table{
+    background: rgba(236,181,162,0.9);
+
+    /*Horizontal centering*/
+    margin-left: auto;
+    margin-right: auto;
+    
+    border-radius: 35px;
+
+    /*Used to this so table isnt touching the nav bar*/
+    margin-top: 100px;
+}
+
+
+
+.Photo_Col{
+    /* Used to align elements in photo column to center*/
+    text-align: center;
+    width: 50%;
+    
+}
+
+.Description_Col
+{
+    width: 50%;
+}
+
+.Name_Col
+{
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.Table_Title{
+    text-align: center;
+}
+
+
+.person_img{
+    border-radius: 20%;
+}
+
+/**********
+
+Styling for the navagation Bar
+
+************/
+
+.About_Nav{
+    width: 100%;
+    /* height: 100%; */
+    
+  }
+  
+  .About_Nav .overlap-2 {
+    position: absolute;
+    width: 100%;
+    height: 66px;
+    top: 0;
+    left: 0;
+  }
+  
+  .About_Nav .top-bar {
+    position: absolute;
+    width: 100%;
+    height: 65px;
+    top: 0;
+    left: 0;
+    background-color: #ecb5a2;
+  }
+  
+  .About_Nav .songcanvas-logo {
+    position: absolute;
+    width: 239px;
+    height: 66px;
+    top: 0;
+    left: 17px;
+  }
+  
+  .About_Nav .overlap-3 {
+    position: relative;
+    width: 237px;
+    height: 59px;
+    top: 7px;
+  }
+  
+  .About_Nav .polygon {
+    position: absolute;
+    width: 20px;
+    height: 26px;
+    top: 23px;
+    left: 28px;
+  }
+  
+  .About_Nav .img {
+    position: absolute;
+    width: 19px;
+    height: 20px;
+    top: 13px;
+    left: 23px;
+  }
+  
+  .About_Nav .rectangle-3 {
+    position: absolute;
+    width: 19px;
+    height: 4px;
+    top: 21px;
+    left: 23px;
+    background-color: #d9d9d9;
+    border-radius: 2px;
+    transform: rotate(-33.91deg);
+  }
+  
+  .About_Nav .s-ngcanvas {
+    position: absolute;
+    width: 237px;
+    top: 0;
+    left: 0;
+    font-family: 'Concert One', sans-serif;
+    font-weight: 700;
+    color: #000000;
+    font-size: 36px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .navbar-toggler{
+    margin-left: 90%;
+    margin-top: 0.5%;
+  }
+
+  .card-link{
+    text-decoration: none;
+  }
+
+  .nav-item:hover {
+    background-color: #ffffff;
+    /* transform: rotate(5deg); */
+    /* background: linear-gradient(45deg, #ffcc00, #ff9900); */
+  }
+
+  .hover-gif {
+    position: absolute;
+    display: inline-block;
+    margin-top: -10%;
+    margin-left: 62%;
+}
+
+.hover-gif-img {
+    position: absolute;
+    top: 0;
+    /* left: 100%; */
+    /* width: 300px;
+    height: 300px; */
+    opacity: 0;
+    transition: opacity 0.2s; /* You can adjust the transition duration */
+}
+
+.hover-gif:hover .hover-gif-img {
+    opacity: 1;
+}
+
+.mini-pic{
+  height: 15px;
+  width: 15px;
+  margin-bottom: 2px;
+}
+
