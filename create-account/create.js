@@ -138,13 +138,12 @@ class FormValidator {
                 return; // Stop further validation if any rule fails
             }
         }
-
         // Display success message
         // this.displayMessage("Success! Your inputs are correct.", 'success');
 
         // If all validations pass, navigate to the specified URL
-        const formAction = this.form.getAttribute("action");
-        window.location.href = formAction;
+        // const formAction = this.form.getAttribute("action");
+        // window.location.href = formAction;
         // this.form.submit();
     }
 
