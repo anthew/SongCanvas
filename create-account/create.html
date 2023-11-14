@@ -26,68 +26,69 @@
         <div class="sign-up-EJ">
             <div class="overlap-wrapper">
                 <div class="overlap">
-                    <div class="rectangle"></div>
+                    <form id="signup-form" action="/dashboard/dashboard.html" method="GET">
+                        <div class="rectangle"></div>
+                        <div class="requirements"></div>
+                        <div class="rules">
+                            <p class="list">1. Passwords must be <b style="color: red;"><u>8</u></b> digits long.<br><br>2. Passwords must have at least <b style="color: red;"><u>1</u></b> special characters or three numbers.<br><br>3. Email is the <b style="color: red;"><u>username</u></b> of your account.</p>
+                        </div>
+                        <div class="terms">
+                            <p class="by-continuing-you">By continuing, you agree to our <a>Terms of Service</a> &amp; Privacy Policy.</p>
+                        </div>
+                        <!-- Once account has been created -->
 
-                    <div class="requirements"></div>
-                    <div class="rules">
-                        <p class="list">1. Passwords must be <b style="color: red;"><u>8</u></b> digits long.<br><br>2. Passwords must have at least <b style="color: red;"><u>1</u></b> special characters or three numbers.<br><br>3. Email is the <b style="color: red;"><u>username</u></b> of your account.</p>
-                    </div>
-                    <div class="terms">
-                        <p class="by-continuing-you">By continuing, you agree to our <a>Terms of Service</a> &amp; Privacy Policy.</p>
-                    </div>
-                    <!-- Once account has been created -->
-
-                    <a href="/dashboard/dashboard.html">
-                        <button class="create-account" id="submit-button">Create Account</button>
-                    </a>
+                        <!-- <a href="/dashboard/dashboard.html"> -->
+                        <!-- </a> -->
+                        <!-- First name textfield -->
+                        <div class="first-name">
+                            <div class="overlap-5">
+                                <div class="text-wrapper-6">
+                                    <input type="text" id="first-name-input" placeholder="First name" required><!-- First Name* -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Last name textfield -->
+                        <div class="last-name">
+                            <div class="overlap-3">
+                                <div class="text-wrapper-6">
+                                    <input type="text" id="last-name-input" placeholder="Last name" required><!-- Last Name* -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Username textfield -->
+                        <div class="username">
+                            <div class="overlap-group-username">
+                                <div class="text-wrapper-3">
+                                    <input type="email" id="email-input" placeholder="Email" required><!-- Username* -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Password textfield -->
+                        <div class="password">
+                            <div class="overlap-group-password">
+                                <button class="eye" id="password-toggle"></button>
+                                <div class="text-wrapper-2">
+                                    <input type="password" id="password-input" placeholder="Password" required> <!-- Password* -->
+                                </div>
+                            </div>
+                            <p class="p" id="password-strength"></p>
+                        </div>
+                        <!-- Confirm Password textfield -->
+                        <div class="confirm-password">
+                            <div class="overlap-group-confirm-password">
+                                <button class="eye" id="confirm-password-toggle"></button>
+                                <div class="text-wrapper">
+                                    <input type="password" id="confirm-password-input" placeholder="Confirm Password" required><!-- Confirm Password* -->
+                                </div>
+                                <!-- <img class="eye" src="/images/EyeHide.png" /> -->
+                            </div>
+                        </div>
+                        <div class="text-wrapper-8">
+                            <p class="header-title">Create Account</p>
+                        </div>
+                        <button type="submit" class="create-account" id="submit-button">Create Account</button>
+                    </form>
                     <div id="error-messages" class="error-messages"></div>
-                    <!-- Confirm Password textfield -->
-                    <div class="confirm-password">
-                        <div class="overlap-group-confirm-password">
-                            <button class="eye" id="confirm-password-toggle"></button>
-                            <div class="text-wrapper">
-                                <input type="password" id="confirm-password-input" placeholder="Confirm Password" required><!-- Confirm Password* -->
-                            </div>
-                            <!-- <img class="eye" src="/images/EyeHide.png" /> -->
-                        </div>
-                    </div>
-                    <!-- Password textfield -->
-                    <div class="password">
-                        <div class="overlap-group-password">
-                            <button class="eye" id="password-toggle"></button>
-                            <div class="text-wrapper-2">
-                                <input type="password" id="password-input" placeholder="Password" required> <!-- Password* -->
-                            </div>
-                        </div>
-                        <p class="p" id="password-strength"></p>
-                    </div>
-                    <!-- Username textfield -->
-                    <div class="username">
-                        <div class="overlap-group-username">
-                            <div class="text-wrapper-3">
-                                <input type="email" placeholder="Email" required><!-- Username* -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Last name textfield -->
-                    <div class="last-name">
-                        <div class="overlap-3">
-                            <div class="text-wrapper-6">
-                                <input type="text" placeholder="Last name" required><!-- Last Name* -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- First name textfield -->
-                    <div class="first-name">
-                        <div class="overlap-5">
-                            <div class="text-wrapper-6">
-                                <input type="text" placeholder="First name" required><!-- First Name* -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-wrapper-8">
-                        <p class="header-title">Create Account</p>
-                    </div>
                 </div>
             </div>
         </div>

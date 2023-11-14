@@ -1,44 +1,59 @@
-document.addEventListener("DOMContentLoaded", function () {
+class PasswordInputToggle {
+  constructor(eyeButton, passwordInput) {
+    this.eyeButton = eyeButton;
+    this.passwordInput = passwordInput;
+    this.isPasswordVisible = false;
+
+    this.initializeStyles();
+    this.addEventListeners();
+  }
+
+  initializeStyles() {
+    this.eyeButton.style.position = "absolute";
+    this.eyeButton.style.width = "36px";
+    this.eyeButton.style.height = "36px";
+    this.eyeButton.style.top = "13px";
+    this.eyeButton.style.right = "12px";
+    this.eyeButton.style.backgroundSize = "cover";
+    this.eyeButton.style.border = "none";
+    this.eyeButton.style.cursor = "pointer";
+    this.eyeButton.style.backgroundColor = "#d9d9d9";
+    this.eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
+
+    this.passwordInput.style.position = "absolute";
+    this.passwordInput.style.top = "15px";
+    this.passwordInput.style.width = "80%";
+    this.passwordInput.style.fontSize = "16px";
+    this.passwordInput.style.right = "90px";
+    this.passwordInput.style.fontFamily = "\"Kalam\", cursive";
+    this.passwordInput.style.fontWeight = "400";
+    this.passwordInput.style.color = "black";
+    this.passwordInput.style.fontSize = "24.2px";
+    this.passwordInput.style.letterSpacing = "0";
+    this.passwordInput.style.lineHeight = "normal";
+  }
+
+  addEventListeners() {
+    this.eyeButton.addEventListener("click", () => this.togglePasswordVisibility());
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+    this.passwordInput.type = this.isPasswordVisible ? "text" : "password";
+    this.eyeButton.style.backgroundImage = `url(/images/Eye${this.isPasswordVisible ? 'Show' : 'Hide'}.png)`;
+  }
+}
+
+function initializePasswordInputToggle() {
   const eyeButton = document.getElementById("password-toggle");
   const passwordInput = document.getElementById("password-input");
 
-  let isPasswordVisible = false;
+  if (eyeButton && passwordInput) {
+    new PasswordInputToggle(eyeButton, passwordInput);
+  }
+}
 
-  // css for eye-button class
-  eyeButton.style.position = "absolute";
-  eyeButton.style.width = "36px";
-  eyeButton.style.height = "36px";
-  eyeButton.style.top = "13px"; // Adjust this value to match your design
-  eyeButton.style.right = "12px"; // Adjust this value to move the eye button to the right
-  eyeButton.style.backgroundSize = "cover";
-  eyeButton.style.border = "none";
-  eyeButton.style.cursor = "pointer";
-  eyeButton.style.backgroundColor = "#d9d9d9";
-  eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
-
-  passwordInput.style.position = "absolute";
-  passwordInput.style.top = "15px"; // Adjust this value to match your design
-  passwordInput.style.width = "80%";
-  passwordInput.style.fontSize = "16px";
-  passwordInput.style.right = "90px"; // Adjust this value to make space for the eye button
-  passwordInput.style.fontFamily = "\"Kalam\", cursive";
-  passwordInput.style.fontWeight = "400";
-  passwordInput.style.color = "black";
-  passwordInput.style.fontSize = "24.2px";
-  passwordInput.style.letterSpacing = "0";
-  passwordInput.style.lineHeight = "normal";
-
-  eyeButton.addEventListener("click", () => {
-    isPasswordVisible = !isPasswordVisible;
-    if (isPasswordVisible) {
-      passwordInput.type = "text"; // Show the password
-      eyeButton.style.backgroundImage = 'url(/images/EyeShow.png)';
-    } else {
-      passwordInput.type = "password"; // Hide the password
-      eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
-    }
-  });
-});
+document.addEventListener("DOMContentLoaded", initializePasswordInputToggle);
 
 // check if the user has a password and username filled in the textfields
 
