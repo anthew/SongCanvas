@@ -38,25 +38,27 @@
                                 </div>
                             </div>
                             <div class="login">
-                                <!-- Login Button -->
-                                <a href="/html/dashboard.html">
-                                    <button class="div-wrapper">
-                                        <div class="text-wrapper-7">Login</div>
-                                    </button>                                
-                                </a>
-                                <!-- Password Textfield -->
-                                <div class="overlap-4">
-                                    <button class="eye-button" id="password-toggle"></button>
-                                    <div class="text-wrapper-8">
-                                      <input type="password" id="password-input" placeholder="Password">
+                                <form id="login-form" action="/html/dashboard.html" method="get">
+                                    <!-- Login Button -->
+                                    <!-- Username Textfield -->
+                                    <div class="overlap-5">
+                                        <div class="text-wrapper-9">
+                                            <input type="email" placeholder="Email">
+                                        </div>
                                     </div>
-                                </div>                                                                                     
-                                <!-- Username Textfield -->
-                                <div class="overlap-5">
-                                    <div class="text-wrapper-9">
-                                        <input type="email" placeholder="Email">
-                                    </div>
-                                </div>
+                                     <!-- Password Textfield -->   
+                                    <div class="overlap-4">
+                                        <button class="eye-button" id="password-toggle"></button>
+                                        <div class="text-wrapper-8">
+                                        <input type="password" id="password-input" placeholder="Password">
+                                        </div>
+                                    </div> 
+                                    <!-- <a href="/html/dashboard.html"> -->
+                                        <button type="submit" class="div-wrapper">
+                                            <div class="text-wrapper-7">Login</div>
+                                        </button>                                
+                                    <!-- </a> -->
+                                </form>
                                 <!-- Forgot Password Link-->
                                 <div class="text-wrapper-10">
                                     <a href="/html/forgot.html">Forgot Password?</a>
