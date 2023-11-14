@@ -1,49 +1,4 @@
-class PasswordToggle {
-    constructor(eyeButton, passwordInput) {
-        this.eyeButton = eyeButton;
-        this.passwordInput = passwordInput;
-        this.isPasswordVisible = false;
-
-        this.eyeButton.classList.add("eye-button");
-        this.eyeButton.style.backgroundImage = "url(/images/EyeHide.png)";
-        this.eyeButton.addEventListener("click", () => this.togglePasswordVisibility());
-    }
-
-    togglePasswordVisibility() {
-        this.isPasswordVisible = !this.isPasswordVisible;
-        this.passwordInput.type = this.isPasswordVisible ? "text" : "password";
-        this.eyeButton.style.backgroundImage = `url(/images/Eye${this.isPasswordVisible ? 'Show' : 'Hide'}.png)`;
-    }
-}
-
-class PasswordStrengthChecker {
-    constructor(passwordInput, passwordStrength) {
-        this.passwordInput = passwordInput;
-        this.passwordStrength = passwordStrength;
-
-        this.passwordInput.classList.add("input-field");
-        this.passwordInput.addEventListener("input", () => this.updatePasswordUI());
-    }
-
-    checkPasswordStrength(password) {
-        const numbersCount = (password.match(/\d/g) || []).length;
-        const specialCharCount = (password.match(/[!@#$%^&*]/g) || []).length;
-
-        if (password.length >= 8 && numbersCount >= 3 && specialCharCount >= 2) {
-            return "<span class=\"strong\">Strong</span>";
-        } else if (password.length >= 8 && (numbersCount >= 3 || specialCharCount >= 1)) {
-            return "<span class=\"average\">Average</span>";
-        } else {
-            return "<span class=\"weak\">Weak</span>";
-        }
-    }
-
-    updatePasswordUI() {
-        const passwordVal = this.passwordInput.value;
-        const strength = this.checkPasswordStrength(passwordVal);
-        this.passwordStrength.innerHTML = `<label class=\"ps\">Password Strength:&emsp;</label>${strength}`;
-    }
-}
+import PasswordStrengthChecker from "./PasswordStrengthChecker.js";
 
 class FormValidator {
     constructor(firstNameInput, lastNameInput, passwordInput, confirmPasswordInput, emailInput, submitButton, form, eyeButton2) {
@@ -55,6 +10,9 @@ class FormValidator {
         this.submitButton = submitButton;
         this.form = form;
         this.eyeButton2 = eyeButton2;
+
+        const passwordStrengthElement = document.getElementById("password-strength")
+        const passwordStrengthChecker = new PasswordStrengthChecker(passwordInput, passwordStrengthElement);
 
         this.successMessageContainer = document.getElementById("success-messages");
         this.errorMessagesContainer = document.getElementById("error-messages");
@@ -115,20 +73,4 @@ class FormValidator {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const eyeButton = document.getElementById("password-toggle");
-    const passwordInput = document.getElementById("password-input");
-    const eyeButton2 = document.getElementById("confirm-password-toggle");
-    const passwordInput2 = document.getElementById("confirm-password-input");
-    const submit_button = document.getElementById("submit-button");
-    const passwordStrength = document.getElementById("password-strength");
-    const form = document.getElementById("signup-form");
-    const emailInput = document.getElementById("email-input");
-    const lastNameInput = document.getElementById("last-name-input");
-    const firstNameInput = document.getElementById("first-name-input");
-
-    const passwordToggle = new PasswordToggle(eyeButton, passwordInput);
-    const confirmPasswordToggle = new PasswordToggle(eyeButton2, passwordInput2);
-    const passwordStrengthChecker = new PasswordStrengthChecker(passwordInput, passwordStrength);
-    const formValidator = new FormValidator(firstNameInput, lastNameInput, passwordInput, passwordInput2, emailInput, submit_button, form, eyeButton2);
-});
+export default FormValidator;
