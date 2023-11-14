@@ -4,27 +4,16 @@ class PasswordToggle {
         this.passwordInput = passwordInput;
         this.isPasswordVisible = false;
 
-        this.eyeButton.style.position = "absolute";
-        this.eyeButton.style.width = "36px";
-        this.eyeButton.style.height = "36px";
-        this.eyeButton.style.top = "10px";
-        this.eyeButton.style.left = "88%";
+        this.eyeButton.classList.add("eye-button");
         this.eyeButton.style.backgroundImage = "url(/images/EyeHide.png)";
-        this.eyeButton.style.backgroundSize = "cover";
-        this.eyeButton.style.border = "none";
-        this.eyeButton.style.cursor = "pointer";
-        this.eyeButton.style.backgroundColor = "#d9d9d9";
-
         this.eyeButton.addEventListener("click", () => this.togglePasswordVisibility());
     }
 
-    
     togglePasswordVisibility() {
         this.isPasswordVisible = !this.isPasswordVisible;
         this.passwordInput.type = this.isPasswordVisible ? "text" : "password";
         this.eyeButton.style.backgroundImage = `url(/images/Eye${this.isPasswordVisible ? 'Show' : 'Hide'}.png)`;
     }
-
 }
 
 class PasswordStrengthChecker {
@@ -32,17 +21,7 @@ class PasswordStrengthChecker {
         this.passwordInput = passwordInput;
         this.passwordStrength = passwordStrength;
 
-        this.passwordInput.style.position = "absolute";
-        this.passwordInput.style.width = "80%";
-        this.passwordInput.style.top = "17%";
-        this.passwordInput.style.left = "2%";
-        this.passwordInput.style.fontFamily = "\"Kalam\", cursive";
-        this.passwordInput.style.fontWeight = "400";
-        this.passwordInput.style.color = "black";
-        this.passwordInput.style.fontSize = "24px";
-        this.passwordInput.style.letterSpacing = "0";
-        this.passwordInput.style.lineHeight = "normal";
-
+        this.passwordInput.classList.add("input-field");
         this.passwordInput.addEventListener("input", () => this.updatePasswordUI());
     }
 
@@ -76,33 +55,14 @@ class FormValidator {
         this.submitButton = submitButton;
         this.form = form;
         this.eyeButton2 = eyeButton2;
-        // this.passwordInput2 = passwordInput2;
 
         this.successMessageContainer = document.getElementById("success-messages");
-        this.errorMessagesContainer = document.getElementById("error-messages")
+        this.errorMessagesContainer = document.getElementById("error-messages");
 
-        // CSS styles (for eyeButton2 and passwordInput2)
-        this.eyeButton2.style.position = "absolute";
-        this.eyeButton2.style.width = "36px";
-        this.eyeButton2.style.height = "36px";
-        this.eyeButton2.style.top = "10px";
-        this.eyeButton2.style.left = "88%";
+        this.eyeButton2.classList.add("eye-button");
         this.eyeButton2.style.backgroundImage = "url(/images/EyeHide.png)";
-        this.eyeButton2.style.backgroundSize = "cover";
-        this.eyeButton2.style.border = "none";
-        this.eyeButton2.style.cursor = "pointer";
-        this.eyeButton2.style.backgroundColor = "#d9d9d9";
 
-        this.confirmPasswordInput.style.position = "absolute";
-        this.confirmPasswordInput.style.width = "80%";
-        this.confirmPasswordInput.style.top = "17%";
-        this.confirmPasswordInput.style.left = "2%";
-        this.confirmPasswordInput.style.fontFamily = "\"Kalam\", cursive";
-        this.confirmPasswordInput.style.fontWeight = "400";
-        this.confirmPasswordInput.style.color = "black";
-        this.confirmPasswordInput.style.fontSize = "24px";
-        this.confirmPasswordInput.style.letterSpacing = "0";
-        this.confirmPasswordInput.style.lineHeight = "normal";
+        this.confirmPasswordInput.classList.add("input-field");
 
         this.form.addEventListener("submit", (event) => this.validateForm(event));
     }
@@ -115,9 +75,6 @@ class FormValidator {
         const emailValue = this.emailInput.value;
         const firstNameInput = this.firstNameInput.value;
         const lastNameInput = this.lastNameInput.value;
-        // Reset error messages
-        // const errorMessages = document.getElementById("error-messages");
-        // errorMessages.innerHTML = "";
 
         const validationRules = [
             { condition: passwordValue !== confirmPasswordValue, message: "Password and Confirm Password do not match. Please ensure both passwords match." },
@@ -130,21 +87,14 @@ class FormValidator {
             { condition: !this.isCopyAndPaste(passwordValue), message: "Copying and pasting passwords is not allowed." },
             { condition: !this.form.checkValidity(), message: "Please fill out all required fields." },
         ];
-    
+
         for (const rule of validationRules) {
             if (rule.condition) {
-                this.displayErrorMessage(rule.message, 'error');
+                this.displayErrorMessage(rule.message);
                 event.preventDefault();
-                return; // Stop further validation if any rule fails
+                return;
             }
         }
-        // Display success message
-        // this.displayMessage("Success! Your inputs are correct.", 'success');
-
-        // If all validations pass, navigate to the specified URL
-        // const formAction = this.form.getAttribute("action");
-        // window.location.href = formAction;
-        // this.form.submit();
     }
 
     isValidEmail(email) {
@@ -153,21 +103,16 @@ class FormValidator {
     }
 
     isCopyAndPaste(password) {
-        // Implement a check for copy and paste
-        // You can compare the initial value with the current value to detect copy and paste
-        // This is a basic example and may not cover all scenarios
         return password !== this.passwordInput.defaultValue;
     }
 
     displayErrorMessage(message) {
-        // const errorMessages = document.getElementById("error-messages");
         this.errorMessagesContainer.style.display = "block";
         const errorMessage = document.createElement("div");
         errorMessage.className = "error-message";
         errorMessage.textContent = message;
         this.errorMessagesContainer.appendChild(errorMessage);
     }
-
 }
 
 document.addEventListener("DOMContentLoaded", function () {

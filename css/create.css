@@ -433,3 +433,28 @@
   letter-spacing: 0;
   line-height: normal;
 }
+
+.eye-button {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 10px;
+  left: 88%;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  background-color: #d9d9d9;
+}
+
+.input-field {
+  position: absolute;
+  width: 80%;
+  top: 17%;
+  left: 2%;
+  font-family: "Kalam", cursive;
+  font-weight: 400;
+  color: black;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+}
