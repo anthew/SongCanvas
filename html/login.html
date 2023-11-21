@@ -17,6 +17,7 @@
       <!-- link login js file functionality -->
       <script type="module" src="/js/login/main.js"></script>
       <script type="module" src="/js/login/PasswordInputToggle.js"></script>
+      <script type="module" src="/database.js"></script>
       <!-- Tab logo -->
       <link rel="icon" href="/images/mic.png">
       <title>Login</title>
@@ -39,25 +40,26 @@
                                 </div>
                             </div>
                             <div class="login">
-                                <form id="login-form" action="/html/dashboard.html" method="get">
+                                <!-- form -->
+                                <form id="login-form" action="/js/login/main.js" method="post">
                                     <!-- Login Button -->
                                     <!-- Username Textfield -->
                                     <div class="overlap-5">
                                         <div class="text-wrapper-9">
-                                            <input type="email" placeholder="Email">
+                                            <input type="email" id="email-input" placeholder="Email">
                                         </div>
                                     </div>
                                      <!-- Password Textfield -->   
                                     <div class="overlap-4">
                                         <button class="eye-button" id="password-toggle"></button>
                                         <div class="text-wrapper-8">
-                                        <input type="password" id="password-input" placeholder="Password">
+                                            <input type="password" id="password-input" placeholder="Password">
                                         </div>
                                     </div> 
                                     <!-- <a href="/html/dashboard.html"> -->
-                                        <button type="submit" class="div-wrapper">
-                                            <div class="text-wrapper-7">Login</div>
-                                        </button>                                
+                                    <button type="submit" class="div-wrapper">
+                                        <div class="text-wrapper-7">Login</div>
+                                    </button>                                                                  
                                     <!-- </a> -->
                                 </form>
                                 <!-- Forgot Password Link-->

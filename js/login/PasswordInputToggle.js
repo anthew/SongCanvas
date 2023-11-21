@@ -34,7 +34,11 @@ export class PasswordInputToggle {
     }
   
     addEventListeners() {
-      this.eyeButton.addEventListener("click", () => this.togglePasswordVisibility());
+      // Add an event listener to the eye button to handle click events
+      this.eyeButton.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        this.togglePasswordVisibility(); // Toggle password visibility
+      });
     }
   
     togglePasswordVisibility() {
