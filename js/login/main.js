@@ -39,24 +39,30 @@ async function validateCredentials(event) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ 
-        name: email, 
-        password: password 
-      }),
+      body: JSON.stringify({ email, password }),
     });
 
+    // const responseData = await response.json();
     if (response.ok) {
-      const responseData = await response.json();
+      // const responseData = await response.json();
       alert('Authentication successful');
       // Redirect or perform other actions on success
       window.location.href = '/html/dashboard.html';
     } else {
-      alert('Authentication failed.', responseData);
+      alert('Authentication failed.');
     }
   } catch (error) {
     console.error('Error during authentication:', error);
+    alert(email + " and " + password);//pirnt
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", validateCredentials);
+  }
+});
 
 // function validateCredentials(event) {
 //   // Prevent default form submission behavior
