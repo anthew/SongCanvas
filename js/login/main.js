@@ -50,6 +50,7 @@ async function validateCredentials(event) {
       window.location.href = '/html/dashboard.html';
     } else {
       alert('Authentication failed.');
+      //error main js different from database js
     }
   } catch (error) {
     console.error('Error during authentication:', error);
