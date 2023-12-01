@@ -1,6 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');
+// import {UserDAO} from "./UserDAO.js";
+// const expressSession = require("express-session");
+// const dbcon = require ('database.js');
 
 const app = express();
 
@@ -11,9 +14,11 @@ app.listen(PORT, _ => {
     console.log('App deployed at Port 8080');
 });
 
+
 // HTTP request to the root
 app.get('/', async (req,res) => { 
     res.sendFile(path.join(__dirname, 'website', 'login', 'login.html'));
+    // UserDAO.listUsers();
 });
 
 // HTTP request to undefined route
