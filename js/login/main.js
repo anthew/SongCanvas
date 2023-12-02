@@ -34,7 +34,7 @@ async function validateCredentials(event) {
   }
 
   try {
-    const response = await fetch('/login.html', {
+    const response = await fetch('/auth', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
