@@ -14,8 +14,12 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'website','html','login.html'));
 }); 
 
+app.get('/dashboardRedirect', function(req, res){
+	res.sendFile(path.join(__dirname, 'website', 'html', 'dashboard.html'));
+});
+
 //Handle data from login form
-app.post('/website', function(request, response){
+app.post('/loginAuth', function(request, response){
 
     //Get the form values from the json body
     let email = request.body.email;
@@ -32,22 +36,51 @@ app.post('/website', function(request, response){
             // If the account exists
 			if (results.length > 0) {
 				// Authenticate the user
-				response.send("Logged In")
+				//response.send("Logged In");
+				response.redirect('/dashboardRedirect');
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}			
 			response.end();
 		});
 	} else {
-	
+		//Go back to the login page and try again
         response.redirect('/');
 		response.end();
 	}
 
 });
 
+//Handle form data from the create account page
+app.post('/createAcc', function(req, res){
+
+	//Get the form values from the json body
+    let email = req.body.email;
+    let password = req.body.password;
+	let firstName = req.body.firstName;
+	let lastName = req.body.lastName;
+
+	console.log(email + ' ' + password);
+
+	//Check if the values exist
+	if(email && password && firstName && lastName)
+	{
+		//Insert the new user to the table
+		db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function(){
+			// If there is an issue with the query, output the error
+			if (error) throw error;
+		});
+
+		//Go back to login page if query successful
+		res.redirect('/');
+	}
+	else
+	{
+		res.send('Insertion Failed');
+	}
+});
+
 app.listen(8000, function()
 {
     console.log('App deployed at port 8000')
-
 });

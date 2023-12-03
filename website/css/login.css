@@ -274,7 +274,7 @@ body{
     background-color: #d9d9d9;
   }
   
-  .login-anthony .text-wrapper-8 form input[type="password"] {
+  .login-anthony .text-wrapper-8 input[type="password"] {
     position: absolute;
     top: 15px;
     width: 80%;
@@ -299,7 +299,7 @@ body{
     border-radius: 20.21px;
   }
   
-  .login-anthony .text-wrapper-9 form input[type="email"]{
+  .login-anthony .text-wrapper-9 input[type="email"]{
     position: absolute;
     top: 15px;
     left: 12px;
