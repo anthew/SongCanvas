@@ -11,16 +11,24 @@ app.use(express.static(path.join(__dirname, 'website')));
 
 //Specify the starting page (login)
 app.get('/', function (req, res) { 
-    res.sendFile(path.join(__dirname, 'website','html','login.html'));
+    // res.sendFile(path.join(__dirname, 'website','html','login.html'));
+    res.sendFile(path.join(__dirname + "/website/html/login.html"));
 }); 
 
 app.get('/dashboardRedirect', function(req, res){
 	res.sendFile(path.join(__dirname, 'website', 'html', 'dashboard.html'));
 });
 
+// Undefined path
+// app.use((req, res) => {
+//     res.status(404); //error message
+//     res.send(`
+//     <b>Technical Difficulties, Please come back later. -Fan</b>`);
+// });
+
 //Handle data from login form
 app.post('/loginAuth', function(request, response){
-
+    // response.send("Hello there");
     //Get the form values from the json body
     let email = request.body.email;
     let password = request.body.password;
@@ -38,12 +46,15 @@ app.post('/loginAuth', function(request, response){
 				// Authenticate the user
 				//response.send("Logged In");
 				response.redirect('/dashboardRedirect');
-			} else {
-				response.send('Incorrect Username and/or Password!');
+			} 
+            else {
+                //Later, call a successMessage() function or something
+                response.redirect('/');
 			}			
 			response.end();
 		});
-	} else {
+	} 
+    else {
 		//Go back to the login page and try again
         response.redirect('/');
 		response.end();
@@ -53,7 +64,6 @@ app.post('/loginAuth', function(request, response){
 
 //Handle form data from the create account page
 app.post('/createAcc', function(req, res){
-
 	//Get the form values from the json body
     let email = req.body.email;
     let password = req.body.password;
@@ -87,7 +97,7 @@ app.post('/createAcc', function(req, res){
 	}
 });
 
-app.listen(8000, function()
+app.listen(8080, function()
 {
-    console.log('App deployed at port 8000')
+    console.log('App deployed at port 8080')
 });

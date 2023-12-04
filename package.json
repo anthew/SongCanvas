@@ -2,7 +2,7 @@
   "name": "songcanvas",
   "version": "1.0.0",
   "description": "Created by Anthony, Ahmad, EJ",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -32,29 +32,6 @@ async function validateCredentials(event) {
     alert("Email and password are required.");
     return;
   }
-
-  try {
-    const response = await fetch('/login.html', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    // const responseData = await response.json();
-    if (response.ok) {
-      // const responseData = await response.json();
-      alert('Authentication successful');
-      // Redirect or perform other actions on success
-      window.location.href = '/html/dashboard.html';
-    } else {
-      alert('Authentication failed.');
-    }
-  } catch (error) {
-    console.error('Error during authentication:', error);
-    alert(email + " and " + password);//pirnt
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
