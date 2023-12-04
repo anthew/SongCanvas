@@ -1,19 +1,25 @@
-function listUsers() {
-  const mysql = require('mysql2');
+// function listUsers() {
+const mysql = require('mysql');
 
-const con = mysql.createConnection({
+const pool = mysql.createPool({
     host: "34.168.103.146",
     user: "root",
     password: "songFanCanvas",
     port: "3306",
-    database: "songCanvas"
-});
+    database: "songCanvas",
+    connectionLimit: 20    
+})
 
-con.connect(function(err) {
-    if (err) throw err;
-    con.query("Select * FROM Users", function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
-    });
-});
-}
+module.exports = pool;
+
+// const mysql = require('mysql');
+
+// const con = mysql.createConnection({
+//     host: "34.168.103.146",
+//     user: "root",
+//     password: "songFanCanvas",
+//     port: "3306",
+//     database: "songCanvas"
+// }); 
+
+// module.exports = con;
