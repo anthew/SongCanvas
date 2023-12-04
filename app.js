@@ -60,11 +60,16 @@ app.post('/createAcc', function(req, res){
 	let firstName = req.body.firstName;
 	let lastName = req.body.lastName;
 
-	console.log(email + ' ' + password);
 
 	//Check if the values exist
 	if(email && password && firstName && lastName)
 	{
+		//Check if there is a duplicate email with query
+		//im gonna check where in my js i did those little css stuff when you see that error message pop up
+		// on my FormValidator.js, it has all the error message setup
+		//ahh i see.
+		
+
 		//Insert the new user to the table
 		db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function(error, results, fields){
 			// If there is an issue with the query, output the error
