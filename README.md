@@ -1,1 +1,3 @@
-# SongCanvas for Anthony
+# MusicVideoMixer
+
+Created by Anthony, Ahmad, EJ
