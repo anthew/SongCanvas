@@ -66,17 +66,19 @@ app.post('/createAcc', function(req, res){
 	if(email && password && firstName && lastName)
 	{
 		//Insert the new user to the table
-		db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function(){
+		db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function(error, results, fields){
 			// If there is an issue with the query, output the error
 			if (error) throw error;
 		});
 
 		//Go back to login page if query successful
 		res.redirect('/');
+		res.end();
 	}
 	else
 	{
 		res.send('Insertion Failed');
+		res.end();
 	}
 });
 
