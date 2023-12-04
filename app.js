@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const db = require("./database.js");
+//const db = require("./database.js");
 const path = require('path');
 
 //Used for reading form data from json
@@ -14,13 +14,22 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'website','html','login.html'));
 }); 
 
+// For the form
 app.get('/dashboardRedirect', function(req, res){
 	res.sendFile(path.join(__dirname, 'website', 'html', 'dashboard.html'));
 });
 
+// HTTP request to undefined route
+app.use((req, res) => {
+    res.status(404); //error message
+    res.send(`Error`);
+});
+
+
 //Handle data from login form
 app.post('/loginAuth', function(request, response){
 
+	/*
     //Get the form values from the json body
     let email = request.body.email;
     let password = request.body.password;
@@ -48,12 +57,13 @@ app.post('/loginAuth', function(request, response){
         response.redirect('/');
 		response.end();
 	}
-
+	*/
 });
 
 //Handle form data from the create account page
 app.post('/createAcc', function(req, res){
 
+	/*
 	//Get the form values from the json body
     let email = req.body.email;
     let password = req.body.password;
@@ -85,6 +95,7 @@ app.post('/createAcc', function(req, res){
 		res.send('Insertion Failed');
 		res.end();
 	}
+	*/
 });
 
 app.listen(8000, function()
