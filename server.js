@@ -20,11 +20,10 @@ app.get('/dashboardRedirect', function(req, res){
 });
 
 // Undefined path
-// app.use((req, res) => {
-//     res.status(404); //error message
-//     res.send(`
-//     <b>Technical Difficulties, Please come back later. -Fan</b>`);
-// });
+app.use((req, res) => {
+    res.status(404); //error message
+    res.send(`<b>Technical Difficulties, Please come back later. -Fan</b>`);
+});
 
 //Handle data from login form
 app.post('/loginAuth', function(request, response){
