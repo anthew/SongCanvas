@@ -4,10 +4,8 @@ import { PasswordInputToggle } from "./PasswordInputToggle.js";
 document.addEventListener("DOMContentLoaded", () => {
   initializePasswordInputToggle();
 
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", validateCredentials);
-  }
+  document.getElementById("login-form");
+
 });
 
 function initializePasswordInputToggle() {
@@ -19,51 +17,6 @@ function initializePasswordInputToggle() {
   }
 }
 
-async function validateCredentials(event) {
-  event.preventDefault();
-
-  const emailInput = document.getElementById("email-input");
-  const passwordInput = document.getElementById("password-input");
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (!email || !password) {
-    alert("Email and password are required.");
-    return;
-  }
-
-  try {
-    const response = await fetch('/auth', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    // const responseData = await response.json();
-    if (response.ok) {
-      // const responseData = await response.json();
-      alert('Authentication successful');
-      // Redirect or perform other actions on success
-      window.location.href = '/html/dashboard.html';
-    } else {
-      alert('Authentication failed.');
-      //error main js different from database js
-    }
-  } catch (error) {
-    console.error('Error during authentication:', error);
-    alert(email + " and " + password);//pirnt
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", validateCredentials);
-  }
-});
 
 // function validateCredentials(event) {
 //   // Prevent default form submission behavior
