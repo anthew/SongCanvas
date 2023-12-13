@@ -11,15 +11,3 @@ const pool = mysql.createPool({
 })
 
 module.exports = pool;
-
-// const mysql = require('mysql');
-
-// const con = mysql.createConnection({
-//     host: "34.168.103.146",
-//     user: "root",
-//     password: "songFanCanvas",
-//     port: "3306",
-//     database: "songCanvas"
-// }); 
-
-// module.exports = con;
