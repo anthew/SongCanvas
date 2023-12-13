@@ -79,10 +79,10 @@
     line-height: normal;
   }
   
-  .navbar-toggler{
+.navbar-toggler{
     margin-left: 90%;
     margin-top: 0.5%;
-  }
+}
 
 .bootstrap-table{
     margin-top: 65px;
@@ -91,4 +91,11 @@
 .headers-tab{
     margin-bottom: -16px;
     background-color: #ecb5a2;
+}
+
+.mini-pic{
+  height: 15px;
+  width: 15px;
+  margin-bottom: 2px;
+
 }
