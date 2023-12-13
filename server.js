@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'website')));
 
 
-//Specify the starting page (login)
+//  Specify the starting page (login)
 app.get('/', function (req, res) { 
     // res.sendFile(path.join(__dirname, 'website','html','login.html'));
     res.sendFile(path.join(__dirname + "/website/html/login.html"));
