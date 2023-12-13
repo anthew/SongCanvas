@@ -4,10 +4,7 @@ import { PasswordInputToggle } from "./PasswordInputToggle.js";
 document.addEventListener("DOMContentLoaded", () => {
   initializePasswordInputToggle();
 
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", validateCredentials);
-  }
+  loginForm = document.getElementById("login-form");
 });
 
 function initializePasswordInputToggle() {
@@ -18,28 +15,6 @@ function initializePasswordInputToggle() {
     new PasswordInputToggle(eyeButton, passwordInput);
   }
 }
-
-async function validateCredentials(event) {
-  event.preventDefault();
-
-  const emailInput = document.getElementById("email-input");
-  const passwordInput = document.getElementById("password-input");
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (!email || !password) {
-    alert("Email and password are required.");
-    return;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", validateCredentials);
-  }
-});
 
 // function validateCredentials(event) {
 //   // Prevent default form submission behavior
