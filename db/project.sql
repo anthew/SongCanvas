@@ -1,0 +1,4 @@
+USE songCanvas;
+CREATE TABLE Project (
+	Project_ID INT PRIMARY KEY AUTO_INCREMENT
+);
