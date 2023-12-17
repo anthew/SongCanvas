@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timeline</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
+  <link href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    #visualization {
+      width: 600px;
+      height: 400px;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body>
+<div id="visualization"></div>
+<script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  var container = document.getElementById('visualization');
+
+
+  //Create a DataSet for the background track
+  var background = new vis.DataSet({
+
+  });
+  
+  //Create a DataSet for the Dynamic Element Track
+
+
+  // Create a DataSet (allows two way data-binding)
+  var items = new vis.DataSet([
+     {id: 1, content: "item 1",  group:1, start: "2023-12-20 13:52:10.001"},
+  {id: 2, content: "item 2", group:1 ,start: "2023-12-20 13:52:10.250"}
+  ]);
+
+  //Create groups for each track (background, design elements)
+  var groups = new vis.DataSet([
+    {id: 1, content: "Background"},
+    {id:2, content:"Design Elements"}
+    ]);
+
+  // Configuration for the Timeline
+  var options = {
+    format: {
+      minorLabels: {
+        millisecond: 's.SSS',
+      },
+      majorLabels:{
+        minute: 'm'
+      }
+    }
+    //timeAxis: {scale:'second', step:1},
+    
+  };
+
+  // Create a Timeline
+  var timeline = new vis.Timeline(container, items, groups, options);
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Hello.css">
+    <script type="module" src="/Hello.js"></script>
+    <script src="https://unpkg.com/konva@9.2.3/konva.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Main Divider that contains all the layers (background, dynamic elements, text, logo)-->
+    <diV id="Preview">
+        <!-- Layer to display background elements (videos or images) -->
+        <div id="BackgroundLayer">
+            <img id="imageContent" width=650px height=500px> 
+            <video id="videoContent"></video>
+                <!-- <source src="AmazingGrace.mp4" type="video/mp4"> -->
+            </video>       
+        </div>
+
+
+        <!-- Layer to display dynamic elemnents such as shapes -->
+        <div id="KonvaCanvas">
+            
+        </div>
+    
+        <!-- Layer to display text of the song -->
+        <div id="TextLayer"></div>
+
+        <!-- Layer to display logo  -->
+    </diV>
+    
+    <!-- Audio Element to play  -->
+    <audio id="musicPlayer">
+        <source src="/Files/Weezer.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- USed to track the audio current time -->
+    <p id="audioTimeTracker">The audio duration</p>
+
+</body>
+</html>

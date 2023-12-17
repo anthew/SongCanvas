@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form id="formId">
+        <input type="text" id="fname" name="fname" placeholder="FirstName">
+        <input type="text" id="lname" name="lname" placeholder="LastName">
+        <input type="submit" id="Enter" value="submit">
+    </form>
+
+    <script>
+        /*
+
+        Check for success message in the console with inspect element
+
+        $(document).ready(function(){
+
+        $("#Enter").click(function(e){
+            
+            e.preventDefault();
+        
+            $.ajax({
+                url: "http://localhost:3000/something",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(data){
+                    console.log("Hello");
+                }
+            });
+        });
+
+        });
+        */
+        
+        $(document).ready(function(){
+            const $form = $('#formId');
+
+            $form.on('submit', submitHandler)
+
+            function submitHandler(e){
+                e.preventDefault()
+
+                $.ajax({
+                    url: '/something',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: $form.serialize()
+                }).done(response => {
+                    console.log("Success");
+                    alert("Hello world");
+                    window.location.href = "Hello.html"
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

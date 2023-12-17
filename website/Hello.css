@@ -1,0 +1,49 @@
+/*
+#Background-Layer{
+    background-color: lime;
+    width: 650px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+*/
+
+#Preview{
+    width: 650px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+#BackgroundLayer{
+    background-color: aquamarine;
+}
+
+
+#TextLayer{
+    margin-top: 240px;
+    color:blue;
+
+    text-align: center;
+}
+
+/* Set the size of each layer and have them positioned to be on top of eachother */
+#BackgroundLayer, #TextLayer, #KonvaCanvas{
+    position: absolute;
+    width: 650px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#videoContent{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#BackgroundLayer img,
+#BackgroundLayer video{
+  position: absolute;  
+}
