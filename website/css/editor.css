@@ -84,6 +84,27 @@
     margin-top: 0.5%;
 }
 
+.hover-gif {
+  position: absolute;
+  display: inline-block;
+  margin-top: -10%;
+  margin-left: 62%;
+}
+
+.hover-gif-img {
+  position: absolute;
+  top: 0;
+  /* left: 100%; */
+  /* width: 300px;
+  height: 300px; */
+  opacity: 0;
+  transition: opacity 0.2s; /* You can adjust the transition duration */
+}
+
+.hover-gif:hover .hover-gif-img {
+  opacity: 1;
+}
+
 .bootstrap-table{
     margin-top: 65px;
 }
