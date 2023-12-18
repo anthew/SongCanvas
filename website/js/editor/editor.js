@@ -30,3 +30,34 @@ var shapes = new Konva.Rect({
 });
 
 layer.add(shapes);
+var addShapeToScreenButton = document.getElementById("shapeSubmit");
+addShapeToScreenButton.addEventListener("click", createRectangle);
+
+function createRectangle()
+{
+    let name = document.getElementById("name").value;
+    let width = document.getElementById("width").value;
+    let height = document.getElementById("height").value;
+    let fill_color = document.getElementById("fill").value;
+    let stroke = document.getElementById("stroke").value;
+    let strokeWidth = document.getElementById("strokeWidth").value;
+    let x = document.getElementById("x").value;
+    let y = document.getElementById("y").value;
+     
+    alert("Shape added");
+    var rect = new Konva.Rect({
+        name: name,
+        width: width,
+        height: height,
+        fill: fill_color,
+        stroke: stroke,
+        strokeWidth: strokeWidth,
+        x: x,
+        y: y,
+    });
+
+    //Add the newly created shape to the canvas
+    layer.add(rect);
+    // 
+}
+
