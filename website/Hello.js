@@ -1,5 +1,3 @@
-
-
 //Used for the keypress event logic
 let indexVal = -1; //Start at the beggening of the array
 let paused = true; //Start it out as paused
@@ -8,7 +6,7 @@ let paused = true; //Start it out as paused
 /*
     Text Layer
 */
-const textArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
+const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
 
 
 /*
@@ -28,7 +26,7 @@ var layer = new Konva.Layer();
 stage.add(layer);
 
 
-var shapes = new Konva.Rect({
+var shape = new Konva.Rect({
     x: 50,
     y: 50,
     width: 100,
@@ -41,8 +39,8 @@ var shapes = new Konva.Rect({
 
 let DynamicShapeArray = [
     {
-        "startTime" : 10,
-        "shape"     : shapes,
+        "startTime" : "00:10.20",
+        "shape" : shape,
         "type" : "add"
     }
 ]
@@ -50,9 +48,9 @@ let DynamicShapeArray = [
 //var shape2 = stage.find('.shape1');
 
 var newShapeEvent = {
-    "startTime": 25, 
-    "shape": shapes,
-    "type":"delete"
+    "startTime" : "00:13.29", 
+    "shape" : shape,
+    "type" : "delete"
 }
 
 DynamicShapeArray.push(newShapeEvent);
@@ -67,23 +65,23 @@ let DesignElemIndex = 0;
 */
 let backgroundArray = [
     {
-        "startTime" : 0,
+        "startTime" : "00:05.20",
         "contentFile" : "Files/nature.jpg"
     },
     {
-        "startTime" : 20,
+        "startTime" : "00:10.40",
         "contentFile" : "Files/AmongUs.jpg"
     },
     {
-        "startTime" : 40,
+        "startTime" : "00:15.10",
         "contentFile" : "Files/squidward.gif"
     },
     {
-        "startTime" : 50,
+        "startTime" : "00:16.20",
         "contentFile" : "Files/AmazingGrace.mp4"
     },
     {
-        "startTime" : 60,
+        "startTime" : "00:17.27",
         "contentFile" : "Files/nature.jpg"
     },
 
@@ -100,19 +98,20 @@ videoCont.muted=true; //Ensure that there is no audio coming from video
 /*
     Audio
 */
-var audioElement = document.getElementById('musicPlayer'); //Used to manipulate the audio element
-var audioTracker = document.getElementById('audioTimeTracker'); //Display the current song time
+//var audioElement = document.getElementById('musicPlayer'); //Used to manipulate the audio element
+//var audioTracker = document.getElementById('audioTimeTracker'); //Display the current song time
 
+const audio = document.getElementById('musicPlayer');
 //Read for any specific keys
 document.addEventListener('keydown', function(event){
     switch(event.key)
     {
         //Display the next lyric
         case "ArrowRight":
-            if(indexVal<textArray.length-1)
+            if(indexVal<lyricArray.length-1)
             {
                 indexVal+=1;
-                TextLayer.innerHTML = textArray[indexVal];
+                TextLayer.innerHTML = lyricArray[indexVal];
                 //TextLayer.style["color"] = "white"; 
             }
 
@@ -123,7 +122,7 @@ document.addEventListener('keydown', function(event){
             if(indexVal>=1)
             {
                 indexVal-=1;
-                TextLayer.innerHTML = textArray[indexVal];
+                TextLayer.innerHTML = lyricArray[indexVal];
             }
             break;
 
@@ -134,14 +133,14 @@ document.addEventListener('keydown', function(event){
            
             if(paused==true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
             {
-                audioElement.pause();
+                audio.pause();
                 videoCont.pause();
                 //alert(audioElement.currentTime);
             }
             else //If we are playing start the timer, video, and audio layers
             {
                 //alert("playing");
-                audioElement.play();
+                audio.play();
                 videoCont.play();
             }
 
@@ -154,17 +153,18 @@ document.addEventListener('keydown', function(event){
 
 
 //Function used to update screen with corresponding elements based on the audio's time
-audioElement.ontimeupdate = function(){updateScreenElement()};
+// audioElement.ontimeupdate = function(){updateProjectElements(formattedTime)};
 
-function updateScreenElement(){
+function updateProjectElements(formattedTime){
+    console.log(formattedTime);
     //Round the time to the lowest integer
-    var audioTimeStamp = Math.floor(audioElement.currentTime);
+    //var audioTimeStamp = Math.floor(audioElement.currentTime);
 
     //Display the value to the paragraph. Use this for testing
-    audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
+    // audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
 
     //Change Background content if the upcoming background element's start time mathces the audio time
-    if(backgroundArray[backgroundIndex].startTime==audioTimeStamp)
+    if(backgroundArray[backgroundIndex].startTime==formattedTime)
     {
         //if the current background elemnt to be displayed is a video load it to video element src
         if(backgroundArray[backgroundIndex].contentFile.includes("mp4"))
@@ -186,11 +186,13 @@ function updateScreenElement(){
             imageCont.src=backgroundArray[backgroundIndex].contentFile;
         }
         
-        backgroundIndex+=1;   
-    }
+        if(backgroundIndex < backgroundArray.length-1)
+            backgroundIndex+=1;   
+    } 
+
 
     //Add, modify, delete design elements
-    if(DynamicShapeArray[DesignElemIndex].startTime==audioTimeStamp)
+    if(DynamicShapeArray[DesignElemIndex].startTime==formattedTime)
     {
 
         //If the type is Add
@@ -209,7 +211,34 @@ function updateScreenElement(){
             layer.draw();
         }
 
-        DesignElemIndex+=1;
+        if(DesignElemIndex < DynamicShapeArray.length-1)
+            DesignElemIndex+=1;
     }
-}
-//Modify Lyrics
+} 
+
+/**
+ * Anthony's Code
+ */
+    
+    const timeDisplay = document.getElementById('audioTimestamp');
+
+    // Update time display every centisecond (10 milliseconds)
+    const updateTimer = setInterval(() => {
+      const currentTime = audio.currentTime * 100;
+      const minutes = Math.floor(currentTime / 6000);
+      const seconds = Math.floor((currentTime % 6000) / 100);
+      const centiseconds = Math.floor((currentTime % 100));
+
+      // Format time string with leading zeros
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+
+      timeDisplay.textContent = formattedTime;
+    
+      updateProjectElements(formattedTime);
+      
+    }, 10);
+
+    // When audio stops, timer stops
+    audio.addEventListener('ended', () => {
+      clearInterval(updateTimer);
+    });

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Player with Centisecond Display</title>
+</head>
+<body>
+  <audio id="player" src="/Files/Weezer.mp3" controls></audio>
+
+  <span id="current-time">00:00.00</span>
+
+  <script>
+    const audio = document.getElementById('player');
+    const timeDisplay = document.getElementById('current-time');
+
+    // Update time display every 10 milliseconds
+    const updateTimer = setInterval(() => {
+      const currentTime = audio.currentTime * 100; // Convert seconds to milliseconds
+      const minutes = Math.floor(currentTime / 6000);
+      const seconds = Math.floor((currentTime % 6000) / 100);
+      const centiseconds = Math.floor((currentTime % 100));
+
+      // Format time string with leading zeros
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+
+      timeDisplay.textContent = formattedTime;
+    }, 10);
+
+    // Update time display when playback stops
+    audio.addEventListener('ended', () => {
+      clearInterval(updateTimer);
+    });
+  </script>
+</body>
+</html>
