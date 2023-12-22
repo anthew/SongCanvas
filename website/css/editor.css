@@ -120,3 +120,45 @@
   margin-bottom: 2px;
 
 }
+
+/******************
+Style the canvas column
+*******************/
+
+#CanvasWindow{
+  position: relative;
+  background-color: aqua;
+  width: auto;
+  height: 500px;
+}
+
+/* For the text layer i styled it so the text is centred at the middle of div */
+#TextLayer{
+  text-align: center;
+  color: red;
+  line-height: 500px; 
+}
+
+#BackgroundLayer, #KonvaCanvas, #TextLayer{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#BackgroundLayer video,
+#BackgroundLayer img{
+  position: absolute;
+}
+
+#videoContent{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#imageContent{
+  width: 100%;
+  height: 100%;
+
+  /* Not sure if we need to add object-fit here or not */
+}

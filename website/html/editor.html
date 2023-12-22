@@ -102,7 +102,7 @@
 
 
             <div class="context-table">
-                <table class="table align-middle table-white">
+                <table class="table table-white">
                     <!-- <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -112,7 +112,7 @@
                         </tr>
                     </thead> -->
                     <tbody>
-                        <tr style="height: 440px;">
+                        <tr>
                             <!-- <th scope="row">1</th> -->
 
                             <!-- Hierarchy Column -->
@@ -187,10 +187,32 @@
                                 </td>
                               
                                 <!-- Canvas Column -->
-                                <td style="text-align: center;">
-                                    Canvas
-                                    <div id="KonvaCanvas">  <!-- Change to Design Elements -->
+                                <td id="CanvasColumn" width="70%">
+                                    <!-- <div id="KonvaCanvas" style="background-color: beige;">
                                       
+                                    </div> -->
+
+                                    <div id="CanvasWindow">
+                                      <div id="BackgroundLayer">
+                                        <img id="imageContent">
+
+                                        <video id="videoContent">
+                                          
+                                        </video>
+                                      </div>
+
+                                      <div id="KonvaCanvas">
+                                        
+                                      </div>
+
+                                      <div id="TextLayer">
+                                        Hello there
+                                      </div>
+
+                                      <!-- Audio Element to play  -->
+                                      <audio id="musicPlayer">
+                                        <source src="/Files/Weezer.mp3" type="audio/mpeg">
+                                      </audio>
                                     </div>
                                 </td>
                                 
@@ -351,7 +373,7 @@
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: center; background-color: bisque;">
-                                Timeline boys
+                              <span id="audioTimestamp">00:00.00</span>
                             </td>
                         </tr>
                         <!-- <tr>
