@@ -75,7 +75,7 @@ router.post('/createAcc', function(req, res){
 });
 
 router.get('/dashboardRedirect', function(req, res){
-	res.sendFile(path.join(__dirname, 'Views', 'html', 'dashboard.html'));
+	res.sendFile(path.join(__dirname, 'Views', 'DashboardViews', 'dashboard.html'));
 });
 
 module.exports = router;

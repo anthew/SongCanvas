@@ -11,7 +11,7 @@
     height: 100vh;
     /* top: 66px; */
     left: 0;
-    background-image: url(/images/dashboard/Dashboard.jpg);
+    background-image: url(/DashboardViews/DashboardMedia/Dashboard.jpg);
     background-size: cover;
     background-position: 50% 50%;
   }

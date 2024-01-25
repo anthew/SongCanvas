@@ -16,7 +16,7 @@
     position: relative;
     /* width: 100%; */
     height: 100vh;
-    background-image: url(/images/create-account/background.png);
+    background-image: url(/LoginMedia/create-account/background.png);
     background-size: cover;
     background-position: 50% 50%;
   }

@@ -18,7 +18,7 @@ export class PasswordInputToggle {
       this.eyeButton.style.border = "none";
       this.eyeButton.style.cursor = "pointer";
       this.eyeButton.style.backgroundColor = "#d9d9d9";
-      this.eyeButton.style.backgroundImage = 'url(/images/EyeHide.png)';
+      this.eyeButton.style.backgroundImage = 'url(/EyeHide.png)';
   
       this.passwordInput.style.position = "absolute";
       this.passwordInput.style.top = "15px";
@@ -44,6 +44,6 @@ export class PasswordInputToggle {
     togglePasswordVisibility() {
       this.isPasswordVisible = !this.isPasswordVisible;
       this.passwordInput.type = this.isPasswordVisible ? "text" : "password";
-      this.eyeButton.style.backgroundImage = `url(/images/Eye${this.isPasswordVisible ? 'Show' : 'Hide'}.png)`;
+      this.eyeButton.style.backgroundImage = `url(/Eye${this.isPasswordVisible ? 'Show' : 'Hide'}.png)`;
     }
 }
