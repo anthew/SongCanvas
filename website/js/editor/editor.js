@@ -96,23 +96,23 @@ let indexVal = -1; //Start at the beggening of the array
 //BackgroundLayer
 let backgroundArray = [
     {
-        "startTime" : "00:05.20",
+        "startTime" : "00:05.2",
         "contentFile" : "/Files/nature.jpg"
     },
     {
-        "startTime" : "00:10.40",
+        "startTime" : "00:10.4",
         "contentFile" : "/Files/AmongUs.jpg"
     },
     {
-        "startTime" : "00:15.10",
+        "startTime" : "00:15.1",
         "contentFile" : "/Files/squidward.gif"
     },
     {
-        "startTime" : "00:16.20",
+        "startTime" : "00:16.2",
         "contentFile" : "/Files/CarrieUnderwood.mp4"
     },
     {
-        "startTime" : "00:25.27",
+        "startTime" : "00:25.2",
         "contentFile" : "/Files/nature.jpg"
     },
 ]
@@ -274,15 +274,17 @@ function updateProjectElements(formattedTime){
     //Get the span element and update the time to it
     const timeDisplay = document.getElementById('audioTimestamp');
 
-    // Update time display every centisecond (10 milliseconds)
+    // Update time display every decisecond (100 milliseconds)
     const updateTimer = setInterval(() => {
-      const currentTime = audio.currentTime * 100;
-      const minutes = Math.floor(currentTime / 6000);
-      const seconds = Math.floor((currentTime % 6000) / 100);
-      const centiseconds = Math.floor((currentTime % 100));
+    //   const currentTime = audio.currentTime * 100;
+      //console.log(audio.currentTime);
+      const minutes = Math.floor(audio.currentTime / 60);
+      const seconds = Math.floor(audio.currentTime % 60);
+      const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
+      console.log(deciseconds);
 
       // Format time string with leading zeros
-      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
 
       timeDisplay.textContent = formattedTime;
     
