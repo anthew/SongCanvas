@@ -5,6 +5,7 @@ const path = require('path');
 
 app.use(express.static(path.join(__dirname, 'Views')));
 app.use(express.static(path.join(__dirname, 'WebsiteMedia')));
+app.use(express.static(path.join(__dirname, 'Controllers')));
 
 //Used for reading form data from json
 app.use(express.json());

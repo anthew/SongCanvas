@@ -16,8 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&family=Hubballi&family=Josefin+Sans:ital,wght@1,200&family=Kaisei+Decol:wght@500&family=Kalam:wght@300;700&family=Oswald&display=swap" rel="stylesheet">
     
     <!-- Uncomment line 15 for node -->
-    <link rel="stylesheet" href="/css/editor.css" />
-    <!-- <link rel="stylesheet" href="/Views/css/editor.css" /> -->
+    <link rel="stylesheet" href="/EditorViews/editor.css" />
 
     <!-- CSS stuff -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -35,11 +34,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
     <!-- JS files -->
-    <script type="module" src="/js/editor/editor.js"></script>
+    <script type="module" src="/EditorController.js"></script>
     
     <!-- Tab logo -->
 <!-- Path to file-->    
-    <link rel="icon" href="/images/mic.png">
+    <link rel="icon" href="/mic.png">
     <title>Editor Page</title>
 </head>
 <body>
@@ -211,7 +210,7 @@
 
                                       <!-- Audio Element to play  -->
                                       <audio id="musicPlayer">
-                                        <source src="/Files/Weezer.mp3" type="audio/mpeg">
+                                        <source src="/EditorMedia/Weezer.mp3" type="audio/mpeg">
                                       </audio>
                                     </div>
                                 </td>
@@ -327,11 +326,11 @@
 
                                                               
                                                               <b>Start Time:</b><br>
-                                                              <input type="text" name="start-time" id="start-time">
+                                                              <input type="text" name="start-time" id="start-time" placeholder="Enter as 'mm:ss.s' ">
                                                               <br><br>
 
                                                               <b>End Time:</b><br>
-                                                              <input type="text" name="end-time" id="end-time"> 
+                                                              <input type="text" name="end-time" id="end-time" placeholder="Enter as 'mm:ss.s'"> 
                                                               <br><br>
                                                               
                                                               
@@ -400,9 +399,9 @@
                     <div class="songcanvas-logo">
                         <div class="overlap-3">
 <!-- Path to file-->                                
-                            <img class="polygon" src="/images/mic_body.png" />
+                            <img class="polygon" src="/mic_body.png" />
 <!-- Path to file-->                                
-                            <img class="img" src="/images/mic_head.png" />
+                            <img class="img" src="/mic_head.png" />
                             <div class="rectangle-3"></div>
                             <div class="s-ngcanvas">S&nbsp;&nbsp;ngCanvas</div>
                         </div>
@@ -434,19 +433,19 @@
                         </li>
                         <li class="nav-item">
 <!-- Path to file-->                                
-                            <a class="nav-link" href="#">&emsp;<img src="/images/navbar/question.png" class="mini-pic">&ensp;Q&A</a>
+                            <a class="nav-link" href="#">&emsp;<img src="/navbar/question.png" class="mini-pic">&ensp;Q&A</a>
                         </li>
                         <li class="nav-item">
 <!-- Path to file-->                                
-                            <a class="nav-link" href="#">&emsp;<img src="/images/navbar/settings.png" class="mini-pic">&ensp;Settings</a>
+                            <a class="nav-link" href="#">&emsp;<img src="/navbar/settings.png" class="mini-pic">&ensp;Settings</a>
                         </li>
                         <li class="nav-item">
 <!-- Path to file-->                                
-                            <a class="nav-link" href="/html/login.html">
+                            <a class="nav-link" href="/LoginViews/login.html">
                                 &emsp;Log Out
                                 <div class="hover-gif">
 <!-- Path to file-->                                        
-                                    <img src="/images/navbar/shrug-carrie-underwood.gif" class="hover-gif-img">
+                                    <img src="/navbar/shrug-carrie-underwood.gif" class="hover-gif-img">
                                 </div>
                             </a>
                         </li>
