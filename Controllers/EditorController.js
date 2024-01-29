@@ -43,6 +43,7 @@ function createRectangle()
     let strokeWidth = document.getElementById("strokeWidth").value;
     let x = document.getElementById("x").value;
     let y = document.getElementById("y").value;
+    let animation_type = document.getElementById("animation").value;
 
     //Testing
     let startTime = document.getElementById("start-time").value;
@@ -60,6 +61,24 @@ function createRectangle()
         visible: false,
     });    
 
+    //Assign animation to the shape based on user selection
+    if(animation_type!="None")
+    {
+        //Determine if it's any of these options
+        if(animation_type=="ClockWise")
+        {
+            animation_type = new Konva.Animation(function (frame) {
+                rect.rotate(1.5);
+            }, layer);
+        }
+        else if(animation_type=="Counter-ClockWise")
+        {
+            animation_type = new Konva.Animation(function (frame) {
+                rect.rotate(-1.5);
+            }, layer);
+        }
+    }
+
     //Add the newly created shape to the canvas
     layer.add(rect);
 
@@ -68,6 +87,7 @@ function createRectangle()
         "startTime" : startTime,
         "endTime" : endTime,
         "shape" : rect,
+        "animation" : animation_type,
     }
 
     //Save the shape to array that will be used to store to database 
@@ -95,6 +115,7 @@ let indexVal = -1; //Start at the beggening of the array
 
 //BackgroundLayer
 let backgroundArray = [
+
     {
         "startTime" : "00:05.2",
         "contentFile" : "/EditorMedia/nature.jpg"
@@ -226,6 +247,8 @@ function updateProjectElements(formattedTime){
 
         //Check if there is any animations for this shape
         //ShapeStartArray[ShapeStartIndex].animation.start();
+        if(ShapeStartArray[ShapeStartIndex].animation!="None")
+            ShapeStartArray[ShapeStartIndex].animation.start();
 
         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
         if(ShapeStartIndex < ShapeArray.length-1)
@@ -238,7 +261,9 @@ function updateProjectElements(formattedTime){
         ShapeEndArray[ShapeEndIndex].shape.hide();
 
         //Stop the shapes animation if applicable
-
+        if(ShapeEndArray[ShapeEndIndex].animation!="None")
+            ShapeEndArray[ShapeEndIndex].animation.stop();
+        
         //Move to the next shape if it is available
         if(ShapeEndIndex < ShapeArray.length-1)
             ShapeEndIndex+=1;
