@@ -10,14 +10,6 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 stage.add(layer);
 
-//Testing with animation 
-// var anim = new Konva.Animation(function (frame) {
-//     var angleDiff = (frame.timeDiff * 90) / 1000;
-//     shapes.rotate(angleDiff);
-//   }, layer);
-
-// anim.start();
-
 //Function deticated to creating shapes based on user input
 var addShapeToScreenButton = document.getElementById("shapeSubmit");
 addShapeToScreenButton.addEventListener("click", createRectangle);
@@ -35,6 +27,7 @@ let ShapeEndIndex = 0;
 
 function createRectangle()
 {
+    //Values for the shape
     let name = document.getElementById("name").value;
     let width = document.getElementById("width").value;
     let height = document.getElementById("height").value;
@@ -43,11 +36,13 @@ function createRectangle()
     let strokeWidth = document.getElementById("strokeWidth").value;
     let x = document.getElementById("x").value;
     let y = document.getElementById("y").value;
+    let animation_type = document.getElementById("animation").value;
 
-    //Testing
+    //Values to display and hide shape
     let startTime = document.getElementById("start-time").value;
     let endTime = document.getElementById("end-time").value;
     
+    //Create Konva rectangle and have it hidden by default
     var rect = new Konva.Rect({
         name: name,
         width: width,
@@ -60,6 +55,27 @@ function createRectangle()
         visible: false,
     });    
 
+
+    //Assign animation to the shape based on user selection
+    if(animation_type!="None")
+    {
+        //Determine if it's any of these options
+        if(animation_type=="ClockWise")
+        {
+            animation_type = new Konva.Animation(function (frame) {
+                rect.rotate(1.5);
+            }, layer);
+        }
+        else if(animation_type=="Counter-ClockWise")
+        {
+            animation_type = new Konva.Animation(function (frame) {
+                rect.rotate(-1.5);
+            }, layer);
+        }
+    }
+
+    //animation_type.start();
+
     //Add the newly created shape to the canvas
     layer.add(rect);
 
@@ -68,6 +84,7 @@ function createRectangle()
         "startTime" : startTime,
         "endTime" : endTime,
         "shape" : rect,
+        "animation" : animation_type,
     }
 
     //Save the shape to array that will be used to store to database 
@@ -225,6 +242,8 @@ function updateProjectElements(formattedTime){
         ShapeStartArray[ShapeStartIndex].shape.show();
 
         //Check if there is any animations for this shape
+        if(ShapeStartArray[ShapeStartIndex].animation!="None")
+            ShapeStartArray[ShapeStartIndex].animation.start();
         //ShapeStartArray[ShapeStartIndex].animation.start();
 
         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
@@ -238,37 +257,13 @@ function updateProjectElements(formattedTime){
         ShapeEndArray[ShapeEndIndex].shape.hide();
 
         //Stop the shapes animation if applicable
+        if(ShapeEndArray[ShapeEndIndex].animation!="None")
+            ShapeEndArray[ShapeEndIndex].animation.stop();
 
         //Move to the next shape if it is available
         if(ShapeEndIndex < ShapeArray.length-1)
             ShapeEndIndex+=1;
     }
-
-    /*
-    //Add, modify, delete design elements
-    if(DynamicShapeArray[DesignElemIndex].startTime==formattedTime)
-    {
-
-        //If the type is Add
-        if(DynamicShapeArray[DesignElemIndex].type == "add")
-            layer.add(DynamicShapeArray[DesignElemIndex].shape);
-
-        //If the type is Modify
-        else if(DynamicShapeArray[DesignElemIndex].type == "modify")
-        {
-
-        }
-        //If the type is delete
-        else 
-        {
-            DynamicShapeArray[DesignElemIndex].shape.destroy();
-            layer.draw();
-        }
-
-        if(DesignElemIndex < DynamicShapeArray.length-1)
-            DesignElemIndex+=1;
-    }
-    */
 } 
 
     //Get the span element and update the time to it
@@ -277,11 +272,10 @@ function updateProjectElements(formattedTime){
     // Update time display every decisecond (100 milliseconds)
     const updateTimer = setInterval(() => {
     //   const currentTime = audio.currentTime * 100;
-      //console.log(audio.currentTime);
       const minutes = Math.floor(audio.currentTime / 60);
       const seconds = Math.floor(audio.currentTime % 60);
       const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
-      console.log(deciseconds);
+      //console.log(deciseconds);
 
       // Format time string with leading zeros
       const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
