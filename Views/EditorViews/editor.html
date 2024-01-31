@@ -263,6 +263,14 @@
                                               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                                                 Design Elements
                                               </button>
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                              <!-- <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"> <img src="/EditorMedia/Plus.png" height="20" width="20"> </button>
+                                              <script>
+                                                function something()
+                                                {
+                                                  alert("Was gud hoomie");
+                                                }
+                                              </script> -->
                                             </h5>
                                           </div>
                                           <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample">
@@ -303,6 +311,43 @@
                                                               <b>Height:</b><br>
                                                                 <input type="text" name="height" id="height">
                                                               <br><br>
+                                                              
+                                                              <b>Opacity:</b><br>
+                                                              <div class="block">
+                                                                <input type="range" name="opacity" id="opacity" min="0" max="1" value="1" step="0.1" list="markers"> 
+                                                                <label id="opacityValue"></label> 
+                                                              </div>
+                                                              <br>
+
+                                                              <!-- Used to update the label to reflect what value you are at on the range -->
+                                                              <script>
+                                                                const opacityOutput = document.getElementById("opacityValue");
+                                                                const opacityInput = document.getElementById("opacity");
+
+                                                                //Have label display the starting value
+                                                                opacityOutput.innerText = opacityInput.value;
+
+                                                                // When you move to a diffrent value in the range update the label to current value
+                                                                opacityInput.addEventListener("input", (event) => {
+                                                                  opacityOutput.innerText = event.target.value;
+                                                                });
+                                                              </script>
+
+                                                              <!-- Used to add tick marks at every o.1 point -->
+                                                              <datalist id="markers">
+                                                                <option value="0"></option>
+                                                                <option value="0.1"></option>
+                                                                <option value="0.2"></option>
+                                                                <option value="0.3"></option>
+                                                                <option value="0.4"></option>
+                                                                <option value="0.5"></option>
+                                                                <option value="0.6"></option>
+                                                                <option value="0.7"></option>
+                                                                <option value="0.8"></option>
+                                                                <option value="0.9"></option>
+                                                                <option value="1"></option>
+                                                              </datalist>
+    
 
                                                               <b>Fill Color:</b><br>
                                                               <input type="color" name="fill" id="fill">
@@ -338,10 +383,7 @@
 
                                                               <b>End Time:</b><br>
                                                               <input type="text" name="end-time" id="end-time" placeholder="Enter as 'mm:ss.s'"> 
-                                                              <br><br>
-                                                              
-                                                              
-                                                              
+                                                              <br><br>                           
                                                             <!-- </form> -->
                                                           </div>
 

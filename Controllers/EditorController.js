@@ -44,11 +44,12 @@ function createRectangle()
     let x = document.getElementById("x").value;
     let y = document.getElementById("y").value;
     let animation_type = document.getElementById("animation").value;
+    let opacity = document.getElementById("opacity").value;
 
     //Testing
     let startTime = document.getElementById("start-time").value;
     let endTime = document.getElementById("end-time").value;
-    
+    //Note the offset variable is used to center the animations 
     var rect = new Konva.Rect({
         name: name,
         width: width,
@@ -59,6 +60,11 @@ function createRectangle()
         x: x,
         y: y,
         visible: false,
+        opacity: opacity,
+        offset: {
+            x: width/2,
+            y: height/2,
+        },
     });    
 
     //Assign animation to the shape based on user selection
