@@ -115,10 +115,39 @@ function createRectangle()
     alert("Shape created");
 }
 
-//TextLayer
-const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
+// ----------------------- Lyrics ----------------------------------------
+//TextLayernp
+// const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
+var complexText = new Konva.Text({
+    x: 400,
+    y: 180,
+    text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+    fontSize: 18,
+    fontFamily: 'Calibri',
+    fill: '#555',
+    width: 300,
+    padding: 20,
+    align: 'center',
+});
+
+layer.add(complexText);
+
+let lyricArray = [];
 let indexVal = -1; //Start at the beggening of the array
 
+function createLyrics () {
+    let lyricsTextAreaStuff = document.getElementById("lyricsTextArea").value;
+    lyricArray = lyricsTextAreaStuff.split('\n');
+    console.log(lyricArray);
+    
+}
+
+//Function deticated to creating shapes based on user input
+var addLyrics = document.getElementById("lyricSubmit");
+addLyrics.addEventListener("click", createLyrics);
+
+
+// -------------------------- Background --------------------------------------
 //BackgroundLayer
 let backgroundArray = [
 
@@ -327,3 +356,5 @@ function updateProjectElements(formattedTime){
     audio.addEventListener('ended', () => {
       clearInterval(updateTimer);
     });
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
