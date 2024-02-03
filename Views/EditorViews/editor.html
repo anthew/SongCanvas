@@ -139,24 +139,24 @@
                                                     <!-- add for the input -->
                                                     <!-- wait so this modal is properties? -->
                                                     <div class="modal-body"> 
-                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createRectangle()"> -->
+                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
                                                         <!-- <button class="upload">
                                                           Upload Image
                                                         </button> -->
                                                         
                                                         <b>Name:</b><br>
-                                                        <input type="text" name="name" id="name">
+                                                        <input type="text" name="logoName" id="logoName">
                                                         <br><br>
 
-                                                        <b>Width:</b><br>
-                                                        <input type="text" name="width" id="width" required>
+                                                        <b>Width:</b><br> 
+                                                        <input type="text" name="logoWidth" id="logoWidth" required>
                                                         <br><br>                        
                                                       <!-- </form> -->
                                                     </div>
 
                                                     <div class="modal-footer"> 
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button>
+                                                        <button type="button" id="logoSubmit" class="btn btn-primary">Add to Screen</button>
                                                     </div>
                                                 </div>
                                               </div>
@@ -194,6 +194,9 @@
                                                       <!-- Input textfield for the lyrics -->
                                                         <b>Lyrics:</b><br>
                                                         <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"></textarea>
+                                                        <br><br>
+
+                                                        <b>Width:</b>                                                        
 
                                                     </div>
 
@@ -235,41 +238,45 @@
                                                     <!-- add for the input -->
                                                     <!-- wait so this modal is properties? -->
                                                     <div class="modal-body"> 
-                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createRectangle()"> -->
+                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
                                                         <!-- <button class="upload">
                                                           Upload Image
                                                         </button> -->
                                                         
                                                         <b>Name:</b><br>
-                                                        <input type="text" name="name" id="name">
+                                                        <input type="text" name="shapeName" id="shapeName">
+                                                        <br><br>
+
+                                                        <b>Number of Sides: </b><br>
+                                                        <input type="text" name="shapeSides" id="shapeSides" required>
                                                         <br><br>
 
                                                         <b>Width:</b><br>
-                                                        <input type="text" name="width" id="width" required>
+                                                        <input type="text" name="shapeWidth" id="shapeWidth" required>
                                                         <br><br>
 
                                                         <b>Height:</b><br>
-                                                          <input type="text" name="height" id="height">
+                                                          <input type="text" name="shapeHeight" id="shapeHeight">
                                                         <br><br>
                                                         
                                                         <b>Opacity:</b><br>
                                                         <div class="block">
-                                                          <input type="range" name="opacity" id="opacity" min="0" max="1" value="1" step="0.1" list="markers"> 
-                                                          <label id="opacityValue"></label> 
+                                                          <input type="range" name="shapeOpacity" id="shapeOpacity" min="0" max="1" value="1" step="0.1" list="markers"> 
+                                                          <label id="shapeOpacityValue"></label> 
                                                         </div>
                                                         <br>
 
                                                         <!-- Used to update the label to reflect what value you are at on the range -->
                                                         <script>
-                                                          const opacityOutput = document.getElementById("opacityValue");
-                                                          const opacityInput = document.getElementById("opacity");
+                                                          const shapeOpacityOutput = document.getElementById("shapeOpacityValue");
+                                                          const shapeOpacityInput = document.getElementById("shapeOpacity");
 
                                                           //Have label display the starting value
-                                                          opacityOutput.innerText = opacityInput.value;
+                                                          shapeOpacityOutput.innerText = shapeOpacityInput.value;
 
                                                           // When you move to a diffrent value in the range update the label to current value
-                                                          opacityInput.addEventListener("input", (event) => {
-                                                            opacityOutput.innerText = event.target.value;
+                                                          shapeOpacityInput.addEventListener("input", (event) => {
+                                                            shapeOpacityOutput.innerText = event.target.value;
                                                           });
                                                         </script>
 
@@ -290,39 +297,39 @@
 
 
                                                         <b>Fill Color:</b><br>
-                                                        <input type="color" name="fill" id="fill">
+                                                        <input type="color" name="shapeFill" id="shapeFill">
                                                         <br><br>
 
                                                         <b>Border Color:</b><br>
-                                                        <input type="color" name="stroke" id="stroke">
+                                                        <input type="color" name="shapeStroke" id="shapeStroke">
                                                         <br><br>
 
                                                         <b>Border Width:</b><br>
-                                                        <input type="text" name="strokeWidth" id="strokeWidth">
+                                                        <input type="text" name="shapeStrokeWidth" id="shapeStrokeWidth">
                                                         <br><br>
 
                                                         <b>X location:</b><br>
-                                                        <input type="text" name="x" id="x">
+                                                        <input type="text" name="shapeX" id="shapeX">
                                                         <br><br>
 
                                                         <b>Y location:</b><br>
-                                                        <input type="text" name="y" id="y">
+                                                        <input type="text" name="shapeY" id="shapeY">
                                                         <br><br>
 
                                                         <b>Animation:</b><br>
-                                                        <select name="animation" id="animation">
+                                                        <select name="shapeAnimation" id="shapeAnimation"> 
                                                           <option value="None">None</option>
-                                                          <option value="ClockWise">ClockWise</option>
-                                                          <option value="Counter-ClockWise">Counter-ClockWise</option>
+                                                          <option value="Clockwise">Clockwise</option>
+                                                          <option value="Counter-Clockwise">Counter-Clockwise</option>
                                                         </select>
                                                         <br><br>
                                                         
                                                         <b>Start Time:</b><br>
-                                                        <input type="text" name="start-time" id="start-time" placeholder="Enter as 'mm:ss.s' ">
+                                                        <input type="text" name="shapeStart-Time" id="shapeStart-Time" placeholder="Enter as 'mm:ss.s' ">
                                                         <br><br>
 
                                                         <b>End Time:</b><br>
-                                                        <input type="text" name="end-time" id="end-time" placeholder="Enter as 'mm:ss.s'"> 
+                                                        <input type="text" name="shapeEnd-Time" id="shapeEnd-Time" placeholder="Enter as 'mm:ss.s'"> 
                                                         <br><br>                           
                                                       <!-- </form> -->
                                                     </div>
@@ -363,7 +370,7 @@
                                                       <!-- add for the input -->
                                                       <!-- wait so this modal is properties? -->
                                                       <div class="modal-body"> 
-                                                        <!-- <form name="properties" id="prop" action="#" onsubmit="createRectangle()"> -->
+                                                        <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
                                                           <!-- <button class="upload">
                                                             Upload Image
                                                           </button> -->

@@ -20,7 +20,7 @@ stage.add(layer);
 
 //Function deticated to creating shapes based on user input
 var addShapeToScreenButton = document.getElementById("shapeSubmit");
-addShapeToScreenButton.addEventListener("click", createRectangle);
+addShapeToScreenButton.addEventListener("click", createPolygon);
 
 //Array to hold shapes user has added 
 let ShapeArray = []; //Holds the information of a shape and it's start time, end time, and animation
@@ -33,67 +33,70 @@ let ShapeEndArray = []; //Used to keep track of the shapes from earliest end tim
 let ShapeEndIndex = 0;
 
 
-function createRectangle()
+function createPolygon()
 {
-    let name = document.getElementById("name").value;
-    let width = document.getElementById("width").value;
-    let height = document.getElementById("height").value;
-    let fill_color = document.getElementById("fill").value;
-    let stroke = document.getElementById("stroke").value;
-    let strokeWidth = document.getElementById("strokeWidth").value;
-    let x = document.getElementById("x").value;
-    let y = document.getElementById("y").value;
-    let animation_type = document.getElementById("animation").value;
-    let opacity = document.getElementById("opacity").value;
+    let shapeName = document.getElementById("shapeName").value;
+    let shapeWidth = document.getElementById("shapeWidth").value;
+    let shapeHeight = document.getElementById("shapeHeight").value;
+    let shapeFill_color = document.getElementById("shapeFill").value;
+    let shapeStroke = document.getElementById("shapeStroke").value;
+    let shapeStrokeWidth = document.getElementById("shapeStrokeWidth").value;
+    let shapeX = document.getElementById("shapeX").value;
+    let shapeY = document.getElementById("shapeY").value;
+    let shapeSides = document.getElementById("shapeSides").value;
+    let shapeAnimation_type = document.getElementById("shapeAnimation").value;
+    let shapeOpacity = document.getElementById("shapeOpacity").value;
 
     //Testing
-    let startTime = document.getElementById("start-time").value;
-    let endTime = document.getElementById("end-time").value;
+    let shapeStartTime = document.getElementById("shapeStart-Time").value;
+    let shapeEndTime = document.getElementById("shapeEnd-Time").value;
     //Note the offset variable is used to center the animations 
-    var rect = new Konva.Rect({
-        name: name,
-        width: width,
-        height: height,
-        fill: fill_color,
-        stroke: stroke,
-        strokeWidth: strokeWidth,
-        x: x,
-        y: y,
-        visible: false,
-        opacity: opacity,
+    var polygon = new Konva.RegularPolygon({
+        name: shapeName,
+        width: shapeWidth,
+        height: shapeHeight,
+        fill: shapeFill_color,
+        stroke: shapeStroke,
+        strokeWidth: shapeStrokeWidth,
+        x: shapeX, 
+        y: shapeY,
+        sides: shapeSides, 
+        visible: false, // Polygons are invisible by default
+        opacity: shapeOpacity,
         offset: {
-            x: width/2,
-            y: height/2,
+            shapeX: shapeWidth/2,
+            shapeY: shapeHeight/2,
         },
     });    
-
-    //Assign animation to the shape based on user selection
-    if(animation_type!="None")
+    // 
+    // assign animation to the shape based on user selection
+    if(shapeAnimation_type!="None")
     {
         //Determine if it's any of these options
-        if(animation_type=="ClockWise")
+        if(shapeAnimation_type=="Clockwise")
         {
-            animation_type = new Konva.Animation(function (frame) {
-                rect.rotate(1.5);
+            
+            shapeAnimation_type = new Konva.Animation(function (frame) {
+                polygon.rotate(1.5);
             }, layer);
         }
-        else if(animation_type=="Counter-ClockWise")
+        else if(shapeAnimation_type=="Counter-Clockwise")
         {
-            animation_type = new Konva.Animation(function (frame) {
-                rect.rotate(-1.5);
+            shapeAnimation_type = new Konva.Animation(function (frame) {
+                polygon.rotate(-1.5);
             }, layer);
         }
     }
 
     //Add the newly created shape to the canvas
-    layer.add(rect);
+    layer.add(polygon);
 
     //Add the newly created shape to the array
     var newShape = {
-        "startTime" : startTime,
-        "endTime" : endTime,
-        "shape" : rect,
-        "animation" : animation_type,
+        "shapeStartTime" : shapeStartTime,
+        "shapeEndTime" : shapeEndTime,
+        "shape" : polygon, 
+        "shapeAnimation" : shapeAnimation_type,
     }
 
     //Save the shape to array that will be used to store to database 
@@ -102,13 +105,13 @@ function createRectangle()
     //Add the shape to an array that sorted by start time
     ShapeStartArray.push(newShape);
     ShapeStartArray.sort(function (a, b) {
-        return a.startTime.localeCompare(b.startTime);
+        return a.shapeStartTime.localeCompare(b.shapeStartTime);
     });
 
     //Add the shape to an array that is sorted by end time
     ShapeEndArray.push(newShape);
     ShapeEndArray.sort(function (a, b) {
-        return a.endTime.localeCompare(b.endTime);
+        return a.shapeEndTime.localeCompare(b.shapeEndTime);
     });
 
     //Inidacte to user that the shape was added
@@ -117,29 +120,39 @@ function createRectangle()
 
 // ----------------------- Lyrics ----------------------------------------
 //TextLayernp
-// const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
+//const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
 var complexText = new Konva.Text({
     x: 400,
     y: 180,
-    text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+    text: "",
     fontSize: 18,
     fontFamily: 'Calibri',
     fill: '#555',
     width: 300,
     padding: 20,
     align: 'center',
+    id: 'P1',
 });
 
 layer.add(complexText);
 
-let lyricArray = [];
+let lyricArray = []; //Used to store the lines entered in pop-up
 let indexVal = -1; //Start at the beggening of the array
+var text = layer.find('#P1')[0]; //Used to find the text box and change it's attributes
 
+//Populates the array with what the user has typed in and changes the text's properties
 function createLyrics () {
+
+    //Grab the values from the text area in the pop-up
     let lyricsTextAreaStuff = document.getElementById("lyricsTextArea").value;
+
+    //Add the lines to the table
     lyricArray = lyricsTextAreaStuff.split('\n');
+
+    //Set the properties (font-color, font-type, size, )
+
+
     console.log(lyricArray);
-    
 }
 
 //Function deticated to creating shapes based on user input
@@ -194,8 +207,10 @@ document.addEventListener('keydown', function(event){
             if(indexVal<lyricArray.length-1)
             {
                 indexVal+=1;
-                TextLayer.innerHTML = lyricArray[indexVal];
-                //TextLayer.style["color"] = "white"; 
+                //TextLayer.innerHTML = lyricArray[indexVal];
+                //complexText.text = "Hello there partner";
+                text.setAttr('text', lyricArray[indexVal]);
+                //layer.draw();
             }
 
             break;
@@ -205,7 +220,8 @@ document.addEventListener('keydown', function(event){
             if(indexVal>=1)
             {
                 indexVal-=1;
-                TextLayer.innerHTML = lyricArray[indexVal];
+                text.setAttr('text', lyricArray[indexVal]);
+                //TextLayer.innerHTML = lyricArray[indexVal];
             }
             break;
 
@@ -275,29 +291,29 @@ function updateProjectElements(formattedTime){
 
 
     /******************Manage shapes******************/ /*Note to self might need to work on formatted time. Program to slow to make changes in time*/
-    if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].startTime==formattedTime) //Display shape when it's start time meets formattedTime
+    if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
     {
         //Display the shape
         ShapeStartArray[ShapeStartIndex].shape.show();
 
         //Check if there is any animations for this shape
-        //ShapeStartArray[ShapeStartIndex].animation.start();
-        if(ShapeStartArray[ShapeStartIndex].animation!="None")
-            ShapeStartArray[ShapeStartIndex].animation.start();
+        //ShapeStartArray[ShapeStartIndex].animation.start(); 
+        if(ShapeStartArray[ShapeStartIndex].shapeAnimation!="None")
+            ShapeStartArray[ShapeStartIndex].shapeAnimation.start();
 
         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
         if(ShapeStartIndex < ShapeArray.length-1)
             ShapeStartIndex+=1;
     }
 
-    if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].endTime==formattedTime)
+    if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].shapeEndTime==formattedTime)
     {
         //Hide the shape
         ShapeEndArray[ShapeEndIndex].shape.hide();
 
         //Stop the shapes animation if applicable
-        if(ShapeEndArray[ShapeEndIndex].animation!="None")
-            ShapeEndArray[ShapeEndIndex].animation.stop();
+        if(ShapeEndArray[ShapeEndIndex].shapeAnimation!="None")
+            ShapeEndArray[ShapeEndIndex].shapeAnimation.stop();
         
         //Move to the next shape if it is available
         if(ShapeEndIndex < ShapeArray.length-1)
