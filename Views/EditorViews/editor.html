@@ -126,7 +126,7 @@
                                               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Logo
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal" id="plusButton">
                                             </h5>
                                             <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
                                               <div class="modal-dialog modal-sm">
@@ -176,7 +176,7 @@
                                               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Lyrics
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal" id="plusButton">
                                             </h5>
 
                                             <div class="modal fade" id="lyricsModal" tabindex="-1" aria-labelledby="lyricsModalLabel" aria-hidden="true">
@@ -196,8 +196,17 @@
                                                         <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"></textarea>
                                                         <br><br>
 
-                                                        <b>Width:</b>                                                        
+                                                        <b>Font Type: </b><br>
+                                                        <input type="text" name="lyricFontType" id="lyricFontType" placeholder="Enter font-type name"> 
+                                                        <br><br>
 
+                                                        <b>Font Size: </b><br>
+                                                        <input type="text" name="lyricFontSize" id="lyricFontSize" placeholder="Enter font-size number">
+                                                        <br><br>
+
+                                                        <b>Font Color: </b><br>
+                                                        <input type="color" name="lyricFontColor" id="lyricFontColor">
+                                                        <br><br>
                                                     </div>
 
                                                     <div class="modal-footer"> 
@@ -223,7 +232,7 @@
                                               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Design Elements
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal" id="plusButton">
                                             </h5>
                                             
                                             <!-- Design Element Creation pop-up -->
@@ -357,7 +366,7 @@
                                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                                   Background 
                                                 </button>
-                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal">
+                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal" id="plusButton">
                                               </h5>
                                               <div class="modal fade" id="backModal" tabindex="-1" aria-labelledby="backModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-sm">
@@ -421,9 +430,9 @@
                                         
                                       </div>
 
-                                      <div id="TextLayer">
+                                      <!-- <div id="TextLayer">
                                         
-                                      </div>
+                                      </div> -->
 
                                       <!-- Audio Element to play  -->
                                       <audio id="musicPlayer">

@@ -173,3 +173,7 @@ Style the canvas column
   /* Not sure if we need to add object-fit here or not */
 }
 
+/* Styling for the plus buttons */
+#plusButton{
+  float: right;
+}

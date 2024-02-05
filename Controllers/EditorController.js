@@ -128,10 +128,11 @@ var complexText = new Konva.Text({
     fontSize: 18,
     fontFamily: 'Calibri',
     fill: '#555',
-    width: 300,
+    width: 300, //without the width it will scale based on text
     padding: 20,
     align: 'center',
     id: 'P1',
+    draggable: true,
 });
 
 layer.add(complexText);
@@ -149,8 +150,10 @@ function createLyrics () {
     //Add the lines to the table
     lyricArray = lyricsTextAreaStuff.split('\n');
 
-    //Set the properties (font-color, font-type, size, )
-
+    //Set the properties (font-color, font-type, size, ...)
+    text.setAttr("fontFamily", document.getElementById("lyricFontType").value);
+    text.setAttr("fontSize", document.getElementById("lyricFontSize").value);
+    text.setAttr("fill", document.getElementById("lyricFontColor").value);
 
     console.log(lyricArray);
 }
@@ -254,6 +257,7 @@ document.addEventListener('keydown', function(event){
 //Function to display elements at specific times. Called by setInterval
 function updateProjectElements(formattedTime){
     //console.log(formattedTime);
+    //console.log(text.getAttr('x'));
 
     //Round the time to the lowest integer
     //var audioTimeStamp = Math.floor(audioElement.currentTime);
@@ -319,32 +323,6 @@ function updateProjectElements(formattedTime){
         if(ShapeEndIndex < ShapeArray.length-1)
             ShapeEndIndex+=1;
     }
-
-    /*
-    //Add, modify, delete design elements
-    if(DynamicShapeArray[DesignElemIndex].startTime==formattedTime)
-    {
-
-        //If the type is Add
-        if(DynamicShapeArray[DesignElemIndex].type == "add")
-            layer.add(DynamicShapeArray[DesignElemIndex].shape);
-
-        //If the type is Modify
-        else if(DynamicShapeArray[DesignElemIndex].type == "modify")
-        {
-
-        }
-        //If the type is delete
-        else 
-        {
-            DynamicShapeArray[DesignElemIndex].shape.destroy();
-            layer.draw();
-        }
-
-        if(DesignElemIndex < DynamicShapeArray.length-1)
-            DesignElemIndex+=1;
-    }
-    */
 } 
 
     //Get the span element and update the time to it
