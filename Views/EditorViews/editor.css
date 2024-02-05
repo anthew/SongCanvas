@@ -129,7 +129,7 @@ Style the canvas column
 
 #CanvasWindow{
   position: relative;
-  background-color: aqua;
+  background-color: black;
   width: auto;
   height: 500px;
 }
