@@ -384,19 +384,23 @@
                                                             Upload Image
                                                           </button> -->
                                                           
-                                                          <b>Name:</b><br>
-                                                          <input type="text" name="name" id="name">
+                                                          <b>File Input:</b><br>
+                                                          <input type="file" id="imgInput" multiple>
                                                           <br><br>
-  
-                                                          <b>Width:</b><br>
-                                                          <input type="text" name="width" id="width" required>
-                                                          <br><br>                        
+                                                          
+                                                          <b>Start Time:</b><br>
+                                                          <input type="text" id="backgroundStart" name="backgroundStart" placeholder="00:00.0">
+                                                          <br><br>
+
+                                                          <b>End Time:</b><br>
+                                                          <input type="text" id="backgroundEnd" name="backgroundEnd" placeholder="00:00.0">
+                                                          <br><br>
                                                         <!-- </form> -->
                                                       </div>
   
                                                       <div class="modal-footer"> 
                                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                          <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button>
+                                                          <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button>
                                                       </div>
                                                   </div>
                                                 </div>

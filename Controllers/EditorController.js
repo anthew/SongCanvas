@@ -1,3 +1,5 @@
+// ----------------------- Initializations and Konva canvas setup ----------------------------------------
+
 //Create the stage
 var stage = new Konva.Stage({
     container: 'KonvaCanvas',
@@ -33,6 +35,8 @@ let ShapeEndArray = []; //Used to keep track of the shapes from earliest end tim
 let ShapeEndIndex = 0;
 
 
+
+// ----------------------- Polygons ----------------------------------------
 function createPolygon()
 {
     let shapeName = document.getElementById("shapeName").value;
@@ -164,32 +168,33 @@ addLyrics.addEventListener("click", createLyrics);
 
 
 // -------------------------- Background --------------------------------------
+
 //BackgroundLayer
-let backgroundArray = [
+// let backgroundArray = [
+//     {
+//         "startTime" : "00:05.2",
+//         "contentFile" : "/EditorMedia/nature.jpg"
+//     },
+//     {
+//         "startTime" : "00:10.4",
+//         "contentFile" : "/EditorMedia/AmongUs.jpg"
+//     },
+//     {
+//         "startTime" : "00:15.1",
+//         "contentFile" : "/EditorMedia/squidward.gif"
+//     },
+//     {
+//         "startTime" : "00:16.2",
+//         "contentFile" : "/EditorMedia/CarrieUnderwood.mp4"
+//     },
+//     {
+//         "startTime" : "00:25.2",
+//         "contentFile" : "/EditorMedia/nature.jpg"
+//     },
+// ]
 
-    {
-        "startTime" : "00:05.2",
-        "contentFile" : "/EditorMedia/nature.jpg"
-    },
-    {
-        "startTime" : "00:10.4",
-        "contentFile" : "/EditorMedia/AmongUs.jpg"
-    },
-    {
-        "startTime" : "00:15.1",
-        "contentFile" : "/EditorMedia/squidward.gif"
-    },
-    {
-        "startTime" : "00:16.2",
-        "contentFile" : "/EditorMedia/CarrieUnderwood.mp4"
-    },
-    {
-        "startTime" : "00:25.2",
-        "contentFile" : "/EditorMedia/nature.jpg"
-    },
-]
-
-
+let backgroundArray = [];
+let backgroundStartArray = [];
 
 let backgroundIndex = 0; //Keeps track of the current background were going to use
 var imageCont = document.getElementById('imageContent'); //Used to acces the image element and manipulate it
@@ -198,6 +203,49 @@ videoCont.muted=true; //Ensure that there is no audio coming from video
 
 //Audio
 const audio = document.getElementById('musicPlayer');
+
+let submitFile = document.getElementById('fileSubmit');
+submitFile.addEventListener("click", createBackground);
+
+// let imageInput = document.getElementById('imgInput').files[0];
+
+var imageReader = new FileReader();
+imageReader.onload = function(e)  {
+
+    imageCont.src = e.target.result;
+}
+ 
+var videoReader = new FileReader();
+videoReader.onload = function(e) {
+    videoCont.src = e.target.result;
+}
+
+// alert("Outside func");
+function createBackground(){
+    var BackgroundFileInput = document.getElementById('imgInput').files[0];
+
+    let backgroundStart = document.getElementById("backgroundStart").value;
+    // let backgroundEnd = document.getElementById("backgroundEnd").value;
+
+    var backgroundObject = {
+        "startTime" : backgroundStart,
+        "contentFile" : BackgroundFileInput,
+    }
+
+    // 00:01.0
+    // 00:05.0
+    // alert(backgroundStart);
+
+
+    backgroundArray.push(backgroundObject);
+
+    alert("Added file");
+    // imageCont.src = URL.createObjectURL(imageInput.files[0]);
+
+
+}
+
+// submitFile.addEventListener("", createBackground);
 
 //Keyboard Event Listner
 let paused = true; //Start it out as paused
@@ -266,26 +314,30 @@ function updateProjectElements(formattedTime){
     // audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
 
     //Change Background content if the upcoming background element's start time mathces the audio time
-    if(backgroundArray[backgroundIndex].startTime==formattedTime)
+    if(backgroundArray.length!=0 && backgroundArray[backgroundIndex].startTime==formattedTime)
     {
+        //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
         //if the current background elemnt to be displayed is a video load it to video element src
-        if(backgroundArray[backgroundIndex].contentFile.includes("mp4"))
+        if(backgroundArray[backgroundIndex].contentFile.name.includes("mp4"))
         {
             //load the video
-            videoCont.src = backgroundArray[backgroundIndex].contentFile;
-
+            //videoCont.src = backgroundArray[backgroundIndex].contentFile;
+            imageReader.abort();
+            videoReader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
             //play the video
             videoCont.play();
         }
         //else load content to image src
         else
         {
+            videoReader.abort();
             //Ensure there is no video playing and we got rid of the src
             videoCont.src = "";
-            videoCont.pause();
+            //videoCont.pause();
 
             //Update the background image
-            imageCont.src=backgroundArray[backgroundIndex].contentFile;
+            //imageCont.src=backgroundArray[backgroundIndex].contentFile;
+            imageReader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
         }
         
         //Increment background index if current index is not at the end of array
@@ -335,7 +387,7 @@ function updateProjectElements(formattedTime){
       const minutes = Math.floor(audio.currentTime / 60);
       const seconds = Math.floor(audio.currentTime % 60);
       const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
-      console.log(deciseconds);
+    //   console.log(deciseconds);
 
       // Format time string with leading zeros
       const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
