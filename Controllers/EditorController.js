@@ -155,7 +155,7 @@ var complexText = new Konva.Text({
     fontSize: 18,
     fontFamily: 'Calibri',
     fill: '#555',
-    width: 300, //without the width it will scale based on text
+    //width: 300, //without the width it will scale based on text
     padding: 20,
     align: 'center',
     id: 'P1',
@@ -175,7 +175,7 @@ function createLyrics () {
     let lyricsTextAreaStuff = document.getElementById("lyricsTextArea").value;
 
     //Add the lines to the table
-    lyricArray = lyricsTextAreaStuff.split('\n');
+    lyricArray = lyricsTextAreaStuff.split('\n~~~\n');
 
     //Set the properties (font-color, font-type, size, ...)
     text.setAttr("fontFamily", document.getElementById("lyricFontType").value);
