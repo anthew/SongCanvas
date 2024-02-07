@@ -217,9 +217,14 @@ addLyrics.addEventListener("click", createLyrics);
 // ]
 
 let backgroundArray = [];
-let backgroundStartArray = [];
+let backgroundArrayIndex = 0; //Keeps track of the current background were going to use
 
-let backgroundIndex = 0; //Keeps track of the current background were going to use
+let backgroundStartArray = [];
+let backgroundStartArrayIndex = 0;
+
+let backgroundEndArray = [];
+let backgroundEndArrayIndex = 0;
+
 var imageCont = document.getElementById('imageContent'); //Used to acces the image element and manipulate it
 var videoCont = document.getElementById('videoContent'); //Used to access the video element and manipulate it
 videoCont.muted=true; //Ensure that there is no audio coming from video
@@ -249,21 +254,32 @@ function createBackground(){
     var BackgroundFileInput = URL.createObjectURL(document.getElementById('imgInput').files[0]);
     var fileName = document.getElementById('imgInput').files[0].name;
 
-    let backgroundStart = document.getElementById("backgroundStart").value;
-    //let backgroundEnd = document.getElementById("backgroundEnd").value;
+    let backgroundStartTime = document.getElementById("backgroundStart").value;
+    let backgroundEndTime = document.getElementById("backgroundEnd").value;
+
+
 
     var backgroundObject = {
-        "startTime" : backgroundStart,
+        "backgroundStartTime" : backgroundStartTime,
+        "backgroundEndTime"   : backgroundEndTime,
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
     }
 
-    // 00:01.0
-    // 00:05.0
-    // alert(backgroundStart);
-
-
     backgroundArray.push(backgroundObject);
+
+
+    //Add the shape to an array that sorted by start time
+    backgroundStartArray.push(backgroundObject);
+    backgroundStartArray.sort(function (a, b) {
+        return a.backgroundStartTime.localeCompare(b.backgroundStartTime);
+    });
+
+    //Add the shape to an array that is sorted by end time
+    backgroundEndArray.push(backgroundObject);
+    backgroundEndArray.sort(function (a, b) {
+        return a.backgroundEndTime.localeCompare(b.backgroundEndTime);
+    });
 
     alert("Added file");
     // imageCont.src = URL.createObjectURL(imageInput.files[0]);
@@ -344,14 +360,14 @@ function updateProjectElements(formattedTime){
     // audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
 
     //Change Background content if the upcoming background element's start time mathces the audio time
-    if(backgroundArray.length!=0 && backgroundArray[backgroundIndex].startTime==formattedTime)
+    if(backgroundStartArray.length!=0 && backgroundStartArray[backgroundStartArrayIndex].backgroundStartTime==formattedTime)
     {
         //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
         //if the current background elemnt to be displayed is a video load it to video element src
-        if(backgroundArray[backgroundIndex].fileName.includes("mp4"))
+        if(backgroundStartArray[backgroundStartArrayIndex].fileName.includes("mp4"))
         {
             //Display and play video
-            videoCont.src = backgroundArray[backgroundIndex].contentFile;
+            videoCont.src = backgroundStartArray[backgroundStartArrayIndex].contentFile;
             videoCont.play();
         }
         //else load content to image src
@@ -362,13 +378,34 @@ function updateProjectElements(formattedTime){
             videoCont.pause();
 
             //Display image
-            imageCont.src = backgroundArray[backgroundIndex].contentFile;
+            imageCont.src = backgroundStartArray[backgroundStartArrayIndex].contentFile;
         }
         
         //Increment background index if current index is not at the end of array
-        if(backgroundIndex < backgroundArray.length-1)
-            backgroundIndex+=1;   
-    } 
+        if(backgroundStartArrayIndex < backgroundStartArray.length-1)
+            backgroundStartArrayIndex+=1;   
+    }
+    
+    // //Stop displaying video or image
+    if(backgroundEndArray.length!=0 && backgroundEndArray[backgroundEndArrayIndex].backgroundEndTime==formattedTime)
+    {
+        if(backgroundEndArray[backgroundEndArrayIndex].fileName.includes("mp4"))
+        {
+            //Display and play video
+            videoCont.src = "";
+            videoCont.pause();
+        }
+        //else load content to image src
+        else
+        {
+            //Display image
+            imageCont.src = "";
+        }
+
+
+        if(backgroundEndArrayIndex < backgroundEndArray.length-1)
+            backgroundEndArrayIndex+=1;
+    }
 
 
     /******************Manage shapes******************/ /*Note to self might need to work on formatted time. Program to slow to make changes in time*/
