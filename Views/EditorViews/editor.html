@@ -27,6 +27,7 @@
 
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     <!-- Dropdowns, Popovers, Tolltips -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -251,22 +252,59 @@
                                                         <!-- <button class="upload">
                                                           Upload Image
                                                         </button> -->
+
+                                                        <b>Shape Type:</b><br>
+                                                        <select name="shapeType" id="shapeType" onchange="shapeSelection();"> 
+                                                          <option value="Rectangle">Rectangle</option>
+                                                          <option value="Polygon">Polygon</option>
+                                                        </select>
+                                                        <br><br>
                                                         
                                                         <b>Name:</b><br>
                                                         <input type="text" name="shapeName" id="shapeName">
                                                         <br><br>
+                                                        
+                                                        <div id="PolygonOption" style="display:none;">
+                                                          <b>Number of Sides: </b><br>
+                                                          <input type="text" name="shapeSides" id="shapeSides" required>
+                                                          <br><br>
+                                                        </div>
 
-                                                        <b>Number of Sides: </b><br>
-                                                        <input type="text" name="shapeSides" id="shapeSides" required>
-                                                        <br><br>
+                                                        <div id="Polygon&CircleOption" style="display:none;">
+                                                          <b>Radius: </b><br>
+                                                          <input type="text" name="shapeRadius" id="shapeRadius">
+                                                          <br><br>
+                                                        </div>
+                                                        
+                                                        <div id="RectangleOption">
+                                                          <b>Width:</b><br>
+                                                          <input type="text" name="shapeWidth" id="shapeWidth" required>
+                                                          <br><br>
 
-                                                        <b>Width:</b><br>
-                                                        <input type="text" name="shapeWidth" id="shapeWidth" required>
-                                                        <br><br>
-
-                                                        <b>Height:</b><br>
+                                                          <b>Height:</b><br>
                                                           <input type="text" name="shapeHeight" id="shapeHeight">
-                                                        <br><br>
+                                                          <br><br>
+                                                        </div>
+
+                                                        <script>
+                                                          function shapeSelection()
+                                                          {
+                                                            switch(document.getElementById("shapeType").value)
+                                                            {
+                                                              case "Rectangle":
+                                                                document.getElementById("PolygonOption").style.setProperty("display", "none");
+                                                                document.getElementById("Polygon&CircleOption").style.setProperty("display", "none");
+                                                                document.getElementById("RectangleOption").style.setProperty("display", "block");
+                                                                break;
+
+                                                              case "Polygon":
+                                                                document.getElementById("PolygonOption").style.setProperty("display", "block");
+                                                                document.getElementById("Polygon&CircleOption").style.setProperty("display", "block");
+                                                                document.getElementById("RectangleOption").style.setProperty("display", "none");
+                                                                break;
+                                                            }
+                                                          }
+                                                        </script>
                                                         
                                                         <b>Opacity:</b><br>
                                                         <div class="block">
@@ -385,7 +423,7 @@
                                                           </button> -->
                                                           
                                                           <b>File Input:</b><br>
-                                                          <input type="file" id="imgInput" multiple>
+                                                          <input type="file" id="imgInput">
                                                           <br><br>
                                                           
                                                           <b>Start Time:</b><br>

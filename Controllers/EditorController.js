@@ -22,7 +22,7 @@ stage.add(layer);
 
 //Function deticated to creating shapes based on user input
 var addShapeToScreenButton = document.getElementById("shapeSubmit");
-addShapeToScreenButton.addEventListener("click", createPolygon);
+addShapeToScreenButton.addEventListener("click", createShape);
 
 //Array to hold shapes user has added 
 let ShapeArray = []; //Holds the information of a shape and it's start time, end time, and animation
@@ -36,9 +36,10 @@ let ShapeEndIndex = 0;
 
 
 
-// ----------------------- Polygons ----------------------------------------
-function createPolygon()
+// ----------------------- Shapes ----------------------------------------
+function createShape()
 {
+    //Grab all the values from the input fields in the pop-up
     let shapeName = document.getElementById("shapeName").value;
     let shapeWidth = document.getElementById("shapeWidth").value;
     let shapeHeight = document.getElementById("shapeHeight").value;
@@ -50,56 +51,78 @@ function createPolygon()
     let shapeSides = document.getElementById("shapeSides").value;
     let shapeAnimation_type = document.getElementById("shapeAnimation").value;
     let shapeOpacity = document.getElementById("shapeOpacity").value;
-
-    //Testing
     let shapeStartTime = document.getElementById("shapeStart-Time").value;
     let shapeEndTime = document.getElementById("shapeEnd-Time").value;
-    //Note the offset variable is used to center the animations 
-    var polygon = new Konva.RegularPolygon({
-        name: shapeName,
-        width: shapeWidth,
-        height: shapeHeight,
-        fill: shapeFill_color,
-        stroke: shapeStroke,
-        strokeWidth: shapeStrokeWidth,
-        x: shapeX, 
-        y: shapeY,
-        sides: shapeSides, 
-        visible: false, // Polygons are invisible by default
-        opacity: shapeOpacity,
-        offset: {
-            shapeX: shapeWidth/2,
-            shapeY: shapeHeight/2,
-        },
-    });    
-    // 
+    let shapeType = document.getElementById("shapeType").value;
+    let shapeRadius = document.getElementById("shapeRadius").value;
+
+
+    //Determine which type of shape user selected
+    if(shapeType=="Polygon")
+    {
+        var shape = new Konva.RegularPolygon({
+            name: shapeName,
+            fill: shapeFill_color,
+            stroke: shapeStroke,
+            strokeWidth: shapeStrokeWidth,
+            x: shapeX, 
+            y: shapeY,
+            radius: shapeRadius,
+            sides: shapeSides, 
+            visible: false, // Polygons are invisible by default
+            opacity: shapeOpacity,
+            offset: { //Note the offset variable is used to center the animations 
+                shapeX: shapeWidth/2,
+                shapeY: shapeHeight/2,
+            },
+        });    
+    }
+    else if(shapeType=="Rectangle")
+    {
+        var shape = new Konva.Rect({
+            name: shapeName,
+            width: shapeWidth,
+            height: shapeHeight,
+            fill: shapeFill_color,
+            stroke: shapeStroke,
+            strokeWidth: shapeStrokeWidth,
+            x: shapeX, 
+            y: shapeY, 
+            visible: false, // Polygons are invisible by default
+            opacity: shapeOpacity,
+            offset: {
+                x: shapeWidth/2,
+                y: shapeHeight/2,
+            },
+        });    
+    }
+
     // assign animation to the shape based on user selection
     if(shapeAnimation_type!="None")
     {
         //Determine if it's any of these options
         if(shapeAnimation_type=="Clockwise")
         {
-            
             shapeAnimation_type = new Konva.Animation(function (frame) {
-                polygon.rotate(1.5);
+                shape.rotate(1.5);
             }, layer);
         }
         else if(shapeAnimation_type=="Counter-Clockwise")
         {
             shapeAnimation_type = new Konva.Animation(function (frame) {
-                polygon.rotate(-1.5);
+                shape.rotate(-1.5);
             }, layer);
         }
     }
 
     //Add the newly created shape to the canvas
-    layer.add(polygon);
+    layer.add(shape);
 
     //Add the newly created shape to the array
     var newShape = {
         "shapeStartTime" : shapeStartTime,
         "shapeEndTime" : shapeEndTime,
-        "shape" : polygon, 
+        "shape" : shape, 
         "shapeAnimation" : shapeAnimation_type,
     }
 
@@ -209,27 +232,30 @@ submitFile.addEventListener("click", createBackground);
 
 // let imageInput = document.getElementById('imgInput').files[0];
 
-var imageReader = new FileReader();
-imageReader.onload = function(e)  {
-
-    imageCont.src = e.target.result;
-}
+// var imageReader = new FileReader();
+// imageReader.onload = function(e)  {
+//     imageCont.src = e.target.result;
+// }
  
-var videoReader = new FileReader();
-videoReader.onload = function(e) {
-    videoCont.src = e.target.result;
-}
+// var videoReader = new FileReader();
+// videoReader.onload = function(e) {
+//     videoCont.src = e.target.result;
+// }
 
 // alert("Outside func");
 function createBackground(){
-    var BackgroundFileInput = document.getElementById('imgInput').files[0];
+    
+    //Grab the inputed file
+    var BackgroundFileInput = URL.createObjectURL(document.getElementById('imgInput').files[0]);
+    var fileName = document.getElementById('imgInput').files[0].name;
 
     let backgroundStart = document.getElementById("backgroundStart").value;
-    // let backgroundEnd = document.getElementById("backgroundEnd").value;
+    //let backgroundEnd = document.getElementById("backgroundEnd").value;
 
     var backgroundObject = {
         "startTime" : backgroundStart,
         "contentFile" : BackgroundFileInput,
+        "fileName" : fileName,
     }
 
     // 00:01.0
@@ -241,8 +267,6 @@ function createBackground(){
 
     alert("Added file");
     // imageCont.src = URL.createObjectURL(imageInput.files[0]);
-
-
 }
 
 // submitFile.addEventListener("", createBackground);
@@ -284,14 +308,20 @@ document.addEventListener('keydown', function(event){
             if(paused==true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
             {
                 audio.pause();
-                videoCont.pause();
+
+                if(videoCont.src!="")
+                    videoCont.pause();
+                //videoCont.pause();
                 //alert(audioElement.currentTime);
             }
             else //If we are playing start the timer, video, and audio layers
             {
                 //alert("playing");
                 audio.play();
-                videoCont.play();
+
+                if(videoCont.src!="")
+                    videoCont.play();
+                //videoCont.play();
             }
 
             break;
@@ -318,26 +348,21 @@ function updateProjectElements(formattedTime){
     {
         //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
         //if the current background elemnt to be displayed is a video load it to video element src
-        if(backgroundArray[backgroundIndex].contentFile.name.includes("mp4"))
+        if(backgroundArray[backgroundIndex].fileName.includes("mp4"))
         {
-            //load the video
-            //videoCont.src = backgroundArray[backgroundIndex].contentFile;
-            imageReader.abort();
-            videoReader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
-            //play the video
+            //Display and play video
+            videoCont.src = backgroundArray[backgroundIndex].contentFile;
             videoCont.play();
         }
         //else load content to image src
         else
         {
-            videoReader.abort();
-            //Ensure there is no video playing and we got rid of the src
-            videoCont.src = "";
-            //videoCont.pause();
+            //Stop video
+            videoCont.src="";
+            videoCont.pause();
 
-            //Update the background image
-            //imageCont.src=backgroundArray[backgroundIndex].contentFile;
-            imageReader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
+            //Display image
+            imageCont.src = backgroundArray[backgroundIndex].contentFile;
         }
         
         //Increment background index if current index is not at the end of array
