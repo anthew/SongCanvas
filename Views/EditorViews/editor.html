@@ -145,19 +145,43 @@
                                                           Upload Image
                                                         </button> -->
                                                         
-                                                        <b>Name:</b><br>
-                                                        <input type="text" name="logoName" id="logoName">
+                                                        <b>File Input:</b><br>
+                                                          <input type="file" id="logoInput">
+                                                          <br><br>
+                                                        
+                                                        <b>Width:</b><br> 
+                                                        <input type="number" name="logoWidth" id="logoWidth" required>
+                                                        <br><br> 
+                                                        
+                                                        <b>Height:</b><br> 
+                                                        <input type="number" name="logoHeight" id="logoHeight" required>
                                                         <br><br>
 
-                                                        <b>Width:</b><br> 
-                                                        <input type="text" name="logoWidth" id="logoWidth" required>
-                                                        <br><br>                        
+                                                        <b>X location:</b><br> 
+                                                        <input type="number" name="logoX" id="logoX" required>
+                                                        <br><br>
+
+                                                        <b>Y location:</b><br> 
+                                                        <input type="number" name="logoY" id="logoY" required>
+                                                        <br><br>
+
+                                                        <b>Opacity:</b><br> 
+                                                        <input type="range" name="logoHeight" id="logoOpacity" min="0" max="1" value="1" step="0.1" required>
+                                                        <br><br>
+
+                                                        <!-- <b>Border Color:</b><br> 
+                                                        <input type="color" name="logoBorderColor" id="logoBorderColor">
+                                                        <br><br>
+                                                        
+                                                        <b>Border Width:</b><br> 
+                                                        <input type="number" name="logoBorderWidth" id="logoBorderWidth">
+                                                        <br><br> -->
                                                       <!-- </form> -->
                                                     </div>
 
                                                     <div class="modal-footer"> 
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" id="logoSubmit" class="btn btn-primary">Add to Screen</button>
+                                                        <button type="button" id="logoSubmit" class="btn btn-primary">Add Logo</button>
                                                     </div>
                                                 </div>
                                               </div>
@@ -221,7 +245,7 @@
                                                         <br><br>
 
                                                         <b>Font Size: </b><br>
-                                                        <input type="text" name="lyricFontSize" id="lyricFontSize" placeholder="Enter font-size number">
+                                                        <input type="number" name="lyricFontSize" id="lyricFontSize" placeholder="Enter font-size number">
                                                         <br><br>
 
                                                         <b>Font Color: </b><br>
@@ -285,23 +309,23 @@
                                                         
                                                         <div id="PolygonOption" style="display:none;">
                                                           <b>Number of Sides: </b><br>
-                                                          <input type="text" name="shapeSides" id="shapeSides" required>
+                                                          <input type="number" name="shapeSides" id="shapeSides" required>
                                                           <br><br>
                                                         </div>
 
                                                         <div id="Polygon&CircleOption" style="display:none;">
                                                           <b>Radius: </b><br>
-                                                          <input type="text" name="shapeRadius" id="shapeRadius">
+                                                          <input type="number" name="shapeRadius" id="shapeRadius">
                                                           <br><br>
                                                         </div>
                                                         
                                                         <div id="RectangleOption">
                                                           <b>Width:</b><br>
-                                                          <input type="text" name="shapeWidth" id="shapeWidth" required>
+                                                          <input type="number" name="shapeWidth" id="shapeWidth" required>
                                                           <br><br>
 
                                                           <b>Height:</b><br>
-                                                          <input type="text" name="shapeHeight" id="shapeHeight">
+                                                          <input type="number" name="shapeHeight" id="shapeHeight">
                                                           <br><br>
                                                         </div>
 
@@ -371,15 +395,15 @@
                                                         <br><br>
 
                                                         <b>Border Width:</b><br>
-                                                        <input type="text" name="shapeStrokeWidth" id="shapeStrokeWidth">
+                                                        <input type="number" name="shapeStrokeWidth" id="shapeStrokeWidth">
                                                         <br><br>
 
                                                         <b>X location:</b><br>
-                                                        <input type="text" name="shapeX" id="shapeX">
+                                                        <input type="number" name="shapeX" id="shapeX">
                                                         <br><br>
 
                                                         <b>Y location:</b><br>
-                                                        <input type="text" name="shapeY" id="shapeY">
+                                                        <input type="number" name="shapeY" id="shapeY">
                                                         <br><br>
 
                                                         <b>Animation:</b><br>
@@ -411,7 +435,45 @@
                                           </div>
                                           <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                             <div class="card-body">
-                                              to be added
+                                              <!-- to be added -->
+                                              <table id="shapeHierarchy">
+                                                <tr colspan="3" style="border: 1px solid black;">
+                                                  <td style="border: 1px solid black;">Name</td>
+                                                  <td style="border: 1px solid black;">Visibility</td>
+                                                  <td style="border: 1px solid black;">Delete</td>
+                                                </tr>
+                                              </table>
+
+                                              <script>
+                                                function addShapeName(shapes){
+                                                    alert(shapes);
+
+                                                    //Find shape from the array with the name
+
+                                                    //Once found load the attributes to the right
+                                                    
+                                                    //Display the necessary input fields for each attribute
+
+                                                    //
+
+              
+                                                }
+
+                                                function modifyShapeSight() {
+                                                  
+                                                  //Find the shape in it's array by it's name
+
+                                                  //Flip the state of the shapes visibilty
+                                                  
+                                                  
+                                                  alert('visible');
+                                                }
+
+                                                function deleteShape() {
+                                                    alert('delete');
+                                                }
+                                              </script>
+                                              
                                             </div>
                                           </div>
                                         </div>
@@ -465,7 +527,24 @@
                                             </div>
                                             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                                               <div class="card-body">
-                                                Insert Image(s)
+                                                <table id="backgroundHierarchy">
+                                                  <tr colspan="3" style="border: 1px solid black;">
+                                                    <td style="border: 1px solid black;">Name</td>
+                                                    <td style="border: 1px solid black;">Visibility</td>
+                                                    <td style="border: 1px solid black;">Delete</td>
+                                                  </tr>
+                                                </table>
+                                                <script>
+                                                  function addBackgroundName(fileName){
+                                                    alert(fileName);
+                                                  }
+                                                  function modifyBackgroundSight(){
+                                                    alert("background sight");
+                                                  }
+                                                  function deleteBackground(){
+                                                    alert("delete background");
+                                                  }
+                                                </script>
                                               </div>
                                             </div>
                                           </div>

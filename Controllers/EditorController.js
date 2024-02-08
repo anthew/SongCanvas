@@ -20,6 +20,51 @@ stage.add(layer);
 
 // anim.start();
 
+
+
+// ---------------------- Logo ------------------------------------------
+var addLogoToScreenButton = document.getElementById("logoSubmit");
+addLogoToScreenButton.addEventListener("click", createLogo);
+
+function createLogo(){
+    alert("Logo Selected");
+
+    let logoPic = document.getElementById("logoInput").files[0];
+    let logoWidth = document.getElementById("logoWidth").value;
+    let logoHeight = document.getElementById("logoHeight").value;
+    let logoX = document.getElementById("logoX").value;
+    let logoY = document.getElementById("logoY").value;
+    let logoOpacity = document.getElementById("logoOpacity").value;
+
+    alert(logoOpacity);
+    //let logoBorderColor = document.getElementById("logoBorderColor").value;
+    //let logoBorderWidth = document.getElementById("logoBorderWidth").value;
+
+    var imageObj = new Image();
+    imageObj.onload = function () {
+        var logo = new Konva.Image({
+            x: 150,
+            y: 150,
+            image: imageObj,
+            width: logoWidth,
+            height: logoHeight,
+            opacity: logoOpacity,
+            draggable: true,
+            
+        });
+        // add the logo to the layer
+        layer.add(logo);
+    };
+    
+    imageObj.src = URL.createObjectURL(logoPic);
+    
+    
+    alert("Logo Added");
+}
+
+
+// ----------------------- Shapes ----------------------------------------
+
 //Function deticated to creating shapes based on user input
 var addShapeToScreenButton = document.getElementById("shapeSubmit");
 addShapeToScreenButton.addEventListener("click", createShape);
@@ -34,9 +79,6 @@ let ShapeStartIndex = 0;
 let ShapeEndArray = []; //Used to keep track of the shapes from earliest end time to the latest end time
 let ShapeEndIndex = 0;
 
-
-
-// ----------------------- Shapes ----------------------------------------
 function createShape()
 {
     //Grab all the values from the input fields in the pop-up
@@ -141,9 +183,29 @@ function createShape()
         return a.shapeEndTime.localeCompare(b.shapeEndTime);
     });
 
+    let table = document.getElementById("shapeHierarchy");
+
+    let template = `
+        <tr id="addedShapeRow" >
+            <td id="addedShapeName" style="border: 1px solid black;">
+                <button class="addedShapeNameButton" onclick="addShapeName('${shapeName}')">${shapeName}</button>
+            </td>
+            <td id="addedShapeVisible" style="border: 1px solid black;">
+                <button class="addedShapeNameButton" onclick="modifyShapeSight()">${shapeWidth}</button>
+            </td>
+            <td id="deleteShape" style="border: 1px solid black;">
+                <button class="deleteShapeButton" onclick="deleteShape()">${shapeHeight}</button>
+            </td>
+        </tr>
+    `;
+
+    table.innerHTML += template;
+
     //Inidacte to user that the shape was added
     alert("Shape created");
 }
+
+
 
 // ----------------------- Lyrics ----------------------------------------
 //TextLayernp
@@ -257,8 +319,6 @@ function createBackground(){
     let backgroundStartTime = document.getElementById("backgroundStart").value;
     let backgroundEndTime = document.getElementById("backgroundEnd").value;
 
-
-
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
         "backgroundEndTime"   : backgroundEndTime,
@@ -267,7 +327,6 @@ function createBackground(){
     }
 
     backgroundArray.push(backgroundObject);
-
 
     //Add the shape to an array that sorted by start time
     backgroundStartArray.push(backgroundObject);
@@ -282,6 +341,24 @@ function createBackground(){
     });
 
     alert("Added file");
+
+    let table = document.getElementById("backgroundHierarchy");
+
+    let template = `
+        <tr id="addedBackgroundRow" >
+            <td id="addedBackgroundName" style="border: 1px solid black;">
+                <button class="addedBackgroundNameButton" onclick="addBackgroundName('${fileName}')">${fileName}</button>
+            </td>
+            <td id="addedBackgroundVisible" style="border: 1px solid black;">
+                <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()">${backgroundStartTime}</button>
+            </td>
+            <td id="deleteBackground" style="border: 1px solid black;">
+                <button class="deleteBackgroundButton" onclick="deleteBackground()">${backgroundEndTime}</button>
+            </td>
+        </tr>
+    `;
+
+    table.innerHTML += template;
     // imageCont.src = URL.createObjectURL(imageInput.files[0]);
 }
 
