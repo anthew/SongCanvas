@@ -165,9 +165,41 @@
                                                         <input type="number" name="logoY" id="logoY" required>
                                                         <br><br>
 
-                                                        <b>Opacity:</b><br> 
-                                                        <input type="range" name="logoHeight" id="logoOpacity" min="0" max="1" value="1" step="0.1" required>
-                                                        <br><br>
+                                                        <b>Opacity:</b><br>
+                                                        <div class="block">
+                                                          <input type="range" name="logoOpacity" id="logoOpacity" min="0" max="1" value="1" step="0.1" list="logoMarkers"> 
+                                                          <label id="logoOpacityValue"></label> 
+                                                        </div>
+                                                        <br>
+
+                                                        <!-- Used to update the label to reflect what value you are at on the range -->
+                                                        <script>
+                                                          const logoOpacityOutput = document.getElementById("logoOpacityValue");
+                                                          const logoOpacityInput = document.getElementById("logoOpacity");
+
+                                                          //Have label display the starting value
+                                                          logoOpacityOutput.innerText = logoOpacityInput.value;
+
+                                                          // When you move to a diffrent value in the range update the label to current value
+                                                          logoOpacityInput.addEventListener("input", (event) => {
+                                                            logoOpacityOutput.innerText = event.target.value;
+                                                          });
+                                                        </script>
+
+                                                        <!-- Used to add tick marks at every o.1 point -->
+                                                        <datalist id="logoMarkers">
+                                                          <option value="0"></option>
+                                                          <option value="0.1"></option>
+                                                          <option value="0.2"></option>
+                                                          <option value="0.3"></option>
+                                                          <option value="0.4"></option>
+                                                          <option value="0.5"></option>
+                                                          <option value="0.6"></option>
+                                                          <option value="0.7"></option>
+                                                          <option value="0.8"></option>
+                                                          <option value="0.9"></option>
+                                                          <option value="1"></option>
+                                                        </datalist>
 
                                                         <!-- <b>Border Color:</b><br> 
                                                         <input type="color" name="logoBorderColor" id="logoBorderColor">
@@ -251,6 +283,33 @@
                                                         <b>Font Color: </b><br>
                                                         <input type="color" name="lyricFontColor" id="lyricFontColor">
                                                         <br><br>
+
+                                                        <b>Background Option: </b><br>
+                                                        <input type="radio" name="lyricBackground" value="Disabled" onchange="lyricSelection();" checked> Disable
+                                                        <input type="radio" name="lyricBackground" value="Enabled" onchange="lyricSelection();"> Enable
+                                                        <br><br>
+
+                                                        <div id="lyricBackgroundOption" style="display:none;">
+                                                          <b>Background Color</b><br>
+                                                          <input type="color" id="lyricbackgroundColor">
+                                                          <br><br>
+                                                        </div>
+                                                        
+                                                        <script>
+                                                          function lyricSelection(){
+                                                            var lyricBackgroundSelection = document.getElementsByName("lyricBackground");
+
+                                                            //User selected the disabled button
+                                                            if(lyricBackgroundSelection[0].checked)
+                                                            {
+                                                              document.getElementById("lyricBackgroundOption").style.setProperty("display", "none");
+                                                            }
+                                                            else //User selected enable
+                                                            {
+                                                              document.getElementById("lyricBackgroundOption").style.setProperty("display", "block");
+                                                            }
+                                                          }
+                                                        </script>
                                                     </div>
 
                                                     <div class="modal-footer"> 

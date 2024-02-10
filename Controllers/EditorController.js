@@ -210,31 +210,66 @@ function createShape()
 // ----------------------- Lyrics ----------------------------------------
 //TextLayernp
 //const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
-var complexText = new Konva.Text({
+
+//Create Textbox by adding a Tag(background) and Text
+var textBox = new Konva.Label({
     x: 400,
     y: 180,
-    text: "",
-    fontSize: 18,
-    fontFamily: 'Calibri',
-    fill: '#555',
-    //width: 300, //without the width it will scale based on text
-    padding: 20,
-    align: 'center',
-    id: 'P1',
     draggable: true,
 });
 
-layer.add(complexText);
+textBox.add(
+    new Konva.Tag({
+        fill: 'yellow',
+        id: 'textBackground',
+    })
+);
+
+textBox.add(
+    new Konva.Text({
+        text: "",
+        fontSize: 18,
+        fontFamily: 'Calibri',
+        fill: '#555',
+        // padding: 20,
+        align: 'center',
+        id: 'P1',
+        // draggable: true,
+    })
+);
+
+layer.add(textBox);
+
+
+// var complexText = new Konva.Text({
+//     x: 400,
+//     y: 180,
+//     text: "",
+//     fontSize: 18,
+//     fontFamily: 'Calibri',
+//     fill: '#555',
+//     //width: 300, //without the width it will scale based on text
+//     padding: 20,
+//     align: 'center',
+//     id: 'P1',
+//     draggable: true,
+// });
+
+// layer.add(complexText);
 
 let lyricArray = []; //Used to store the lines entered in pop-up
 let indexVal = -1; //Start at the beggening of the array
 var text = layer.find('#P1')[0]; //Used to find the text box and change it's attributes
+var textBack = layer.find('#textBackground')[0]; //Used to modify the attributes of a text background
 
 //Populates the array with what the user has typed in and changes the text's properties
 function createLyrics () {
 
     //Grab the values from the text area in the pop-up
     let lyricsTextAreaStuff = document.getElementById("lyricsTextArea").value;
+
+    //Grab the radio buttons and check if the user had selected a colored background
+    var lyricBackgroundSelection = document.getElementsByName("lyricBackground");
 
     //Add the lines to the table
     lyricArray = lyricsTextAreaStuff.split('\n~~~\n');
@@ -243,6 +278,12 @@ function createLyrics () {
     text.setAttr("fontFamily", document.getElementById("lyricFontType").value);
     text.setAttr("fontSize", document.getElementById("lyricFontSize").value);
     text.setAttr("fill", document.getElementById("lyricFontColor").value);
+
+    //Set the properties of the background
+    if(lyricBackgroundSelection[1].checked) //If user had selected enable background color 
+        textBack.setAttr("fill", document.getElementById("lyricbackgroundColor").value);
+    else
+        textBack.setAttr("fill", "");
 
     console.log(lyricArray);
 }
