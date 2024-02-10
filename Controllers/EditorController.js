@@ -26,9 +26,32 @@ stage.add(layer);
 var addLogoToScreenButton = document.getElementById("logoSubmit");
 addLogoToScreenButton.addEventListener("click", createLogo);
 
-function createLogo(){
-    alert("Logo Selected");
+//Create the logo object once
+var logo = new Konva.Image({
+    // name: logoName,
+    //x: Number(logoX), //Needed to
+    //y: Number(logoY),
+    //image: imageObj,
+    //width: logoWidth,
+    //height: logoHeight,
+    //opacity: logoOpacity,
+    draggable: true,
+    id: "logo",    
+});
 
+// add the logo to the layer
+layer.add(logo);
+
+//Grab the logo object by it's id to edit it's attibutes
+var logoObject = layer.find('#logo')[0];
+
+//Boolean to check to dermine if a row has already been created
+var logoCreated = false;
+
+function createLogo(){
+    //alert("Logo Selected");
+
+    let logoName = document.getElementById("logoName").value;
     let logoPic = document.getElementById("logoInput").files[0];
     let logoWidth = document.getElementById("logoWidth").value;
     let logoHeight = document.getElementById("logoHeight").value;
@@ -36,28 +59,61 @@ function createLogo(){
     let logoY = document.getElementById("logoY").value;
     let logoOpacity = document.getElementById("logoOpacity").value;
 
-    alert(logoOpacity);
+    //alert(logoOpacity);
     //let logoBorderColor = document.getElementById("logoBorderColor").value;
     //let logoBorderWidth = document.getElementById("logoBorderWidth").value;
 
     var imageObj = new Image();
     imageObj.onload = function () {
-        var logo = new Konva.Image({
-            x: 150,
-            y: 150,
-            image: imageObj,
-            width: logoWidth,
-            height: logoHeight,
-            opacity: logoOpacity,
-            draggable: true,
+        logoObject.setAttr("name",logoName);
+        logoObject.setAttr("x",Number(logoX));
+        logoObject.setAttr("y",Number(logoY));     
+        logoObject.setAttr("image", imageObj);
+        logoObject.setAttr("width", logoWidth);
+        logoObject.setAttr("height", logoHeight);
+        logoObject.setAttr("opacity",logoOpacity);
+        logoObject.setAttr("draggable", true);
+
+
+        // var logo = new Konva.Image({
+        //     name: logoName,
+        //     x: Number(logoX), //Needed to
+        //     y: Number(logoY),
+        //     image: imageObj,
+        //     width: logoWidth,
+        //     height: logoHeight,
+        //     opacity: logoOpacity,
+        //     draggable: true,
             
-        });
-        // add the logo to the layer
-        layer.add(logo);
+        // });
+        // // add the logo to the layer
+        // layer.add(logo);
     };
     
     imageObj.src = URL.createObjectURL(logoPic);
     
+    let table = document.getElementById("logoHierarchy");
+
+    let template = `
+        <tr id="addedLogoRow">
+            <td id="addedLogoName" style="border: 1px solid black;"> 
+                <button class="addedLogoNameButton" onclick="editLogoAttributes('${logoName}')" style="background-color: white; border: none;">${logoName}</button>
+            </td>
+            <td id="addedLogoVisibility" style="border: 1px solid black;">
+                <button class="addedLogoVisibilityButton" onclick="toggleLogoVisibility('${logoName}')" style="background-color: white; border: none;"><img style="width: 26px;
+                height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+            </td>
+            <td id="deleteLogo" style="border: 1px solid black;">
+                <button class="deleteLogoButton" onclick="deleteLogo('${logoName}')" style="background-color: white; border: none;" ><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                height: 26px; "></button>
+            </td>
+        </tr>
+    `;
+
+    
+    table.innerHTML += template;
+    document.getElementById("logoPlusButton").style.setProperty("display", "none");
+
     
     alert("Logo Added");
 }
@@ -188,13 +244,13 @@ function createShape()
     let template = `
         <tr id="addedShapeRow" >
             <td id="addedShapeName" style="border: 1px solid black;">
-                <button class="addedShapeNameButton" onclick="addShapeName('${shapeName}')">${shapeName}</button>
+                <button class="addedShapeNameButton" onclick="addShapeName('${shapeName}')" style="background-color: white; border: none;">${shapeName}</button>
             </td>
             <td id="addedShapeVisible" style="border: 1px solid black;">
-                <button class="addedShapeNameButton" onclick="modifyShapeSight()">${shapeWidth}</button>
+                <button class="addedShapeNameButton" onclick="modifyShapeSight('${visible}')" style="background-color: white; border: none;">${shapeWidth}</button>
             </td>
             <td id="deleteShape" style="border: 1px solid black;">
-                <button class="deleteShapeButton" onclick="deleteShape()">${shapeHeight}</button>
+                <button class="deleteShapeButton" onclick="deleteShape()" style="background-color: white; border: none;">${shapeHeight}</button>
             </td>
         </tr>
     `;
@@ -288,7 +344,7 @@ function createLyrics () {
     console.log(lyricArray);
 }
 
-//Function deticated to creating shapes based on user input
+//Function dedicated to creating shapes based on user input
 var addLyrics = document.getElementById("lyricSubmit");
 addLyrics.addEventListener("click", createLyrics);
 
@@ -388,13 +444,13 @@ function createBackground(){
     let template = `
         <tr id="addedBackgroundRow" >
             <td id="addedBackgroundName" style="border: 1px solid black;">
-                <button class="addedBackgroundNameButton" onclick="addBackgroundName('${fileName}')">${fileName}</button>
+                <button class="addedBackgroundNameButton" onclick="addBackgroundName('${fileName}')" style="background-color: white; border: none;">${fileName}</button>
             </td>
             <td id="addedBackgroundVisible" style="border: 1px solid black;">
-                <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()">${backgroundStartTime}</button>
+                <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;">${backgroundStartTime}</button>
             </td>
             <td id="deleteBackground" style="border: 1px solid black;">
-                <button class="deleteBackgroundButton" onclick="deleteBackground()">${backgroundEndTime}</button>
+                <button class="deleteBackgroundButton" onclick="deleteBackground()" style="background-color: white; border: none;">${backgroundEndTime}</button>
             </td>
         </tr>
     `;

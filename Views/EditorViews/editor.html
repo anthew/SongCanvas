@@ -127,7 +127,7 @@
                                               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Logo
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal" id="plusButton">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal" id="logoPlusButton">
                                             </h5>
                                             <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
                                               <div class="modal-dialog modal-sm">
@@ -145,6 +145,10 @@
                                                           Upload Image
                                                         </button> -->
                                                         
+                                                        <b>Name:</b><br>
+                                                          <input type="text" name="logoName" id="logoName">
+                                                          <br><br>
+
                                                         <b>File Input:</b><br>
                                                           <input type="file" id="logoInput">
                                                           <br><br>
@@ -184,6 +188,24 @@
                                                           logoOpacityInput.addEventListener("input", (event) => {
                                                             logoOpacityOutput.innerText = event.target.value;
                                                           });
+                                                          
+                                                          
+
+                                                          function editLogoAttributes(logoName) {
+                                                            alert(logoName);
+                                                          } 
+
+                                                          function toggleLogoVisibility(logoName) {
+                                                            alert('hide');
+                                                            
+                                                          }
+
+                                                          function deleteLogo(logoName) {
+                                                            alert('delete logo');
+                                                          }
+
+
+
                                                         </script>
 
                                                         <!-- Used to add tick marks at every o.1 point -->
@@ -221,7 +243,13 @@
                                           </div>
                                           <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                             <div class="card-body">
-                                              Insert Logo
+                                              <table id="logoHierarchy">
+                                                <tr colspan="3" style="border: 1px solid black;">
+                                                  <td style="border: 1px solid black;">Name</td>
+                                                  <td style="border: 1px solid black;">Visibility</td>
+                                                  <td style="border: 1px solid black;">Delete</td>
+                                                </tr>
+                                              </table>
                                             </div>
                                           </div>
                                         </div>
@@ -233,7 +261,7 @@
                                               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Lyrics
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal" id="plusButton">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal" id="lyricsPlusButton">
                                             </h5>
 
                                             <div class="modal fade" id="lyricsModal" tabindex="-1" aria-labelledby="lyricsModalLabel" aria-hidden="true">
@@ -309,12 +337,30 @@
                                                               document.getElementById("lyricBackgroundOption").style.setProperty("display", "block");
                                                             }
                                                           }
+                                                          
+                                                          function hideLyricsPlusButton(){
+                                                            alert ("inside of toggle");
+                                                            const lyricsPlusButton = document.getElementById("lyricsPlusButton");
+                                                            // const currentDisplayValue = lyricsPlusButton.getAttribute("display");
+                                                            // console.log(currentDisplayValue);
+                                                            
+                                                            lyricsPlusButton.style.setProperty("display", "none");
+                                                            // if (currentDisplayValue == "none")
+                                                            // {
+                                                            //   lyricsPlusButton.style.setProperty("display", "block");
+                                                            //   alert("show");
+                                                            // }
+                                                            // else if (currentDisplayValue === "block") {
+                                                            //   lyricsPlusButton.style.setProperty("display", "none");
+                                                            //   alert("hide");
+                                                            // }
+                                                          }
                                                         </script>
                                                     </div>
 
                                                     <div class="modal-footer"> 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" id="lyricSubmit" class="btn btn-primary">Add to Screen</button>
+                                                        <button type="button" class="btn btn-secondary">Close</button>
+                                                        <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button>
                                                     </div>
                                                 </div>
                                               </div>
@@ -335,7 +381,7 @@
                                               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Design Elements
                                               </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal" id="plusButton">
+                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal" id="designElementsPlusButton">
                                             </h5>
                                             
                                             <!-- Design Element Creation pop-up -->
@@ -518,12 +564,12 @@
               
                                                 }
 
-                                                function modifyShapeSight() {
+                                                function modifyShapeSight(visible) {
                                                   
                                                   //Find the shape in it's array by it's name
 
                                                   //Flip the state of the shapes visibilty
-                                                  
+                                                  visible: false;
                                                   
                                                   alert('visible');
                                                 }
@@ -544,7 +590,7 @@
                                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                                   Background 
                                                 </button>
-                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal" id="plusButton">
+                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal" id="backgroundPlusButton">
                                               </h5>
                                               <div class="modal fade" id="backModal" tabindex="-1" aria-labelledby="backModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-sm">
