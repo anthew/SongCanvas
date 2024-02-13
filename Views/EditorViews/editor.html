@@ -550,26 +550,149 @@
                                               </table>
 
                                               <script>
-                                                function addShapeName(shapes){
-                                                    alert(shapes);
+                                                let ShapeArray = [];
+                                                let ShapeArrayIndex = 0;
+                                                
+                                                function editShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, 
+                                                shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, 
+                                                shapeEndTime, shapeType, shapeRadius){
 
-                                                    //Find shape from the array with the name
+                                                  console.log(shapeName + " " + shapeWidth + " " + shapeHeight + " " + shapeFill_color + " " + shapeStroke + 
+                                                " " + shapeStrokeWidth + " " + shapeX  + " " + shapeY + " " + shapeSides + " " + shapeAnimation_type + " " + shapeOpacity + " " + shapeStartTime + 
+                                                " " + shapeEndTime + " " + shapeType + " " + shapeRadius);
 
-                                                    //Once found load the attributes to the right
+                                                  // Find the propertiesPage element
+                                                  let propertiesPage = document.querySelector('.propertiesPage');
+
+                                                  // Create HTML content with shape details
+                                                  let shapeDetailsHTML = `
+                                                    <h2>Edit ${shapeName}</h2>
                                                     
-                                                    //Display the necessary input fields for each attribute
+                                                    <label for="editShapeType">Shape Type:</label>
+                                                    <select id="editShapeType">
+                                                        <option value="Rectangle" ${shapeType === 'Rectangle' ? 'selected' : ''}>Rectangle</option>
+                                                        <option value="Polygon" ${shapeType === 'Polygon' ? 'selected' : ''}>Polygon</option>
+                                                    </select>
 
-                                                    //
+                                                    <label for="editShapeWidth">Width:</label>
+                                                    <input type="number" id="editShapeWidth" value="${shapeWidth}">
+                                                    
+                                                    <label for="editShapeHeight">Height:</label>
+                                                    <input type="number" id="editShapeHeight" value="${shapeHeight}">
+                                                    
+                                                    <label for="editShapeFill">Fill Color:</label>
+                                                    <input type="color" id="editShapeFill" value="${shapeFill_color}">
+                                                    
+                                                    <label for="editShapeStroke">Stroke Color:</label>
+                                                    <input type="color" id="editShapeStroke" value="${shapeStroke}">
+                                                    
+                                                    <label for="editShapeStrokeWidth">Stroke Width:</label>
+                                                    <input type="number" id="editShapeStrokeWidth" value="${shapeStrokeWidth}">
+                                                    
+                                                    <label for="editShapeX">X:</label>
+                                                    <input type="number" id="editShapeX" value="${shapeX}">
+                                                    
+                                                    <label for="editShapeY">Y:</label>
+                                                    <input type="number" id="editShapeY" value="${shapeY}">
+                                                    
+                                                    <label for="editShapeSides">Number of Sides:</label>
+                                                    <input type="number" id="editShapeSides" value="${shapeSides}">
+                                                    
+                                                    <label for="editShapeRadius">Radius:</label>
+                                                    <input type="number" id="editShapeRadius" value="${shapeRadius}">
+                                                    
+                                                    <label for="editShapeAnimation">Animation Type:</label>
+                                                    <select id="editShapeAnimation">
+                                                        <option value="None" ${shapeAnimation_type === 'None' ? 'selected' : ''}>None</option>
+                                                        <option value="Clockwise" ${shapeAnimation_type === 'Clockwise' ? 'selected' : ''}>Clockwise</option>
+                                                        <option value="Counter-Clockwise" ${shapeAnimation_type === 'Counter-Clockwise' ? 'selected' : ''}>Counter-Clockwise</option>
+                                                    </select>
+                                                    
+                                                    <label for="editShapeOpacity">Opacity:</label>
+                                                    <input type="range" id="editShapeOpacity" min="0" max="1" step="0.1" value="${shapeOpacity}">
+                                                    <label id="editShapeOpacityValue">${shapeOpacity}</label>
+                                                    
+                                                    <button onclick="saveShapeChanges('${shapeName}', 
+                                                    '${shapeWidth}', '${shapeHeight}', '${shapeFill_color}', '${shapeStroke}', 
+                                                    '${shapeStrokeWidth}', '${shapeX}', '${shapeY}', '${shapeSides}', 
+                                                    '${shapeAnimation_type}', '${shapeOpacity}', '${shapeStartTime}', 
+                                                    '${shapeEndTime}', '${shapeType}', ${shapeRadius})">Save Changes</button>
+                                                `;
 
-              
+                                                  // Set the HTML content to the propertiesPage
+                                                  propertiesPage.innerHTML = shapeDetailsHTML;
+
+                                                  // Display the starting value
+                                                  editShapeOpacityOutput.innerText = editShapeOpacityInput.value;
+
+                                                  // Update the label to reflect the current value when the input changes
+                                                  editShapeOpacityInput.addEventListener("input", (event) => {
+                                                      editShapeOpacityOutput.innerText = event.target.value;
+                                                  });
+                                                  //Find shape from the array with the name
+
+                                                  //Once found load the attributes to the right
+                                                  
+                                                  //Display the necessary input fields for each attribute
+
+                                                  //
                                                 }
 
-                                                function modifyShapeSight(visible) {
+                                                function saveShapeChanges(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, 
+                                                shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, 
+                                                shapeEndTime, shapeType, shapeRadius) {
+                                                    // Retrieve values from input fields
+                                                    let newType = document.getElementById('editShapeType').value;
+                                                    let newWidth = document.getElementById('editShapeWidth').value;
+                                                    let newHeight = document.getElementById('editShapeHeight').value;
+                                                    let newFill = document.getElementById('editShapeFill').value;
+                                                    let newStroke = document.getElementById('editShapeStroke').value;
+                                                    let newStrokeWidth = document.getElementById('editShapeStrokeWidth').value;
+                                                    let newX = document.getElementById('editShapeX').value;
+                                                    let newY = document.getElementById('editShapeY').value;
+                                                    let newSides = document.getElementById('editShapeSides').value;
+                                                    let newRadius = document.getElementById('editShapeRadius').value;
+                                                    let newAnimationType = document.getElementById('editShapeAnimation').value;
+                                                    let newOpacity = document.getElementById('editShapeOpacity').value;
+
+                                                    // Find the shape in the ShapeArray by its name
+                                                    let shapeIndex = ShapeArray.findIndex(shape => shape.shape.attrs.name === shapeName);
+
+                                                    if (shapeIndex !== -1) {
+                                                        // Update the shape attributes
+                                                        ShapeArray[shapeIndex].shape.setAttrs({
+                                                            type: newType,
+                                                            width: parseFloat(newWidth), // Convert to float
+                                                            height: parseFloat(newHeight), // Convert to float
+                                                            fill: newFill,
+                                                            stroke: newStroke,
+                                                            strokeWidth: parseFloat(newStrokeWidth), // Convert to float
+                                                            x: parseFloat(newX), // Convert to float
+                                                            y: parseFloat(newY), // Convert to float
+                                                            sides: parseFloat(newSides), // Convert to float
+                                                            radius: parseFloat(newRadius), // Convert to float
+                                                            animationType: newAnimationType,
+                                                            opacity: parseFloat(newOpacity), // Convert to float
+                                                            // Update other attributes similarly
+                                                        });
+
+                                                        // Optionally update other arrays (ShapeStartArray, ShapeEndArray) based on new start and end times
+
+                                                        // Update the propertiesPage to reflect changes
+                                                        editShape(ShapeArray[shapeIndex].shape.attrs.name, newWidth, newHeight, newFill, newStroke, 
+                                                                  newStrokeWidth, newX, newY, newSides, newAnimationType, newOpacity, 
+                                                                  /* pass other attributes */);
+                                                    } else {
+                                                        console.error(`Shape with name ${shapeName} not found.`);
+                                                    }
+                                                }
+
+                                                function modifyShapeSight() {
                                                   
                                                   //Find the shape in it's array by it's name
 
                                                   //Flip the state of the shapes visibilty
-                                                  visible: false;
+                                                  
                                                   
                                                   alert('visible');
                                                 }
@@ -687,8 +810,9 @@
                                 </td>
                                 
                                 
-                                <!-- Drag & Drop Column -->
-                                <td width="15%" style="background-color: lightslategray;">
+                                <!-- Properties Column -->
+                                <td class="propertiesPage" width="15%" style="background-color: lightslategray;">
+                                  
                                 </td>
                         </tr>
                         <tr>

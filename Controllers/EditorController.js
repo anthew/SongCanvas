@@ -243,11 +243,15 @@ function createShape()
 
     let template = `
         <tr id="addedShapeRow" >
-            <td id="addedShapeName" style="border: 1px solid black;">
-                <button class="addedShapeNameButton" onclick="addShapeName('${shapeName}')" style="background-color: white; border: none;">${shapeName}</button>
+            <td id="editShape" style="border: 1px solid black;">
+                <button class="editShapeButton" onclick="editShape('${shapeName}', 
+                '${shapeWidth}', '${shapeHeight}', '${shapeFill_color}', '${shapeStroke}', 
+                '${shapeStrokeWidth}', '${shapeX}', '${shapeY}', '${shapeSides}', 
+                '${shapeAnimation_type}', '${shapeOpacity}', '${shapeStartTime}', 
+                '${shapeEndTime}', '${shapeType}', ${shapeRadius})" style="background-color: white; border: none;">${shapeName}</button>
             </td>
             <td id="addedShapeVisible" style="border: 1px solid black;">
-                <button class="addedShapeNameButton" onclick="modifyShapeSight('${visible}')" style="background-color: white; border: none;">${shapeWidth}</button>
+                <button class="addedShapeNameButton" onclick="modifyShapeSight()" style="background-color: white; border: none;">${shapeWidth}</button>
             </td>
             <td id="deleteShape" style="border: 1px solid black;">
                 <button class="deleteShapeButton" onclick="deleteShape()" style="background-color: white; border: none;">${shapeHeight}</button>
