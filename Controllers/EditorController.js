@@ -1,12 +1,13 @@
 // ----------------------- Initializations and Konva canvas setup ----------------------------------------
 
 //Calcualte the size of the stage
-//var canvasWidth = window.innerWidth (document.getElementById("CanvasColumn").getAttribute('width')/100);
-
+//console.log(window.innerWidth);
+var canvasWidth = window.innerWidth * (parseInt(document.getElementById("CanvasColumn").getAttribute('width'))/100);
+console.log(canvasWidth);
 //Create the stage
 var stage = new Konva.Stage({
     container: 'KonvaCanvas',
-    width: 1050,
+    width: canvasWidth-18,
     height: 500, 
 });
 
