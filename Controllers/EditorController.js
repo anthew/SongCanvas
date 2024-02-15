@@ -3,11 +3,12 @@
 //Calcualte the size of the stage
 //console.log(window.innerWidth);
 var canvasWidth = window.innerWidth * (parseInt(document.getElementById("CanvasColumn").getAttribute('width'))/100);
+//canvasWidth-16 test this later
 console.log(canvasWidth);
 //Create the stage
 var stage = new Konva.Stage({
     container: 'KonvaCanvas',
-    width: canvasWidth-18,
+    width: 1050,
     height: 500, 
 });
 
@@ -174,121 +175,145 @@ function createShape()
     let shapeType = document.getElementById("shapeType").value;
     let shapeRadius = document.getElementById("shapeRadius").value;
 
+    //Check if there are any duplicate names
+    var duplicatNameFound=false;
 
-    //Determine which type of shape user selected
-    if(shapeType=="Polygon")
-    {
-        var shape = new Konva.RegularPolygon({
-            name: shapeName,
-            fill: shapeFill_color,
-            stroke: shapeStroke,
-            strokeWidth: shapeStrokeWidth,
-            x: shapeX, 
-            y: shapeY,
-            radius: shapeRadius,
-            sides: shapeSides, 
-            visible: false, // Polygons are invisible by default
-            opacity: shapeOpacity,
-            offset: { //Note the offset variable is used to center the animations 
-                shapeX: shapeWidth/2,
-                shapeY: shapeHeight/2,
-            },
-        });    
-    }
-    else if(shapeType=="Rectangle")
-    {
-        var shape = new Konva.Rect({
-            name: shapeName,
-            width: shapeWidth,
-            height: shapeHeight,
-            fill: shapeFill_color,
-            stroke: shapeStroke,
-            strokeWidth: shapeStrokeWidth,
-            x: shapeX, 
-            y: shapeY, 
-            visible: false, // Polygons are invisible by default
-            opacity: shapeOpacity,
-            offset: {
-                x: shapeWidth/2,
-                y: shapeHeight/2,
-            },
-        });    
-    }
-
-    // assign animation to the shape based on user selection
-    if(shapeAnimation_type!="None")
-    {
-        //Determine if it's any of these options
-        if(shapeAnimation_type=="Clockwise")
+    //For every shape in ShapeArray
+    for(var i = 0; i < ShapeArray.length; i++){
+        //If the name is the 
+        if(ShapeArray[i].shapeName==shapeName)
         {
-            shapeAnimation_type = new Konva.Animation(function (frame) {
-                shape.rotate(1.5);
-            }, layer);
-        }
-        else if(shapeAnimation_type=="Counter-Clockwise")
+            duplicatNameFound=true;
+        }     
+    }
+
+
+    if(duplicatNameFound==false)
+    { //No duplicate names were found 
+     
+        //Determine which type of shape user selected
+        if(shapeType=="Polygon")
         {
-            shapeAnimation_type = new Konva.Animation(function (frame) {
-                shape.rotate(-1.5);
-            }, layer);
+            var shape = new Konva.RegularPolygon({
+                name: shapeName,
+                fill: shapeFill_color,
+                stroke: shapeStroke,
+                strokeWidth: shapeStrokeWidth,
+                x: shapeX, 
+                y: shapeY,
+                radius: shapeRadius,
+                sides: shapeSides, 
+                visible: false, // Polygons are invisible by default
+                opacity: shapeOpacity,
+                offset: { //Note the offset variable is used to center the animations 
+                    shapeX: shapeWidth/2,
+                    shapeY: shapeHeight/2,
+                },
+            });    
         }
+        else if(shapeType=="Rectangle")
+        {
+            var shape = new Konva.Rect({
+                name: shapeName,
+                width: shapeWidth,
+                height: shapeHeight,
+                fill: shapeFill_color,
+                stroke: shapeStroke,
+                strokeWidth: shapeStrokeWidth,
+                x: shapeX, 
+                y: shapeY, 
+                visible: false, // Polygons are invisible by default
+                opacity: shapeOpacity,
+                offset: {
+                    x: shapeWidth/2,
+                    y: shapeHeight/2,
+                },
+            });    
+        }
+
+        // assign animation to the shape based on user selection
+        if(shapeAnimation_type!="None")
+        {
+            //Determine if it's any of these options
+            if(shapeAnimation_type=="Clockwise")
+            {
+                shapeAnimation_type = new Konva.Animation(function (frame) {
+                    shape.rotate(1.5);
+                }, layer);
+            }
+            else if(shapeAnimation_type=="Counter-Clockwise")
+            {
+                shapeAnimation_type = new Konva.Animation(function (frame) {
+                    shape.rotate(-1.5);
+                }, layer);
+            }
+        }
+
+        //Add the newly created shape to the canvas
+        layer.add(shape);
+
+        //Add the newly created shape to the array
+        var newShape = {
+            "shapeStartTime" : shapeStartTime,
+            "shapeEndTime" : shapeEndTime,
+            "shape" : shape, 
+            "shapeAnimation" : shapeAnimation_type,
+            "shapeName": shapeName,
+        }
+
+        //Save the shape to array that will be used to store to database 
+        ShapeArray.push(newShape);
+
+        //Add the shape to an array that sorted by start time
+        ShapeStartArray.push(newShape);
+        ShapeStartArray.sort(function (a, b) {
+            return a.shapeStartTime.localeCompare(b.shapeStartTime);
+        });
+
+        //Add the shape to an array that is sorted by end time
+        ShapeEndArray.push(newShape);
+        ShapeEndArray.sort(function (a, b) {
+            return a.shapeEndTime.localeCompare(b.shapeEndTime);
+        });
+
+        let table = document.getElementById("shapeHierarchy");
+
+        let template = `
+            <tr id="addedShapeRow${shapeName}" >
+                <td id="editShape " style="border: 1px solid black;">
+                    <button id="editShapeButton${shapeName}" onclick="showEditShapeSection('${shapeName}', '${shapeType}')" style="background-color: white; border: none;">${shapeName}</button>
+                </td>
+                <td id="addedShapeVisible" style="border: 1px solid black;">
+                    <button id="addedShapeNameButton${shapeName}" onclick="modifyShapeSight('${shapeName}')" style="background-color: white; border: none;"><img style="width: 26px;
+                    height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+                </td>
+                <td id="deleteShape" style="border: 1px solid black;">
+                    <button id="deleteShapeButton${shapeName}" onclick="deleteShape('${shapeName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                    height: 26px; "></button>
+                </td>
+            </tr>
+        `;
+
+        table.innerHTML += template;
+
+        // console.log(document.getElementById("addedShapeRow"+shapeName).rowIndex);
+        //Inidacte to user that the shape was added
+        alert("Shape created");
+    } else {
+        alert('Duplicate found ' + shapeName);
+        duplicatNameFound = true;
     }
 
-    //Add the newly created shape to the canvas
-    layer.add(shape);
-
-    //Add the newly created shape to the array
-    var newShape = {
-        "shapeStartTime" : shapeStartTime,
-        "shapeEndTime" : shapeEndTime,
-        "shape" : shape, 
-        "shapeAnimation" : shapeAnimation_type,
-        "shapeName": shapeName,
-    }
-
-    //Save the shape to array that will be used to store to database 
-    ShapeArray.push(newShape);
-
-    //Add the shape to an array that sorted by start time
-    ShapeStartArray.push(newShape);
-    ShapeStartArray.sort(function (a, b) {
-        return a.shapeStartTime.localeCompare(b.shapeStartTime);
-    });
-
-    //Add the shape to an array that is sorted by end time
-    ShapeEndArray.push(newShape);
-    ShapeEndArray.sort(function (a, b) {
-        return a.shapeEndTime.localeCompare(b.shapeEndTime);
-    });
-
-    let table = document.getElementById("shapeHierarchy");
-
-    let template = `
-        <tr id="addedShapeRow" >
-            <td id="editShape " style="border: 1px solid black;">
-                <button class="editShapeButton" onclick="editShape('${shapeName}', '${shapeType}')" style="background-color: white; border: none;">${shapeName}</button>
-            </td>
-            <td id="addedShapeVisible" style="border: 1px solid black;">
-                <button class="addedShapeNameButton" onclick="modifyShapeSight('${shapeName}')" style="background-color: white; border: none;">${shapeWidth}</button>
-            </td>
-            <td id="deleteShape" style="border: 1px solid black;">
-                <button class="deleteShapeButton" onclick="deleteShape('${shapeName}')" style="background-color: white; border: none;">${shapeHeight}</button>
-            </td>
-        </tr>
-    `;
-
-    table.innerHTML += template;
-
-    //Inidacte to user that the shape was added
-    alert("Shape created");
 }
 
-export function editShape(shapeName, shapeType)
+// Takes the information from the shapes and puts it in the modal
+export function showEditShapeSection(shapeName, shapeType)
 {
     //Grab the shape to access it's properites
     var shape = stage.find('.' + shapeName)[0];
 
     //Display the edit popup if not already
-    document.getElementById("editPopUp").style.setProperty("display", "block");
+    document.getElementById("editShapePopUp").style.setProperty("display", "block");
 
     //Check what type of shape we selected
     if(shapeType=="Rectangle")
@@ -381,7 +406,8 @@ export function saveShapeChanges(shapeName, shapeType)
     
     shape.setAttr("opacity", document.getElementById("editShapeOpacity").value);
 
-    //Update the row name
+    //Update the name in the row
+    document.getElementById("editShapeButton" + shapeName).innerHTML = document.getElementById("editShapeName").value;
 
     //Update the startTime, EndTime, and name for the shapeArray, shapeStartArray, and shapeEndArray
     var shapeIndex = ShapeArray.findIndex(p=>p.shapeName == shapeName);
@@ -400,12 +426,14 @@ export function saveShapeChanges(shapeName, shapeType)
     ShapeEndArray[shapeEndIndex].shapeStartTime = document.getElementById("editShapeStartTime").value;
     ShapeEndArray[shapeEndIndex].shapeEndTime = document.getElementById("editShapeEndTime").value;
 
-    //Rename the id of the td and button to include the new name
+    //Rename the id of the tr and buttons + functions to include the new name
+    document.getElementById("editShapeButton" + shapeName).onclick = function() {showEditShapeSection(document.getElementById("editShapeName").value, shapeType)};
+    document.getElementById("editShapeButton" + shapeName).id = "editShapeButton" + document.getElementById("editShapeName").value;
 
     //Reasign the onclikc parameters to match the shapeName for visibility, delete, and name
     
     //Recall editShape to display the values *Might not need this
-    //editShape(document.getElementById("editShapeName").value, shapeType);
+    //showEditShapeSection(document.getElementById("editShapeName").value, shapeType);
 }
 
 export function modifyShapeSight(shapeName)
@@ -440,6 +468,8 @@ export function deleteShape(shapeName)
 
 
     //Delete the row in the table tied to the shape
+    //console.log(document.getElementById("addedShapeRow"+shapeName).rowIndex);
+    document.getElementById("shapeHierarchy").deleteRow(document.getElementById("addedShapeRow"+shapeName).rowIndex);
     //var index = row.parentNode.parentNode.rowIndex;
     //document.getElementById("shapeHierarchy").deleteRow(index);
 }
@@ -559,11 +589,11 @@ addLyrics.addEventListener("click", createLyrics);
 let backgroundArray = [];
 let backgroundArrayIndex = 0; //Keeps track of the current background were going to use
 
-let backgroundStartArray = [];
-let backgroundStartArrayIndex = 0;
+// let backgroundStartArray = [];
+// let backgroundStartArrayIndex = 0;
 
-let backgroundEndArray = [];
-let backgroundEndArrayIndex = 0;
+// let backgroundEndArray = [];
+// let backgroundEndArrayIndex = 0;
 
 var imageCont = document.getElementById('imageContent'); //Used to acces the image element and manipulate it
 var videoCont = document.getElementById('videoContent'); //Used to access the video element and manipulate it
@@ -595,11 +625,11 @@ function createBackground(){
     var fileName = document.getElementById('imgInput').files[0].name;
 
     let backgroundStartTime = document.getElementById("backgroundStart").value;
-    let backgroundEndTime = document.getElementById("backgroundEnd").value;
+    // let backgroundEndTime = document.getElementById("backgroundEnd").value;
 
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
-        "backgroundEndTime"   : backgroundEndTime,
+        // "backgroundEndTime"   : backgroundEndTime,
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
     }
@@ -607,37 +637,79 @@ function createBackground(){
     backgroundArray.push(backgroundObject);
 
     //Add the shape to an array that sorted by start time
-    backgroundStartArray.push(backgroundObject);
-    backgroundStartArray.sort(function (a, b) {
+    
+    backgroundArray.sort(function (a, b) {
         return a.backgroundStartTime.localeCompare(b.backgroundStartTime);
     });
 
     //Add the shape to an array that is sorted by end time
-    backgroundEndArray.push(backgroundObject);
-    backgroundEndArray.sort(function (a, b) {
-        return a.backgroundEndTime.localeCompare(b.backgroundEndTime);
-    });
+    // backgroundEndArray.push(backgroundObject);
+    // backgroundEndArray.sort(function (a, b) {
+    //     return a.backgroundEndTime.localeCompare(b.backgroundEndTime);
+    // });
 
     alert("Added file");
 
     let table = document.getElementById("backgroundHierarchy");
 
     let template = `
-        <tr id="addedBackgroundRow" >
+        <tr id="addedBackgroundRow${fileName}" >
             <td id="addedBackgroundName" style="border: 1px solid black;">
-                <button class="addedBackgroundNameButton" onclick="addBackgroundName('${fileName}')" style="background-color: white; border: none;">${fileName}</button>
+                <button class="addedBackgroundNameButton" onclick="showEditBackgroundSection('${fileName}')" style="background-color: white; border: none;">${fileName}</button>
             </td>
             <td id="addedBackgroundVisible" style="border: 1px solid black;">
-                <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;">${backgroundStartTime}</button>
+                <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;"><img style="width: 26px;
+                height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
             </td>
             <td id="deleteBackground" style="border: 1px solid black;">
-                <button class="deleteBackgroundButton" onclick="deleteBackground()" style="background-color: white; border: none;">${backgroundEndTime}</button>
+                <button class="deleteBackgroundButton" onclick="deleteBackground('${fileName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                height: 26px; "></button>
             </td>
         </tr>
     `;
 
     table.innerHTML += template;
     // imageCont.src = URL.createObjectURL(imageInput.files[0]);
+}
+
+export function showEditBackgroundSection(fileName) {
+    alert("In the function edit "+ fileName);
+
+    //Hide the shapePop or others if there not already
+    document.getElementById("editShapePopUp").style.setProperty("display", "none");
+    
+
+    //Display backgroundpop up if not already
+    document.getElementById("editBackgroundPopUp").style.setProperty("display", "block");
+
+    //Find the object that has the fileName
+
+    //Populate the fields with the the objects properties
+    
+}
+
+export function deleteBackground(fileName) {
+    //console.log("Before: " + backgroundArray);
+        //Loop through bacround array to find the object that contains file name and delete it
+    for(var i = 0; i < backgroundArray.length; i++)
+    {
+        //compare the current element's filename with the parameter if true delete the object at the index
+        if(backgroundArray[i].fileName==fileName)
+        {
+            //console.log("Found filename");
+            backgroundArray.splice(i, 1);
+        }
+    }
+    //console.log("after: " + backgroundArray);
+
+    //Delete the row of the file
+    document.getElementById("backgroundHierarchy").deleteRow(document.getElementById("addedBackgroundRow"+fileName).rowIndex);
+
+    //Set the filepath of imageCont and videoCont to be empty so that the background stops showing if it's currently showing when being deleted
+    imageCont.src = '';
+    videoCont.src = '';
+
+    alert('Delete image');
 }
 
 // submitFile.addEventListener("", createBackground);
@@ -698,6 +770,9 @@ document.addEventListener('keydown', function(event){
             break;
 
         //If any other button do nothing
+        // restart button
+        // case "r":
+
         default:
             return;
     }
@@ -715,14 +790,14 @@ function updateProjectElements(formattedTime){
     // audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
 
     //Change Background content if the upcoming background element's start time mathces the audio time
-    if(backgroundStartArray.length!=0 && backgroundStartArray[backgroundStartArrayIndex].backgroundStartTime==formattedTime)
+    if(backgroundArray.length!=0 && backgroundArray[backgroundArrayIndex].backgroundStartTime==formattedTime)
     {
         //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
         //if the current background elemnt to be displayed is a video load it to video element src
-        if(backgroundStartArray[backgroundStartArrayIndex].fileName.includes("mp4"))
+        if(backgroundArray[backgroundArrayIndex].fileName.includes("mp4"))
         {
             //Display and play video
-            videoCont.src = backgroundStartArray[backgroundStartArrayIndex].contentFile;
+            videoCont.src = backgroundArray[backgroundArrayIndex].contentFile;
             videoCont.play();
         }
         //else load content to image src
@@ -733,34 +808,34 @@ function updateProjectElements(formattedTime){
             videoCont.pause();
 
             //Display image
-            imageCont.src = backgroundStartArray[backgroundStartArrayIndex].contentFile;
+            imageCont.src = backgroundArray[backgroundArrayIndex].contentFile;
         }
         
         //Increment background index if current index is not at the end of array
-        if(backgroundStartArrayIndex < backgroundStartArray.length-1)
-            backgroundStartArrayIndex+=1;   
+        if(backgroundArrayIndex < backgroundArray.length-1)
+            backgroundArrayIndex+=1;   
     }
     
     // //Stop displaying video or image
-    if(backgroundEndArray.length!=0 && backgroundEndArray[backgroundEndArrayIndex].backgroundEndTime==formattedTime)
-    {
-        if(backgroundEndArray[backgroundEndArrayIndex].fileName.includes("mp4"))
-        {
-            //Display and play video
-            videoCont.src = "";
-            videoCont.pause();
-        }
-        //else load content to image src
-        else
-        {
-            //Display image
-            imageCont.src = "";
-        }
+    // if(backgroundEndArray.length!=0 && backgroundEndArray[backgroundEndArrayIndex].backgroundEndTime==formattedTime)
+    // {
+    //     if(backgroundEndArray[backgroundEndArrayIndex].fileName.includes("mp4"))
+    //     {
+    //         //Display and play video
+    //         videoCont.src = "";
+    //         videoCont.pause();
+    //     }
+    //     //else load content to image src
+    //     else
+    //     {
+    //         //Display image
+    //         imageCont.src = "";
+    //     }
 
 
-        if(backgroundEndArrayIndex < backgroundEndArray.length-1)
-            backgroundEndArrayIndex+=1;
-    }
+    //     if(backgroundEndArrayIndex < backgroundEndArray.length-1)
+    //         backgroundEndArrayIndex+=1;
+    // }
 
 
     /******************Manage shapes******************/ /*Note to self might need to work on formatted time. Program to slow to make changes in time*/
