@@ -312,6 +312,9 @@ export function showEditShapeSection(shapeName, shapeType)
     //Grab the shape to access it's properites
     var shape = stage.find('.' + shapeName)[0];
 
+    //Hid any other pop ups in the properties section
+    document.getElementById("editBackgroundPopUp").style.setProperty("display", "none"); 
+
     //Display the edit popup if not already
     document.getElementById("editShapePopUp").style.setProperty("display", "block");
 
@@ -630,6 +633,7 @@ function createBackground(){
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
         // "backgroundEndTime"   : backgroundEndTime,
+        "theFile": document.getElementById('imgInput').files[0],
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
     }
@@ -674,7 +678,7 @@ function createBackground(){
 
 export function showEditBackgroundSection(fileName) {
     alert("In the function edit "+ fileName);
-
+    var backgroundObjectFound;
     //Hide the shapePop or others if there not already
     document.getElementById("editShapePopUp").style.setProperty("display", "none");
     
@@ -682,10 +686,29 @@ export function showEditBackgroundSection(fileName) {
     //Display backgroundpop up if not already
     document.getElementById("editBackgroundPopUp").style.setProperty("display", "block");
 
+
     //Find the object that has the fileName
+    for(var i=0; i < backgroundArray.length; i++)
+    {
+        if(backgroundArray[i].fileName==fileName)
+            backgroundObjectFound = backgroundArray[i];
+    }
 
     //Populate the fields with the the objects properties
     
+    //document.getElementById('editFileInput').value = backgroundObjectFound.theFile;
+
+    //document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
+
+    //Change the function parementers in button for fileName
+    // document.getElementById("saveBackgroundButton").onclick = function() {saveBackgroundChanges(fileName)};
+    //document.getElementById("saveChangeButton").onclick = function() {saveShapeChanges(shapeName, shapeType)};
+
+    //document.getElementById('')
+}
+
+export function saveBackgroundChanges(){
+    alert("Ahoy!");
 }
 
 export function deleteBackground(fileName) {

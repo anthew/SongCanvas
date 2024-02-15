@@ -555,10 +555,14 @@
 
                                               <!-- Functions to use with buttons in heirarchy table -->
                                               <script type="module">
-                                                import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground} from "/EditorController.js";
+                                                import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground, saveBackgroundChanges} from "/EditorController.js";
+                                                
+                                                //Functions for background
                                                 window.showEditBackgroundSection = showEditBackgroundSection;
                                                 window.deleteBackground = deleteBackground;
+                                                window.saveBackgroundChanges = saveBackgroundChanges;
 
+                                                //Functions for shapes
                                                 window.deleteShape = deleteShape;
                                                 window.modifyShapeSight = modifyShapeSight;
                                                 window.showEditShapeSection = showEditShapeSection;
@@ -617,7 +621,7 @@
                                             </div>
                                             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                                               <div class="card-body">
-                                                <table id="backgroundHierarchy">
+                                                <table id="backgroundHierarchy" style="width: 30%;">
                                                   <tr colspan="3" style="border: 1px solid black;">
                                                     <td style="border: 1px solid black;">Name</td>
                                                     <td style="border: 1px solid black;">Visibility</td>
@@ -743,13 +747,14 @@
                                     <!-- File Name -->
                                     <!-- <label></label> -->
                                     <!-- File Input -->
-                                    <label>File Input:</label><br>
-                                    <input type="file" style="width: 80%;" id="editFileInput"><br>
+                                    <!-- <label>File Input:</label><br>
+                                    <input type="file" style="width: 80%;" id="editFileInput"><br> -->
                                     <!-- Start Time -->
-                                    <label>Start Time:</label><br>
-                                    <input type="text" id="editStartTime" style="width: 20%;"><br>
+                                    <!-- <label>Start Time:</label><br>
+                                    <input type="text" id="editStartTime"><br> -->
                                     <!-- Save background changes -->
-                                    <button id="saveBackground">
+                                    <!-- <br> -->
+                                    <button id="saveBackgroundButton" onclick="saveBackgroundChanges()">
                                       Save Changes
                                     </button>
                                   </div>
