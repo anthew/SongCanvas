@@ -25,7 +25,7 @@ export class Rectangle extends Shape {
         this.width = width;
     }
 
-    instantiateRectangle() {
+    instantiateKonvaShape() {
         this.konvaShape = new Konva.Rect({
             name: this.name,
             width: this.width,
@@ -76,5 +76,13 @@ export class Rectangle extends Shape {
     hideKonvaShape() {
         this.visible = false;
         this.konvaShape.hide();
+    }
+
+    startAnimation() {
+        this.animation.start();
+    }
+
+    stopAnimation() {
+        this.animation.stop();
     }
 }

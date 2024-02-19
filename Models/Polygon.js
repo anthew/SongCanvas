@@ -86,4 +86,11 @@ export class Polygon extends Shape {
         this.konvaShape.hide();
     }
 
+    startAnimation() {
+        this.animation.start();
+    }
+
+    stopAnimation() {
+        this.animation.stop();
+    }
 }

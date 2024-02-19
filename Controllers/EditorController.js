@@ -1,3 +1,6 @@
+import {Polygon} from '/Polygon.js';
+import {Rectangle} from '/Rectangle.js';
+
 // ----------------------- Initializations and Konva canvas setup ----------------------------------------
 
 //Calcualte the size of the stage
@@ -121,7 +124,7 @@ function createLogo(){
     alert("Logo Added");
 }
 
-function updateShapeAttributes()
+function updateShapeAttributes() // Still needs to be MVC
 {
     let newType = document.getElementById('editShapeType').value;
     let newWidth = document.getElementById('editShapeWidth').value;
@@ -187,48 +190,20 @@ function createShape()
         }     
     }
 
-
+    var shape;
     if(duplicatNameFound==false)
     { //No duplicate names were found 
      
         //Determine which type of shape user selected
         if(shapeType=="Polygon")
         {
-            var shape = new Konva.RegularPolygon({
-                name: shapeName,
-                fill: shapeFill_color,
-                stroke: shapeStroke,
-                strokeWidth: shapeStrokeWidth,
-                x: shapeX, 
-                y: shapeY,
-                radius: shapeRadius,
-                sides: shapeSides, 
-                visible: false, // Polygons are invisible by default
-                opacity: shapeOpacity,
-                offset: { //Note the offset variable is used to center the animations 
-                    shapeX: shapeWidth/2,
-                    shapeY: shapeHeight/2,
-                },
-            });    
+            shape = new Polygon(shapeName, shapeType, shapeX, shapeY, shapeStartTime, shapeEndTime, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeAnimation_type, shapeOpacity, shapeRadius, shapeSides);
+            shape.instantiateKonvaShape();
         }
         else if(shapeType=="Rectangle")
         {
-            var shape = new Konva.Rect({
-                name: shapeName,
-                width: shapeWidth,
-                height: shapeHeight,
-                fill: shapeFill_color,
-                stroke: shapeStroke,
-                strokeWidth: shapeStrokeWidth,
-                x: shapeX, 
-                y: shapeY, 
-                visible: false, // Polygons are invisible by default
-                opacity: shapeOpacity,
-                offset: {
-                    x: shapeWidth/2,
-                    y: shapeHeight/2,
-                },
-            });    
+            shape = new Rectangle(shapeName, shapeType, shapeX, shapeY, shapeStartTime, shapeEndTime, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeAnimation_type, shapeOpacity, shapeHeight, shapeWidth);
+            shape.instantiateKonvaShape();
         }
 
         // assign animation to the shape based on user selection
@@ -237,25 +212,29 @@ function createShape()
             //Determine if it's any of these options
             if(shapeAnimation_type=="Clockwise")
             {
-                shapeAnimation_type = new Konva.Animation(function (frame) {
-                    shape.rotate(1.5);
-                }, layer);
+                shape.setAnimation(
+                    new Konva.Animation(function (frame) {
+                        shape.getKonvaShape().rotate(1.5);
+                    }, layer)
+                );
             }
             else if(shapeAnimation_type=="Counter-Clockwise")
             {
-                shapeAnimation_type = new Konva.Animation(function (frame) {
-                    shape.rotate(-1.5);
-                }, layer);
+                shape.setAnimation(
+                    new Konva.Animation(function (frame) {
+                        shape.getKonvaShape().rotate(-1.5);
+                    }, layer)
+                );
             }
         }
 
         //Add the newly created shape to the canvas
-        layer.add(shape);
+        layer.add(shape.getKonvaShape());
 
         //Add the newly created shape to the array
         var newShape = {
-            "shapeStartTime" : shapeStartTime,
-            "shapeEndTime" : shapeEndTime,
+            "shapeStartTime" : shape.getStartTime(),
+            "shapeEndTime" : shape.getEndTime(),
             "shape" : shape, 
             "shapeAnimation" : shapeAnimation_type,
             "shapeName": shapeName,
@@ -267,13 +246,13 @@ function createShape()
         //Add the shape to an array that sorted by start time
         ShapeStartArray.push(newShape);
         ShapeStartArray.sort(function (a, b) {
-            return a.shapeStartTime.localeCompare(b.shapeStartTime);
+            return a.shape.getStartTime().localeCompare(b.shape.getStartTime());
         });
 
         //Add the shape to an array that is sorted by end time
         ShapeEndArray.push(newShape);
         ShapeEndArray.sort(function (a, b) {
-            return a.shapeEndTime.localeCompare(b.shapeEndTime);
+            return a.shape.getEndTime().localeCompare(b.shape.getEndTime());
         });
 
         let table = document.getElementById("shapeHierarchy");
@@ -377,7 +356,7 @@ export function showEditShapeSection(shapeName, shapeType)
     document.getElementById("saveChangeButton").onclick = function() {saveShapeChanges(shapeName, shapeType)};
 }
 
-export function saveShapeChanges(shapeName, shapeType)
+export function saveShapeChanges(shapeName, shapeType) // Needs to change for MVC
 {
     //Get the shape from the stage to set it's new attributes
     var shape = stage.find('.' + shapeName)[0];
@@ -433,7 +412,7 @@ export function saveShapeChanges(shapeName, shapeType)
     document.getElementById("editShapeButton" + shapeName).onclick = function() {showEditShapeSection(document.getElementById("editShapeName").value, shapeType)};
     document.getElementById("editShapeButton" + shapeName).id = "editShapeButton" + document.getElementById("editShapeName").value;
 
-    //Reasign the onclikc parameters to match the shapeName for visibility, delete, and name
+    //Reassign the onClick parameters to match the shapeName for visibility, delete, and name
     
     //Recall editShape to display the values *Might not need this
     //showEditShapeSection(document.getElementById("editShapeName").value, shapeType);
@@ -861,16 +840,16 @@ function updateProjectElements(formattedTime){
     // }
 
 
-    /******************Manage shapes******************/ /*Note to self might need to work on formatted time. Program to slow to make changes in time*/
+    /******************Manage shapes******************/ 
     if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
     {
         //Display the shape
-        ShapeStartArray[ShapeStartIndex].shape.show();
+        ShapeStartArray[ShapeStartIndex].shape.showKonvaShape();
 
         //Check if there is any animations for this shape
         //ShapeStartArray[ShapeStartIndex].animation.start(); 
-        if(ShapeStartArray[ShapeStartIndex].shapeAnimation!="None")
-            ShapeStartArray[ShapeStartIndex].shapeAnimation.start();
+        if(ShapeStartArray[ShapeStartIndex].shape.getAnimationType()!="None")
+            ShapeStartArray[ShapeStartIndex].shape.startAnimation();
 
         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
         if(ShapeStartIndex < ShapeArray.length-1)
@@ -880,11 +859,11 @@ function updateProjectElements(formattedTime){
     if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].shapeEndTime==formattedTime)
     {
         //Hide the shape
-        ShapeEndArray[ShapeEndIndex].shape.hide();
+        ShapeEndArray[ShapeEndIndex].shape.hideKonvaShape();
 
         //Stop the shapes animation if applicable
         if(ShapeEndArray[ShapeEndIndex].shapeAnimation!="None")
-            ShapeEndArray[ShapeEndIndex].shapeAnimation.stop();
+            ShapeEndArray[ShapeEndIndex].shape.stopAnimation();
         
         //Move to the next shape if it is available
         if(ShapeEndIndex < ShapeArray.length-1)
