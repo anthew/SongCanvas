@@ -20,6 +20,35 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 stage.add(layer);
 
+// //Testing with animation 
+// var anim = new Konva.Animation(function (frame) {
+//     var angleDiff = (frame.timeDiff * 90) / 1000;
+//     shapes.rotate(angleDiff);
+//   }, layer);
+
+// anim.start();
+
+// var canvas = document.createElement('canvas');
+
+// function onDrawFrame(ctx, frame) {
+//     // update canvas size
+//     canvas.width = 1050;
+//     canvas.height = 500;
+//     // update canvas that we are using for Konva.Image
+//     ctx.drawImage(frame.buffer, 0, 0);
+//     // redraw the layer
+//     layer.draw();
+// }
+
+// gifler("/EditorMedia/squidward.gif").frames(canvas, onDrawFrame);
+
+// var image = new Konva.Image({
+//     image: canvas,
+//     draggable: true,
+// });
+  
+// layer.add(image);
+
 //Testing with animation 
 // var anim = new Konva.Animation(function (frame) {
 //     var angleDiff = (frame.timeDiff * 90) / 1000;
@@ -120,10 +149,10 @@ function createLogo(){
     table.innerHTML += template;
     document.getElementById("logoPlusButton").style.setProperty("display", "none");
 
-    
     alert("Logo Added");
 }
 
+//I don't think we need this function right?
 function updateShapeAttributes() // Still needs to be MVC
 {
     let newType = document.getElementById('editShapeType').value;
@@ -612,7 +641,7 @@ function createBackground(){
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
         // "backgroundEndTime"   : backgroundEndTime,
-        "theFile": document.getElementById('imgInput').files[0],
+        //"theFile": document.getElementById('imgInput').files[0],
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
     }
@@ -638,14 +667,14 @@ function createBackground(){
     let template = `
         <tr id="addedBackgroundRow${fileName}" >
             <td id="addedBackgroundName" style="border: 1px solid black;">
-                <button class="addedBackgroundNameButton" onclick="showEditBackgroundSection('${fileName}')" style="background-color: white; border: none;">${fileName}</button>
+                <button id="showBackgroundButton${fileName}" onclick="showEditBackgroundSection('${fileName}')" style="background-color: white; border: none; width: 70px; white-space: nowrap; overflow: hidden;">${fileName}</button>
             </td>
             <td id="addedBackgroundVisible" style="border: 1px solid black;">
                 <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;"><img style="width: 26px;
                 height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
             </td>
             <td id="deleteBackground" style="border: 1px solid black;">
-                <button class="deleteBackgroundButton" onclick="deleteBackground('${fileName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                <button id="deleteBackgroundButton${fileName}" onclick="deleteBackground('${fileName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
                 height: 26px; "></button>
             </td>
         </tr>
@@ -658,6 +687,10 @@ function createBackground(){
 export function showEditBackgroundSection(fileName) {
     alert("In the function edit "+ fileName);
     var backgroundObjectFound;
+
+    //Make sure the file input of a prevous edit is gone 
+    document.getElementById('editFileInput').value='';
+
     //Hide the shapePop or others if there not already
     document.getElementById("editShapePopUp").style.setProperty("display", "none");
     
@@ -674,25 +707,64 @@ export function showEditBackgroundSection(fileName) {
     }
 
     //Populate the fields with the the objects properties
-    
-    //document.getElementById('editFileInput').value = backgroundObjectFound.theFile;
-
-    //document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
+    //Populate the fields with the the objects properties
+    document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
 
     //Change the function parementers in button for fileName
-    // document.getElementById("saveBackgroundButton").onclick = function() {saveBackgroundChanges(fileName)};
-    //document.getElementById("saveChangeButton").onclick = function() {saveShapeChanges(shapeName, shapeType)};
+    document.getElementById("saveBackgroundButton").onclick = function() {saveBackgroundChanges(fileName)};
 
-    //document.getElementById('')
+    console.log(document.getElementById("saveBackgroundButton"));
 }
 
-export function saveBackgroundChanges(){
-    alert("Ahoy!");
+export function saveBackgroundChanges(fileName){
+    var backgroundObjectFound;
+
+    //Find the background object to update
+    for(var i=0; i < backgroundArray.length; i++)
+    {
+        if(backgroundArray[i].fileName==fileName)
+            backgroundObjectFound = backgroundArray[i];
+    }
+
+    //Change the background objects attributes with the input fieds from the properites panel
+    backgroundObjectFound.backgroundStartTime = document.getElementById("editStartTime").value;
+
+    if(document.getElementById('editFileInput').files.length != 0) //If the user has selected a file then don't chnage the objexts propties for the file 
+    {
+        //Update the background object's file 
+        backgroundObjectFound.contentFile = URL.createObjectURL(document.getElementById('editFileInput').files[0]);
+        backgroundObjectFound.fileName = document.getElementById('editFileInput').files[0].name;
+    
+        //Update the file name
+        document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundObjectFound.fileName;
+    
+        //Update the functions with the new file name
+
+        
+        //document.getElementById("showBackgroundButton" + fileName).setAttribute("onclick");
+
+        //document.getElementById('showBackgroundButton' + fileName).removeAttribute('onclick'); //Use this incase the parameters are not being passed. Remove and placing it seemed to do the trick
+
+        document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `showEditBackgroundSection('${backgroundObjectFound.fileName}')`);
+        //document.getElementById('showBackgroundButton'+fileName).onclick = function() {showEditBackgroundSection(backgroundObjectFound.fileName)}
+        document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" + backgroundObjectFound.fileName;
+        
+        document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `deleteBackground('${backgroundObjectFound.fileName}')`);
+        //document.getElementById("deleteBackgroundButton" + fileName).onclick = function() {deleteBackground(backgroundObjectFound.fileName);};
+        document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundObjectFound.fileName;
+
+        //Update the tr id 
+        document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundObjectFound.fileName;
+
+        // console.log(document.getElementById("showBackgroundButton" + backgroundObjectFound.fileName));
+        // console.log(document.getElementById("deleteBackgroundButton" + backgroundObjectFound.fileName));
+    }
 }
 
 export function deleteBackground(fileName) {
     //console.log("Before: " + backgroundArray);
-        //Loop through bacround array to find the object that contains file name and delete it
+    alert(fileName);
+    //Loop through bacround array to find the object that contains file name and delete it
     for(var i = 0; i < backgroundArray.length; i++)
     {
         //compare the current element's filename with the parameter if true delete the object at the index
