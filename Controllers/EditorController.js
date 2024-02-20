@@ -365,6 +365,8 @@ export function showEditShapeSection(shapeName, shapeType)
 
     document.getElementById("editShapeOpacity").value = shape.getAttr("opacity");
 
+    // document.getElementById("editAnimationType").value = shape.getAttr("");
+
     //Update the opcaity label to mathc the slider vlaue
     const shapeEditOpacityOutput = document.getElementById("editShapeOpacityValue");
     const shapeEditOpacityInput = document.getElementById("editShapeOpacity");
@@ -444,6 +446,35 @@ export function saveShapeChanges(shapeName, shapeType) // Needs to change for MV
     
     ShapeClassObject.setShapeOpacity(document.getElementById("editShapeOpacity").value);
     shape.setAttr("opacity", document.getElementById("editShapeOpacity").value);
+
+    // Get the selected animation type from the dropdown
+    const shapeAnimationType = document.getElementById("editShapeAnimation").value;
+
+    // Apply animation based on the selected type
+    if (shapeAnimationType !== "None") {
+        let animationObject;
+
+        if (shapeAnimationType === "Clockwise") {
+            // Apply Clockwise animation logic here
+            animationObject = new Konva.Animation(function (frame) {
+                ShapeClassObject.getKonvaShape().rotate(1.5);
+            }, layer);
+        } else if (shapeAnimationType === "Counter-Clockwise") {
+            // Apply Counter-Clockwise animation logic here
+            animationObject = new Konva.Animation(function (frame) {
+                ShapeClassObject.getKonvaShape().rotate(-1.5);
+            }, layer);
+        }
+    
+        // Set the animation object
+        ShapeClassObject.setAnimation(animationObject);
+    
+        // Start the animation
+        ShapeClassObject.getAnimation().start();
+    } else {
+        // If the selected animation type is "None", remove any existing animation
+        ShapeClassObject.setAnimation(null);
+    }
 
     ShapeClassObject.setStartTime(document.getElementById("editShapeStartTime").value);
     ShapeClassObject.setEndTime(document.getElementById("editShapeEndTime").value);
