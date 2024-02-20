@@ -153,23 +153,23 @@ function createLogo(){
 }
 
 //I don't think we need this function right?
-function updateShapeAttributes() // Still needs to be MVC
-{
-    let newType = document.getElementById('editShapeType').value;
-    let newWidth = document.getElementById('editShapeWidth').value;
-    let newHeight = document.getElementById('editShapeHeight').value;
-    let newFill = document.getElementById('editShapeFill').value;
-    let newStroke = document.getElementById('editShapeStroke').value;
-    let newStrokeWidth = document.getElementById('editShapeStrokeWidth').value;
-    let newX = document.getElementById('editShapeX').value;
-    let newY = document.getElementById('editShapeY').value;
-    let newSides = document.getElementById('editShapeSides').value;
-    let newRadius = document.getElementById('editShapeRadius').value;
-    let newAnimationType = document.getElementById('editShapeAnimation').value;
-    let newOpacity = document.getElementById('editShapeOpacity').value;
+// function updateShapeAttributes() // Still needs to be MVC
+// {
+//     let newType = document.getElementById('editShapeType').value;
+//     let newWidth = document.getElementById('editShapeWidth').value;
+//     let newHeight = document.getElementById('editShapeHeight').value;
+//     let newFill = document.getElementById('editShapeFill').value;
+//     let newStroke = document.getElementById('editShapeStroke').value;
+//     let newStrokeWidth = document.getElementById('editShapeStrokeWidth').value;
+//     let newX = document.getElementById('editShapeX').value;
+//     let newY = document.getElementById('editShapeY').value;
+//     let newSides = document.getElementById('editShapeSides').value;
+//     let newRadius = document.getElementById('editShapeRadius').value;
+//     let newAnimationType = document.getElementById('editShapeAnimation').value;
+//     let newOpacity = document.getElementById('editShapeOpacity').value;
 
-    console.log(newWidth);
-}
+//     console.log(newWidth);
+// }
 
 
 // ----------------------- Shapes ----------------------------------------
@@ -387,38 +387,71 @@ export function showEditShapeSection(shapeName, shapeType)
 
 export function saveShapeChanges(shapeName, shapeType) // Needs to change for MVC
 {
+    var shape;
+    // var shape = stage.find('.' + shapeName)[0];
+    var ShapeClassObject; 
+    //Do a for loop to find the shape based on shape name
+    for(var i = 0; i < ShapeArray.length; i++){
+        if(ShapeArray[i].shapeName == shapeName)
+        {
+            shape = ShapeArray[i].shape.getKonvaShape();
+            ShapeClassObject = ShapeArray[i].shape;
+        }
+    }
+    
+    console.log(ShapeClassObject);
+   
     //Get the shape from the stage to set it's new attributes
-    var shape = stage.find('.' + shapeName)[0];
+    //var shape = stage.find('.' + shapeName)[0];
 
     //Determine what type of shape were acessing
     if(shapeType == "Rectangle")
     {
+        //Modify the konva shape values 
+        ShapeClassObject.setShapeWidth(document.getElementById("editShapeWidth").value);
+        ShapeClassObject.setShapeHeight(document.getElementById("editShapeHeight").value);
+
         shape.setAttr("width", document.getElementById("editShapeWidth").value); 
         shape.setAttr("height", document.getElementById("editShapeHeight").value);
     }
     else if(shapeType == "Polygon")
     {
+        ShapeClassObject.setShapeSides(document.getElementById("editShapeSides").value);
+        ShapeClassObject.setShapeRadius(document.getElementById("editShapeRadius").value);
+
         shape.setAttr("sides", document.getElementById("editShapeSides").value);
         shape.setAttr("radius", document.getElementById("editShapeRadius").value);
     }
 
     //Handle the rest of the common attributes
+    ShapeClassObject.setShapeName(document.getElementById("editShapeName").value);
     shape.setAttr("name", document.getElementById("editShapeName").value);
 
+    ShapeClassObject.setShapeFillColor(document.getElementById("editShapeFill").value);
     shape.setAttr("fill", document.getElementById("editShapeFill").value);
     
+    ShapeClassObject.setBorderColor(document.getElementById("editShapeStroke").value);
     shape.setAttr("stroke", document.getElementById("editShapeStroke").value);
     
+    ShapeClassObject.setBorderWidth(document.getElementById("editShapeStrokeWidth").value);
     shape.setAttr("strokeWidth", document.getElementById("editShapeStrokeWidth").value);
     
+    ShapeClassObject.setX_loc(document.getElementById("editShapeX").value);
     shape.setAttr("x", document.getElementById("editShapeX").value);
     
+    ShapeClassObject.setY_loc(document.getElementById("editShapeY").value);
     shape.setAttr("y", document.getElementById("editShapeY").value);
     
+    ShapeClassObject.setShapeOpacity(document.getElementById("editShapeOpacity").value);
     shape.setAttr("opacity", document.getElementById("editShapeOpacity").value);
 
+    ShapeClassObject.setStartTime(document.getElementById("editShapeStartTime").value);
+    ShapeClassObject.setEndTime(document.getElementById("editShapeEndTime").value);
+    
     //Update the name in the row
     document.getElementById("editShapeButton" + shapeName).innerHTML = document.getElementById("editShapeName").value;
+    document.getElementById("addedShapeRow" + shapeName).id = "addedShapeRow" + document.getElementById("editShapeName").value;
+
 
     //Update the startTime, EndTime, and name for the shapeArray, shapeStartArray, and shapeEndArray
     var shapeIndex = ShapeArray.findIndex(p=>p.shapeName == shapeName);
@@ -437,29 +470,53 @@ export function saveShapeChanges(shapeName, shapeType) // Needs to change for MV
     ShapeEndArray[shapeEndIndex].shapeStartTime = document.getElementById("editShapeStartTime").value;
     ShapeEndArray[shapeEndIndex].shapeEndTime = document.getElementById("editShapeEndTime").value;
 
-    //Rename the id of the tr and buttons + functions to include the new name
-    document.getElementById("editShapeButton" + shapeName).onclick = function() {showEditShapeSection(document.getElementById("editShapeName").value, shapeType)};
+    //Reasign the onclick and id of editShapeButton to the new name of the shape 
+    document.getElementById("editShapeButton" + shapeName).setAttribute("onClick", `showEditShapeSection('${document.getElementById("editShapeName").value}','${shapeType}')`);
     document.getElementById("editShapeButton" + shapeName).id = "editShapeButton" + document.getElementById("editShapeName").value;
 
-    //Reassign the onClick parameters to match the shapeName for visibility, delete, and name
-    
-    //Recall editShape to display the values *Might not need this
-    //showEditShapeSection(document.getElementById("editShapeName").value, shapeType);
+    //Reassign the new name to the shapeVisibilitybutton
+    document.getElementById("addedShapeNameButton" + shapeName).setAttribute("onClick", `modifyShapeSight('${document.getElementById("editShapeName").value}')`);
+    document.getElementById("addedShapeNameButton" + shapeName).id = "addedShapeNameButton" + document.getElementById("editShapeName").value;
+
+    //Reassign the new name to the delete button
+    document.getElementById("deleteShapeButton" + shapeName).setAttribute("onClick", `deleteShape('${document.getElementById("editShapeName").value}')`);
+    document.getElementById("deleteShapeButton" + shapeName).id = "deleteShapeButton" + document.getElementById("editShapeName").value;
+
+    console.log(document.getElementById("editShapeButton" + document.getElementById("editShapeName").value));
+    console.log(document.getElementById("addedShapeNameButton" + document.getElementById("editShapeName").value));
+
+    console.log(ShapeClassObject);
 }
 
 export function modifyShapeSight(shapeName)
 {
+    alert(shapeName);
     //Find the shape in the layer
     var shape = stage.find('.' + shapeName)[0];
 
     //Change the shape visibility
+    
     shape.setAttr("visible",!shape.getAttr("visible"));
+    layer.draw();
+    alert(shape.getAttr("visible"));
 }
 
 export function deleteShape(shapeName)
 {
     //Find the shape in the layer
-    var shape = stage.find('.' + shapeName)[0];
+    //var shape = stage.find('.' + shapeName)[0];
+
+    var shape;
+    // var shape = stage.find('.' + shapeName)[0];
+    var ShapeClassObject; 
+    //Do a for loop to find the shape based on shape name
+    for(var i = 0; i < ShapeArray.length; i++){
+        if(ShapeArray[i].shapeName == shapeName)
+        {
+            shape = ShapeArray[i].shape.getKonvaShape();
+            ShapeClassObject = ShapeArray[i].shape;
+        }
+    }
 
     //Delete entry relanted to shape in shapeArray, ShapeStartarray, and ShapeEndArray
     var shapeIndex = ShapeArray.findIndex(p=>p.shapeName == shapeName);
@@ -469,15 +526,10 @@ export function deleteShape(shapeName)
     ShapeArray.splice(shapeIndex, 1);
     ShapeStartArray.splice(shapeStartIndex, 1);
     ShapeEndArray.splice(shapeEndIndex, 1);
-
-    // console.log("Shape Array: "+ ShapeArray);
-    // console.log("Start Array: "+ ShapeStartArray);
-    // console.log("End Array: " + ShapeEndArray);
     
     //Destory the shape
     shape.destroy();
-
-
+    
     //Delete the row in the table tied to the shape
     //console.log(document.getElementById("addedShapeRow"+shapeName).rowIndex);
     document.getElementById("shapeHierarchy").deleteRow(document.getElementById("addedShapeRow"+shapeName).rowIndex);
@@ -641,7 +693,7 @@ function createBackground(){
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
         // "backgroundEndTime"   : backgroundEndTime,
-        //"theFile": document.getElementById('imgInput').files[0],
+        "theFile": document.getElementById('imgInput').files[0], //USed to store the file into the user media folder
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
     }

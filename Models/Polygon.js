@@ -48,6 +48,64 @@ export class Polygon extends Shape {
         return this.konvaShape;
     }
 
+    // ------------------------------------------- Setters ------------------------------
+    setShapeSides(sides){
+        this.sides = sides;
+    }
+
+    setShapeRadius(radius){
+        this.radius = radius;
+    }
+    
+    setShapeFillColor(fillColor){
+        this.fillColor = fillColor;
+    }
+
+    setX_loc(xLoc) {
+        this.xLoc = xLoc;
+    }
+
+    setY_loc(yLoc) {
+        this.yLoc = yLoc;
+    }
+    
+    setShapeOpacity(opacity){
+        this.opacity = opacity;        
+    }
+    
+    setBorderColor(borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    setBorderWidth(borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+    
+    setStartTime(startTime){
+        this.startTime = startTime;
+    }
+    
+    setEndTime(endTime) {
+        this.endTime = endTime;
+    }
+
+    setAnimation(animation) {
+        this.animation = animation;
+    }
+
+    setAnimationType(animationType) {
+        this.animationType = animationType;
+    }
+
+    setShapeName(name){
+        this.name = name;
+    }
+
+    setAnimation(animation) {
+        this.animation = animation;
+    }
+
+    // ------------------------------------------- Getters ------------------------------
     getKonvaShape() {
         return this.konvaShape;
     }
@@ -66,10 +124,6 @@ export class Polygon extends Shape {
 
     getAnimationType() {
         return this.animationType;
-    }
-
-    setAnimation(animation) {
-        this.animation = animation;
     }
 
     getAnimation(){

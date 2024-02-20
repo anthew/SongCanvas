@@ -44,6 +44,61 @@ export class Rectangle extends Shape {
         });  
     }
 
+    //----------------------------------------Setters------------------------------------------
+    setShapeWidth(width){
+        this.width = width
+    }
+
+    setShapeHeight(height) {
+        this.height = height;
+    }   
+
+    setShapeFillColor(fillColor){
+        this.fillColor = fillColor;
+    }
+
+    setX_loc(xLoc) {
+        this.xLoc = xLoc;
+    }
+
+    setY_loc(yLoc) {
+        this.yLoc = yLoc;
+    }
+    
+    setShapeOpacity(opacity){
+        this.opacity = opacity;        
+    }
+    
+    setBorderColor(borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    setBorderWidth(borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+    
+    setStartTime(startTime){
+        this.startTime = startTime;
+    }
+    
+    setEndTime(endTime) {
+        this.endTime = endTime;
+    }
+
+    setAnimation(animation) {
+        this.animation = animation;
+    }
+
+    setAnimationType(animationType) {
+        this.animationType = animationType;
+    }
+
+    setShapeName(name){
+        this.name = name;
+    }
+
+    //----------------------------------------------------getters-----------------------------------------------
+    
     getKonvaShape() {
         return this.konvaShape;
     }
@@ -55,18 +110,20 @@ export class Rectangle extends Shape {
     getEndTime() {
         return this.endTime;
     }
-
+    
     getAnimationType() {
         return this.animationType;
-    }
-
-    setAnimation(animation) {
-        this.animation = animation;
     }
 
     getAnimation(){
         return this.animation;
     }
+
+    getShapeType() {
+        return this.shapeType;
+    }
+
+    // other functions
 
     showKonvaShape() {
         this.visible = true;
