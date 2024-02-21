@@ -80,7 +80,7 @@
                                         <li><a href="#">Redo</a></li>
                                         <li><a href="#">Discard Changes</a></li>
                                     </ul>
-                                </div>
+                                <!-- </div> -->
                             </th>
                             
                             <th id="view" scope="col"><div class="dropdown">
@@ -90,16 +90,16 @@
                                     <li><a href="#">Display Hierarchy</a></li>
                                     <li><a href="#">Display Drag and Drop Option</a></li>
                                     <li><a href="#">Hide or Show Timeline</a></li>
-                                    <li><a href="#">Zoom Out</a></li>
-                                    <li><a href="#">Zoom In</a></li>
-                                    <li><a href="#">Fullscreen</a></li>
+                                    <li><a id="zoomOut">Zoom Out</a></li>
+                                    <li><a id="zoomIn">Zoom In</a></li>
+                                    <li><a id="fullScreen">Fullscreen</a></li>
                                     <li><a href="#">Change Theme</a></li>
                                     <hr>
-                                    <li><a href="#">Play Video</a></li>
-                                    <li><a href="#">Pause Video</a></li>
-                                    <li><a href="#">Restart Video</a></li>
+                                    <li><a id="playVideo">Play Video</a></li>
+                                    <li><a id="pauseVideo">Pause Video</a></li>
+                                    <li><a id="restartVideo">Restart Video</a></li>
                                 </ul>
-                            </div>
+                            <!-- </div> -->
                         </th>
                         
                         </tr>
@@ -107,488 +107,40 @@
                 </table>
             </div>
 
+            <div id="zoomableContent">
+              <div class="context-table">
+                  <table class="table table-white">
+                      <!-- <thead>
+                          <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">First</th>
+                              <th scope="col">Last</th>
+                              <th scope="col">Handle</th>
+                          </tr>
+                      </thead> -->
+                      <tbody>
+                          <tr>
+                              <!-- <th scope="row">1</th> -->
 
-            <div class="context-table">
-                <table class="table table-white">
-                    <!-- <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead> -->
-                    <tbody>
-                        <tr>
-                            <!-- <th scope="row">1</th> -->
-
-                            <!-- Hierarchy Column -->
-                                <td width="15%" style="background-color: lightslategray;">
-                                    Hierarchy
-                                    <div class="accordion" id="accordionExample">
-                                        
-                                        <!-- Heading one for the logo tab in the hierarchy -->
-                                        <div class="card">
-                                          <div class="card-header" id="headingOne">
-                                            <h5 class="mb-0">
-                                              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                Logo
-                                              </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal" id="logoPlusButton">
-                                            </h5>
-                                            <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
-                                              <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="logoModalLabel">Add Properties of Logo</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    
-                                                    <!-- add for the input -->
-                                                    <!-- wait so this modal is properties? -->
-                                                    <div class="modal-body"> 
-                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
-                                                        <!-- <button class="upload">
-                                                          Upload Image
-                                                        </button> -->
-                                                        
-                                                        <b>Name:</b><br>
-                                                          <input type="text" name="logoName" id="logoName">
-                                                          <br><br>
-
-                                                        <b>File Input:</b><br>
-                                                          <input type="file" id="logoInput">
-                                                          <br><br>
-                                                        
-                                                        <b>Width:</b><br> 
-                                                        <input type="number" name="logoWidth" id="logoWidth" required>
-                                                        <br><br> 
-                                                        
-                                                        <b>Height:</b><br> 
-                                                        <input type="number" name="logoHeight" id="logoHeight" required>
-                                                        <br><br>
-
-                                                        <b>X location:</b><br> 
-                                                        <input type="number" name="logoX" id="logoX" required>
-                                                        <br><br>
-
-                                                        <b>Y location:</b><br> 
-                                                        <input type="number" name="logoY" id="logoY" required>
-                                                        <br><br>
-
-                                                        <b>Opacity:</b><br>
-                                                        <div class="block">
-                                                          <input type="range" name="logoOpacity" id="logoOpacity" min="0" max="1" value="1" step="0.1" list="logoMarkers"> 
-                                                          <label id="logoOpacityValue"></label> 
-                                                        </div>
-                                                        <br>
-
-                                                        <!-- Used to update the label to reflect what value you are at on the range -->
-                                                        <script>
-                                                          const logoOpacityOutput = document.getElementById("logoOpacityValue");
-                                                          const logoOpacityInput = document.getElementById("logoOpacity");
-
-                                                          //Have label display the starting value
-                                                          logoOpacityOutput.innerText = logoOpacityInput.value;
-
-                                                          // When you move to a diffrent value in the range update the label to current value
-                                                          logoOpacityInput.addEventListener("input", (event) => {
-                                                            logoOpacityOutput.innerText = event.target.value;
-                                                          });
-                                                          
-                                                          
-
-                                                          function editLogoAttributes(logoName) {
-                                                            alert(logoName);
-                                                          } 
-
-                                                          function toggleLogoVisibility(logoName) {
-                                                            alert('hide');
-                                                            
-                                                          }
-
-                                                          function deleteLogo(logoName) {
-                                                            alert('delete logo');
-                                                          }
-
-
-
-                                                        </script>
-
-                                                        <!-- Used to add tick marks at every o.1 point -->
-                                                        <datalist id="logoMarkers">
-                                                          <option value="0"></option>
-                                                          <option value="0.1"></option>
-                                                          <option value="0.2"></option>
-                                                          <option value="0.3"></option>
-                                                          <option value="0.4"></option>
-                                                          <option value="0.5"></option>
-                                                          <option value="0.6"></option>
-                                                          <option value="0.7"></option>
-                                                          <option value="0.8"></option>
-                                                          <option value="0.9"></option>
-                                                          <option value="1"></option>
-                                                        </datalist>
-
-                                                        <!-- <b>Border Color:</b><br> 
-                                                        <input type="color" name="logoBorderColor" id="logoBorderColor">
-                                                        <br><br>
-                                                        
-                                                        <b>Border Width:</b><br> 
-                                                        <input type="number" name="logoBorderWidth" id="logoBorderWidth">
-                                                        <br><br> -->
-                                                      <!-- </form> -->
-                                                    </div>
-
-                                                    <div class="modal-footer"> 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" id="logoSubmit" class="btn btn-primary">Add Logo</button>
-                                                    </div>
-                                                </div>
-                                              </div>
-                                          </div>
-                                          </div>
-                                          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                              <table id="logoHierarchy">
-                                                <tr colspan="3" style="border: 1px solid black;">
-                                                  <td style="border: 1px solid black;">Name</td>
-                                                  <td style="border: 1px solid black;">Visibility</td>
-                                                  <td style="border: 1px solid black;">Delete</td>
-                                                </tr>
-                                              </table>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        
-                                        <!-- Heading two for the lyrics tab in the hierarchy -->
-                                        <div class="card">
-                                          <div class="card-header" id="headingTwo">
-                                            <h5 class="mb-0">
-                                              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                Lyrics
-                                              </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal" id="lyricsPlusButton">
-                                            </h5>
-
-                                            <div class="modal fade" id="lyricsModal" tabindex="-1" aria-labelledby="lyricsModalLabel" aria-hidden="true">
-                                              <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="lyricsModalLabel">Add Properties of Lyrics</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    
-                                                    <!-- add for the input -->
-                                                    <!-- wait so this modal is properties? -->
-                                                    <div class="modal-body"> 
-                                                      
-                                                      <!-- Input textfield for the lyrics -->
-                                                        <b>Lyrics:</b><br>
-                                                        <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"></textarea>
-                                                        <br><br>
-
-                                                        <b>Font Type: </b><br>
-                                                        <!-- <input type="text" name="lyricFontType" id="lyricFontType" placeholder="Enter font-type name">  -->
-                                                        <select name="lyricFontType" id="lyricFontType"> 
-                                                          <option value="Arial">Arial</option>
-                                                          <option value="Cambria">Cambria</option>
-                                                          <option value="Courier New">Courier New</option>
-                                                          <option value="Cursive">Cursive</option>
-                                                          <option value="system-ui">Default</option>
-                                                          <option value="Fantasy">Fantasy</option>
-                                                          <option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
-                                                          <option value="Georgia">Georgia</option>
-                                                          <option value="Gill Sans">Gill Sans</option>
-                                                          <option value="Impact">Impact</option>
-                                                          <option value="Lucida Sans">Lucida Sans</option>
-                                                          <option value="Monospace">Monospace</option>
-                                                          <option value="Sans-serif">Sans-serif</option>
-                                                          <option value="Segoe UI">Segoe UI</option>
-                                                          <option value="Serif">Seri</option>
-                                                          <option value="Times New Roman">Times New Roman</option>
-                                                          <option value="Trebuchet MS">Trebuchet MS</optionc>
-                                                        </select>
-                                                        <br><br>
-
-                                                        <b>Font Size: </b><br>
-                                                        <input type="number" name="lyricFontSize" id="lyricFontSize" placeholder="Enter font-size number">
-                                                        <br><br>
-
-                                                        <b>Font Color: </b><br>
-                                                        <input type="color" name="lyricFontColor" id="lyricFontColor">
-                                                        <br><br>
-
-                                                        <b>Background Option: </b><br>
-                                                        <input type="radio" name="lyricBackground" value="Disabled" onchange="lyricSelection();" checked> Disable
-                                                        <input type="radio" name="lyricBackground" value="Enabled" onchange="lyricSelection();"> Enable
-                                                        <br><br>
-
-                                                        <div id="lyricBackgroundOption" style="display:none;">
-                                                          <b>Background Color</b><br>
-                                                          <input type="color" id="lyricbackgroundColor">
-                                                          <br><br>
-                                                        </div>
-                                                        
-                                                        <script>
-                                                          function lyricSelection(){
-                                                            var lyricBackgroundSelection = document.getElementsByName("lyricBackground");
-
-                                                            //User selected the disabled button
-                                                            if(lyricBackgroundSelection[0].checked)
-                                                            {
-                                                              document.getElementById("lyricBackgroundOption").style.setProperty("display", "none");
-                                                            }
-                                                            else //User selected enable
-                                                            {
-                                                              document.getElementById("lyricBackgroundOption").style.setProperty("display", "block");
-                                                            }
-                                                          }
-                                                          
-                                                          function hideLyricsPlusButton(){
-                                                            alert ("inside of toggle");
-                                                            const lyricsPlusButton = document.getElementById("lyricsPlusButton");
-                                                            // const currentDisplayValue = lyricsPlusButton.getAttribute("display");
-                                                            // console.log(currentDisplayValue);
-                                                            
-                                                            lyricsPlusButton.style.setProperty("display", "none");
-                                                            // if (currentDisplayValue == "none")
-                                                            // {
-                                                            //   lyricsPlusButton.style.setProperty("display", "block");
-                                                            //   alert("show");
-                                                            // }
-                                                            // else if (currentDisplayValue === "block") {
-                                                            //   lyricsPlusButton.style.setProperty("display", "none");
-                                                            //   alert("hide");
-                                                            // }
-                                                          }
-                                                        </script>
-                                                    </div>
-
-                                                    <div class="modal-footer"> 
-                                                        <button type="button" class="btn btn-secondary">Close</button>
-                                                        <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button>
-                                                    </div>
-                                                </div>
-                                              </div>
-                                          </div>
-                                          </div>
-                                          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                              Something with lyrics
-                                            </div>
-                                          </div>
-                                        </div>
-                                        
-                                        <!-- Heading three for the design elements tab in the hierarchy -->
-                                        <div class="card">
-                                          <div class="card-header" id="headingThree">
-                                            <h5 class="mb-0">                                              
-                                              <!-- <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
-                                              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                Design Elements
-                                              </button>
-                                              <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal" id="designElementsPlusButton">
-                                            </h5>
-                                            
-                                            <!-- Design Element Creation pop-up -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                              <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Add Properties of Rectangle</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    
-                                                    <!-- add for the input -->
-                                                    <!-- wait so this modal is properties? -->
-                                                    <div class="modal-body"> 
-                                                      <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
-                                                        <!-- <button class="upload">
-                                                          Upload Image
-                                                        </button> -->
-
-                                                        <b>Shape Type:</b><br>
-                                                        <select name="shapeType" id="shapeType" onchange="shapeSelection();"> 
-                                                          <option value="Rectangle">Rectangle</option>
-                                                          <option value="Polygon">Polygon</option>
-                                                        </select>
-                                                        <br><br>
-                                                        
-                                                        <b>Name:</b><br>
-                                                        <input type="text" name="shapeName" id="shapeName">
-                                                        <br><br>
-                                                        
-                                                        <div id="PolygonOption" style="display:none;">
-                                                          <b>Number of Sides: </b><br>
-                                                          <input type="number" name="shapeSides" id="shapeSides" required>
-                                                          <br><br>
-                                                        </div>
-
-                                                        <div id="Polygon&CircleOption" style="display:none;">
-                                                          <b>Radius: </b><br>
-                                                          <input type="number" name="shapeRadius" id="shapeRadius">
-                                                          <br><br>
-                                                        </div>
-                                                        
-                                                        <div id="RectangleOption">
-                                                          <b>Width:</b><br>
-                                                          <input type="number" name="shapeWidth" id="shapeWidth" required>
-                                                          <br><br>
-
-                                                          <b>Height:</b><br>
-                                                          <input type="number" name="shapeHeight" id="shapeHeight">
-                                                          <br><br>
-                                                        </div>
-
-                                                        <script>
-                                                          function shapeSelection()
-                                                          {
-                                                            switch(document.getElementById("shapeType").value)
-                                                            {
-                                                              case "Rectangle":
-                                                                document.getElementById("PolygonOption").style.setProperty("display", "none");
-                                                                document.getElementById("Polygon&CircleOption").style.setProperty("display", "none");
-                                                                document.getElementById("RectangleOption").style.setProperty("display", "block");
-                                                                break;
-
-                                                              case "Polygon":
-                                                                document.getElementById("PolygonOption").style.setProperty("display", "block");
-                                                                document.getElementById("Polygon&CircleOption").style.setProperty("display", "block");
-                                                                document.getElementById("RectangleOption").style.setProperty("display", "none");
-                                                                break;
-                                                            }
-                                                          }
-                                                        </script>
-                                                        
-                                                        <b>Opacity:</b><br>
-                                                        <div class="block">
-                                                          <input type="range" name="shapeOpacity" id="shapeOpacity" min="0" max="1" value="1" step="0.1" list="markers"> 
-                                                          <label id="shapeOpacityValue"></label> 
-                                                        </div>
-                                                        <br>
-
-                                                        <!-- Used to update the label to reflect what value you are at on the range -->
-                                                        <script>
-                                                          const shapeOpacityOutput = document.getElementById("shapeOpacityValue");
-                                                          const shapeOpacityInput = document.getElementById("shapeOpacity");
-
-                                                          //Have label display the starting value
-                                                          shapeOpacityOutput.innerText = shapeOpacityInput.value;
-
-                                                          // When you move to a diffrent value in the range update the label to current value
-                                                          shapeOpacityInput.addEventListener("input", (event) => {
-                                                            shapeOpacityOutput.innerText = event.target.value;
-                                                          });
-                                                        </script>
-
-                                                        <!-- Used to add tick marks at every o.1 point -->
-                                                        <datalist id="markers">
-                                                          <option value="0"></option>
-                                                          <option value="0.1"></option>
-                                                          <option value="0.2"></option>
-                                                          <option value="0.3"></option>
-                                                          <option value="0.4"></option>
-                                                          <option value="0.5"></option>
-                                                          <option value="0.6"></option>
-                                                          <option value="0.7"></option>
-                                                          <option value="0.8"></option>
-                                                          <option value="0.9"></option>
-                                                          <option value="1"></option>
-                                                        </datalist>
-
-
-                                                        <b>Fill Color:</b><br>
-                                                        <input type="color" name="shapeFill" id="shapeFill">
-                                                        <br><br>
-
-                                                        <b>Border Color:</b><br>
-                                                        <input type="color" name="shapeStroke" id="shapeStroke">
-                                                        <br><br>
-
-                                                        <b>Border Width:</b><br>
-                                                        <input type="number" name="shapeStrokeWidth" id="shapeStrokeWidth">
-                                                        <br><br>
-
-                                                        <b>X location:</b><br>
-                                                        <input type="number" name="shapeX" id="shapeX">
-                                                        <br><br>
-
-                                                        <b>Y location:</b><br>
-                                                        <input type="number" name="shapeY" id="shapeY">
-                                                        <br><br>
-
-                                                        <b>Animation:</b><br>
-                                                        <select name="shapeAnimation" id="shapeAnimation"> 
-                                                          <option value="None">None</option>
-                                                          <option value="Clockwise">Clockwise</option>
-                                                          <option value="Counter-Clockwise">Counter-Clockwise</option>
-                                                        </select>
-                                                        <br><br>
-                                                        
-                                                        <b>Start Time:</b><br>
-                                                        <input type="text" name="shapeStart-Time" id="shapeStart-Time" placeholder="Enter as 'mm:ss.s' ">
-                                                        <br><br>
-
-                                                        <b>End Time:</b><br>
-                                                        <input type="text" name="shapeEnd-Time" id="shapeEnd-Time" placeholder="Enter as 'mm:ss.s'"> 
-                                                        <br><br>                           
-                                                      <!-- </form> -->
-                                                    </div>
-
-                                                    <div class="modal-footer"> 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button>
-                                                    </div>
-                                                </div>
-                                              </div>
-                                          </div>
-                                          <!-- End of the design element po -->
-                                          </div>
-                                          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                              <!-- to be added -->
-                                              <table id="shapeHierarchy">
-                                                <tr colspan="3" style="border: 1px solid black;">
-                                                  <td style="border: 1px solid black;">Name</td>
-                                                  <td style="border: 1px solid black;">Visibility</td>
-                                                  <td style="border: 1px solid black;">Delete</td>
-                                                </tr>
-                                              </table>
-
-                                              <!-- Functions to use with buttons in heirarchy table -->
-                                              <script type="module">
-                                                import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground, saveBackgroundChanges} from "/EditorController.js";
-                                                
-                                                //Functions for background
-                                                window.showEditBackgroundSection = showEditBackgroundSection;
-                                                window.deleteBackground = deleteBackground;
-                                                window.saveBackgroundChanges = saveBackgroundChanges;
-
-                                                //Functions for shapes
-                                                window.deleteShape = deleteShape;
-                                                window.modifyShapeSight = modifyShapeSight;
-                                                window.showEditShapeSection = showEditShapeSection;
-                                                window.saveShapeChanges = saveShapeChanges;
-                                              </script>                                            
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                        <!-- Heading four for the background tab in the hierarchy -->
-                                        <div class="card">
-                                            <div class="card-header" id="headingFour">
+                              <!-- Hierarchy Column -->
+                                  <td style="background-color: lightslategray; width: 15%;">
+                                      Hierarchy
+                                      <div class="accordion" id="accordionExample">
+                                          
+                                          <!-- Heading one for the logo tab in the hierarchy -->
+                                          <div class="card">
+                                            <div class="card-header" id="headingOne">
                                               <h5 class="mb-0">
-                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                                  Background 
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                  Logo
                                                 </button>
-                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal" id="backgroundPlusButton">
+                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#logoModal" id="logoPlusButton">
                                               </h5>
-                                              <div class="modal fade" id="backModal" tabindex="-1" aria-labelledby="backModalLabel" aria-hidden="true">
+                                              <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-sm">
                                                   <div class="modal-content">
                                                       <div class="modal-header">
-                                                          <h5 class="modal-title" id="backModalLabel">Add Properties of Background</h5>
+                                                          <h5 class="modal-title" id="logoModalLabel">Add Properties of Logo</h5>
                                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                       </div>
                                                       
@@ -600,31 +152,105 @@
                                                             Upload Image
                                                           </button> -->
                                                           
+                                                          <b>Name:</b><br>
+                                                            <input type="text" name="logoName" id="logoName">
+                                                            <br><br>
+
                                                           <b>File Input:</b><br>
-                                                          <input type="file" id="imgInput">
-                                                          <br><br>
+                                                            <input type="file" id="logoInput">
+                                                            <br><br>
                                                           
-                                                          <b>Start Time: 00:00.0</b><br>
-                                                          <input type="text" id="backgroundStart" name="backgroundStart" placeholder="00:00.0">
+                                                          <b>Width:</b><br> 
+                                                          <input type="number" name="logoWidth" id="logoWidth" required>
+                                                          <br><br> 
+                                                          
+                                                          <b>Height:</b><br> 
+                                                          <input type="number" name="logoHeight" id="logoHeight" required>
                                                           <br><br>
 
-                                                          <!-- <b>End Time:</b><br>
-                                                          <input type="text" id="backgroundEnd" name="backgroundEnd" placeholder="00:00.0">
+                                                          <b>X location:</b><br> 
+                                                          <input type="number" name="logoX" id="logoX" required>
+                                                          <br><br>
+
+                                                          <b>Y location:</b><br> 
+                                                          <input type="number" name="logoY" id="logoY" required>
+                                                          <br><br>
+
+                                                          <b>Opacity:</b><br>
+                                                          <div class="block">
+                                                            <input type="range" name="logoOpacity" id="logoOpacity" min="0" max="1" value="1" step="0.1" list="logoMarkers"> 
+                                                            <label id="logoOpacityValue"></label> 
+                                                          </div>
+                                                          <br>
+
+                                                          <!-- Used to update the label to reflect what value you are at on the range -->
+                                                          <script>
+                                                            const logoOpacityOutput = document.getElementById("logoOpacityValue");
+                                                            const logoOpacityInput = document.getElementById("logoOpacity");
+
+                                                            //Have label display the starting value
+                                                            logoOpacityOutput.innerText = logoOpacityInput.value;
+
+                                                            // When you move to a diffrent value in the range update the label to current value
+                                                            logoOpacityInput.addEventListener("input", (event) => {
+                                                              logoOpacityOutput.innerText = event.target.value;
+                                                            });
+                                                            
+                                                            
+
+                                                            function editLogoAttributes(logoName) {
+                                                              alert(logoName);
+                                                            } 
+
+                                                            function toggleLogoVisibility(logoName) {
+                                                              alert('hide');
+                                                              
+                                                            }
+
+                                                            function deleteLogo(logoName) {
+                                                              alert('delete logo');
+                                                            }
+
+
+
+                                                          </script>
+
+                                                          <!-- Used to add tick marks at every o.1 point -->
+                                                          <datalist id="logoMarkers">
+                                                            <option value="0"></option>
+                                                            <option value="0.1"></option>
+                                                            <option value="0.2"></option>
+                                                            <option value="0.3"></option>
+                                                            <option value="0.4"></option>
+                                                            <option value="0.5"></option>
+                                                            <option value="0.6"></option>
+                                                            <option value="0.7"></option>
+                                                            <option value="0.8"></option>
+                                                            <option value="0.9"></option>
+                                                            <option value="1"></option>
+                                                          </datalist>
+
+                                                          <!-- <b>Border Color:</b><br> 
+                                                          <input type="color" name="logoBorderColor" id="logoBorderColor">
+                                                          <br><br>
+                                                          
+                                                          <b>Border Width:</b><br> 
+                                                          <input type="number" name="logoBorderWidth" id="logoBorderWidth">
                                                           <br><br> -->
                                                         <!-- </form> -->
                                                       </div>
-  
+
                                                       <div class="modal-footer"> 
                                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                          <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button>
+                                                          <button type="button" id="logoSubmit" class="btn btn-primary">Add Logo</button>
                                                       </div>
                                                   </div>
                                                 </div>
                                             </div>
                                             </div>
-                                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                               <div class="card-body">
-                                                <table id="backgroundHierarchy" style="width: 30%;">
+                                                <table id="logoHierarchy">
                                                   <tr colspan="3" style="border: 1px solid black;">
                                                     <td style="border: 1px solid black;">Name</td>
                                                     <td style="border: 1px solid black;">Visibility</td>
@@ -634,162 +260,530 @@
                                               </div>
                                             </div>
                                           </div>
-                                      </div>
-                                </td>
-                              
-                                <!-- Canvas Column -->
-                                <td id="CanvasColumn" width="70%">
-                                    <!-- <div id="KonvaCanvas" style="background-color: beige;">
-                                      
-                                    </div> -->
-
-                                    <div id="CanvasWindow">
-                                      <div id="BackgroundLayer">
-                                        <img id="imageContent">
-
-                                        <video id="videoContent">
                                           
-                                        </video>
-                                      </div>
+                                          <!-- Heading two for the lyrics tab in the hierarchy -->
+                                          <div class="card">
+                                            <div class="card-header" id="headingTwo">
+                                              <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                  Lyrics
+                                                </button>
+                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#lyricsModal" id="lyricsPlusButton">
+                                              </h5>
 
-                                      <div id="KonvaCanvas">
-                                        
-                                      </div>
+                                              <div class="modal fade" id="lyricsModal" tabindex="-1" aria-labelledby="lyricsModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                  <div class="modal-content">
+                                                      <div class="modal-header">
+                                                          <h5 class="modal-title" id="lyricsModalLabel">Add Properties of Lyrics</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                      </div>
+                                                      
+                                                      <!-- add for the input -->
+                                                      <!-- wait so this modal is properties? -->
+                                                      <div class="modal-body"> 
+                                                        
+                                                        <!-- Input textfield for the lyrics -->
+                                                          <b>Lyrics:</b><br>
+                                                          <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"></textarea>
+                                                          <br><br>
 
-                                      <!-- <div id="TextLayer">
+                                                          <b>Font Type: </b><br>
+                                                          <!-- <input type="text" name="lyricFontType" id="lyricFontType" placeholder="Enter font-type name">  -->
+                                                          <select name="lyricFontType" id="lyricFontType"> 
+                                                            <option value="Arial">Arial</option>
+                                                            <option value="Cambria">Cambria</option>
+                                                            <option value="Courier New">Courier New</option>
+                                                            <option value="Cursive">Cursive</option>
+                                                            <option value="system-ui">Default</option>
+                                                            <option value="Fantasy">Fantasy</option>
+                                                            <option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
+                                                            <option value="Georgia">Georgia</option>
+                                                            <option value="Gill Sans">Gill Sans</option>
+                                                            <option value="Impact">Impact</option>
+                                                            <option value="Lucida Sans">Lucida Sans</option>
+                                                            <option value="Monospace">Monospace</option>
+                                                            <option value="Sans-serif">Sans-serif</option>
+                                                            <option value="Segoe UI">Segoe UI</option>
+                                                            <option value="Serif">Seri</option>
+                                                            <option value="Times New Roman">Times New Roman</option>
+                                                            <option value="Trebuchet MS">Trebuchet MS</optionc>
+                                                          </select>
+                                                          <br><br>
+
+                                                          <b>Font Size: </b><br>
+                                                          <input type="number" name="lyricFontSize" id="lyricFontSize" placeholder="Enter font-size number">
+                                                          <br><br>
+
+                                                          <b>Font Color: </b><br>
+                                                          <input type="color" name="lyricFontColor" id="lyricFontColor">
+                                                          <br><br>
+
+                                                          <b>Background Option: </b><br>
+                                                          <input type="radio" name="lyricBackground" value="Disabled" onchange="lyricSelection();" checked> Disable
+                                                          <input type="radio" name="lyricBackground" value="Enabled" onchange="lyricSelection();"> Enable
+                                                          <br><br>
+
+                                                          <div id="lyricBackgroundOption" style="display:none;">
+                                                            <b>Background Color</b><br>
+                                                            <input type="color" id="lyricbackgroundColor">
+                                                            <br><br>
+                                                          </div>
+                                                          
+                                                          <script>
+                                                            function lyricSelection(){
+                                                              var lyricBackgroundSelection = document.getElementsByName("lyricBackground");
+
+                                                              //User selected the disabled button
+                                                              if(lyricBackgroundSelection[0].checked)
+                                                              {
+                                                                document.getElementById("lyricBackgroundOption").style.setProperty("display", "none");
+                                                              }
+                                                              else //User selected enable
+                                                              {
+                                                                document.getElementById("lyricBackgroundOption").style.setProperty("display", "block");
+                                                              }
+                                                            }
+                                                            
+                                                            function hideLyricsPlusButton(){
+                                                              alert ("inside of toggle");
+                                                              const lyricsPlusButton = document.getElementById("lyricsPlusButton");
+                                                              // const currentDisplayValue = lyricsPlusButton.getAttribute("display");
+                                                              // console.log(currentDisplayValue);
+                                                              
+                                                              lyricsPlusButton.style.setProperty("display", "none");
+                                                              // if (currentDisplayValue == "none")
+                                                              // {
+                                                              //   lyricsPlusButton.style.setProperty("display", "block");
+                                                              //   alert("show");
+                                                              // }
+                                                              // else if (currentDisplayValue === "block") {
+                                                              //   lyricsPlusButton.style.setProperty("display", "none");
+                                                              //   alert("hide");
+                                                              // }
+                                                            }
+                                                          </script>
+                                                      </div>
+
+                                                      <div class="modal-footer"> 
+                                                          <button type="button" class="btn btn-secondary">Close</button>
+                                                          <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button>
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                              <div class="card-body">
+                                                Something with lyrics
+                                              </div>
+                                            </div>
+                                          </div>
+                                          
+                                          <!-- Heading three for the design elements tab in the hierarchy -->
+                                          <div class="card">
+                                            <div class="card-header" id="headingThree">
+                                              <h5 class="mb-0">                                              
+                                                <!-- <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
+                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                  Design Elements
+                                                </button>
+                                                <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#exampleModal" id="designElementsPlusButton">
+                                              </h5>
+                                              
+                                              <!-- Design Element Creation pop-up -->
+                                              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-sm">
+                                                  <div class="modal-content">
+                                                      <div class="modal-header">
+                                                          <h5 class="modal-title" id="exampleModalLabel">Add Properties of Rectangle</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                      </div>
+                                                      
+                                                      <!-- add for the input -->
+                                                      <!-- wait so this modal is properties? -->
+                                                      <div class="modal-body"> 
+                                                        <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
+                                                          <!-- <button class="upload">
+                                                            Upload Image
+                                                          </button> -->
+
+                                                          <b>Shape Type:</b><br>
+                                                          <select name="shapeType" id="shapeType" onchange="shapeSelection();"> 
+                                                            <option value="Rectangle">Rectangle</option>
+                                                            <option value="Polygon">Polygon</option>
+                                                          </select>
+                                                          <br><br>
+                                                          
+                                                          <b>Name:</b><br>
+                                                          <input type="text" name="shapeName" id="shapeName">
+                                                          <br><br>
+                                                          
+                                                          <div id="PolygonOption" style="display:none;">
+                                                            <b>Number of Sides: </b><br>
+                                                            <input type="number" name="shapeSides" id="shapeSides" required>
+                                                            <br><br>
+                                                          </div>
+
+                                                          <div id="Polygon&CircleOption" style="display:none;">
+                                                            <b>Radius: </b><br>
+                                                            <input type="number" name="shapeRadius" id="shapeRadius">
+                                                            <br><br>
+                                                          </div>
+                                                          
+                                                          <div id="RectangleOption">
+                                                            <b>Width:</b><br>
+                                                            <input type="number" name="shapeWidth" id="shapeWidth" required>
+                                                            <br><br>
+
+                                                            <b>Height:</b><br>
+                                                            <input type="number" name="shapeHeight" id="shapeHeight">
+                                                            <br><br>
+                                                          </div>
+
+                                                          <script>
+                                                            function shapeSelection()
+                                                            {
+                                                              switch(document.getElementById("shapeType").value)
+                                                              {
+                                                                case "Rectangle":
+                                                                  document.getElementById("PolygonOption").style.setProperty("display", "none");
+                                                                  document.getElementById("Polygon&CircleOption").style.setProperty("display", "none");
+                                                                  document.getElementById("RectangleOption").style.setProperty("display", "block");
+                                                                  break;
+
+                                                                case "Polygon":
+                                                                  document.getElementById("PolygonOption").style.setProperty("display", "block");
+                                                                  document.getElementById("Polygon&CircleOption").style.setProperty("display", "block");
+                                                                  document.getElementById("RectangleOption").style.setProperty("display", "none");
+                                                                  break;
+                                                              }
+                                                            }
+                                                          </script>
+                                                          
+                                                          <b>Opacity:</b><br>
+                                                          <div class="block">
+                                                            <input type="range" name="shapeOpacity" id="shapeOpacity" min="0" max="1" value="1" step="0.1" list="markers"> 
+                                                            <label id="shapeOpacityValue"></label> 
+                                                          </div>
+                                                          <br>
+
+                                                          <!-- Used to update the label to reflect what value you are at on the range -->
+                                                          <script>
+                                                            const shapeOpacityOutput = document.getElementById("shapeOpacityValue");
+                                                            const shapeOpacityInput = document.getElementById("shapeOpacity");
+
+                                                            //Have label display the starting value
+                                                            shapeOpacityOutput.innerText = shapeOpacityInput.value;
+
+                                                            // When you move to a diffrent value in the range update the label to current value
+                                                            shapeOpacityInput.addEventListener("input", (event) => {
+                                                              shapeOpacityOutput.innerText = event.target.value;
+                                                            });
+                                                          </script>
+
+                                                          <!-- Used to add tick marks at every o.1 point -->
+                                                          <datalist id="markers">
+                                                            <option value="0"></option>
+                                                            <option value="0.1"></option>
+                                                            <option value="0.2"></option>
+                                                            <option value="0.3"></option>
+                                                            <option value="0.4"></option>
+                                                            <option value="0.5"></option>
+                                                            <option value="0.6"></option>
+                                                            <option value="0.7"></option>
+                                                            <option value="0.8"></option>
+                                                            <option value="0.9"></option>
+                                                            <option value="1"></option>
+                                                          </datalist>
+
+
+                                                          <b>Fill Color:</b><br>
+                                                          <input type="color" name="shapeFill" id="shapeFill">
+                                                          <br><br>
+
+                                                          <b>Border Color:</b><br>
+                                                          <input type="color" name="shapeStroke" id="shapeStroke">
+                                                          <br><br>
+
+                                                          <b>Border Width:</b><br>
+                                                          <input type="number" name="shapeStrokeWidth" id="shapeStrokeWidth">
+                                                          <br><br>
+
+                                                          <b>X location:</b><br>
+                                                          <input type="number" name="shapeX" id="shapeX">
+                                                          <br><br>
+
+                                                          <b>Y location:</b><br>
+                                                          <input type="number" name="shapeY" id="shapeY">
+                                                          <br><br>
+
+                                                          <b>Animation:</b><br>
+                                                          <select name="shapeAnimation" id="shapeAnimation"> 
+                                                            <option value="None">None</option>
+                                                            <option value="Clockwise">Clockwise</option>
+                                                            <option value="Counter-Clockwise">Counter-Clockwise</option>
+                                                          </select>
+                                                          <br><br>
+                                                          
+                                                          <b>Start Time:</b><br>
+                                                          <input type="text" name="shapeStart-Time" id="shapeStart-Time" placeholder="Enter as 'mm:ss.s' ">
+                                                          <br><br>
+
+                                                          <b>End Time:</b><br>
+                                                          <input type="text" name="shapeEnd-Time" id="shapeEnd-Time" placeholder="Enter as 'mm:ss.s'"> 
+                                                          <br><br>                           
+                                                        <!-- </form> -->
+                                                      </div>
+
+                                                      <div class="modal-footer"> 
+                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                          <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button>
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <!-- End of the design element po -->
+                                            </div>
+                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                              <div class="card-body">
+                                                <!-- to be added -->
+                                                <table id="shapeHierarchy">
+                                                  <tr colspan="3" style="border: 1px solid black;">
+                                                    <td style="border: 1px solid black;">Name</td>
+                                                    <td style="border: 1px solid black;">Visibility</td>
+                                                    <td style="border: 1px solid black;">Delete</td>
+                                                  </tr>
+                                                </table>
+
+                                                <!-- Functions to use with buttons in heirarchy table -->
+                                                <script type="module">
+                                                  import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground, saveBackgroundChanges} from "/EditorController.js";
+                                                  
+                                                  //Functions for background
+                                                  window.showEditBackgroundSection = showEditBackgroundSection;
+                                                  window.deleteBackground = deleteBackground;
+                                                  window.saveBackgroundChanges = saveBackgroundChanges;
+
+                                                  //Functions for shapes
+                                                  window.deleteShape = deleteShape;
+                                                  window.modifyShapeSight = modifyShapeSight;
+                                                  window.showEditShapeSection = showEditShapeSection;
+                                                  window.saveShapeChanges = saveShapeChanges;
+                                                </script>                                            
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <!-- Heading four for the background tab in the hierarchy -->
+                                          <div class="card">
+                                              <div class="card-header" id="headingFour">
+                                                <h5 class="mb-0">
+                                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                    Background 
+                                                  </button>
+                                                  <input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-bs-toggle="modal" data-bs-target="#backModal" id="backgroundPlusButton">
+                                                </h5>
+                                                <div class="modal fade" id="backModal" tabindex="-1" aria-labelledby="backModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="backModalLabel">Add Properties of Background</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        
+                                                        <!-- add for the input -->
+                                                        <!-- wait so this modal is properties? -->
+                                                        <div class="modal-body"> 
+                                                          <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
+                                                            <!-- <button class="upload">
+                                                              Upload Image
+                                                            </button> -->
+                                                            
+                                                            <b>File Input:</b><br>
+                                                            <input type="file" id="imgInput">
+                                                            <br><br>
+                                                            
+                                                            <b>Start Time: 00:00.0</b><br>
+                                                            <input type="text" id="backgroundStart" name="backgroundStart" placeholder="00:00.0">
+                                                            <br><br>
+
+                                                            <!-- <b>End Time:</b><br>
+                                                            <input type="text" id="backgroundEnd" name="backgroundEnd" placeholder="00:00.0">
+                                                            <br><br> -->
+                                                          <!-- </form> -->
+                                                        </div>
+    
+                                                        <div class="modal-footer"> 
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                              </div>
+                                              <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                  <table id="backgroundHierarchy" style="width: 30%;">
+                                                    <tr colspan="3" style="border: 1px solid black;">
+                                                      <td style="border: 1px solid black;">Name</td>
+                                                      <td style="border: 1px solid black;">Visibility</td>
+                                                      <td style="border: 1px solid black;">Delete</td>
+                                                    </tr>
+                                                  </table>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                  </td>
+                                
+                                  <!-- Canvas Column -->
+                                  <td id="CanvasColumn" style="width: 70%;">
+                                      <!-- <div id="KonvaCanvas" style="background-color: beige;">
                                         
                                       </div> -->
+                                      <div id="CanvasWindow">
+                                        <div id="BackgroundLayer">
+                                          <img id="imageContent">
+                                          <video id="videoContent"></video>
+                                        </div>
+                                        <div id="KonvaCanvas" style="width: 100%; height: 100%;">
+                                        </div>
 
-                                      <!-- Audio Element to play  -->
-                                      <audio id="musicPlayer">
-                                        <source src="/EditorMedia/Weezer.mp3" type="audio/mpeg">
-                                      </audio>
+                                        <!-- <div id="TextLayer">
+                                          
+                                        </div> -->
+
+                                        <!-- Audio Element to play  -->
+                                        <audio id="musicPlayer">
+                                          <source src="/EditorMedia/Weezer.mp3" type="audio/mpeg">
+                                        </audio>
+                                      </div>
+                                  </td>
+                                  
+                                  
+                                  <!-- Properties Column -->
+                                  <td class="propertiesPage" style="background-color: lightslategray; width: 15%;">
+                                    <div id="editShapePopUp" style="display:none;">
+                                      <h2 id="editHeader"></h2>
+
+                                      <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
+                                      <label>Shape Name:</label>
+                                      <input type="text" id="editShapeName"> 
+
+                                      <!-- Might not use shape type -->
+
+                                      <!--------------------- Edit Options for rectangle ---------------------->
+                                      <!-- Shape Width -->
+                                      <div id="editRectangleValues">
+                                        <label for="editShapeWidth">Width:</label>
+                                        <input type="number" id="editShapeWidth">
+
+                                        <!-- Shape Height -->
+                                        <label for="editShapeHeight">Height:</label>
+                                        <input type="number" id="editShapeHeight">
+                                      </div>
+                                      <!-- ----------------------------------------------------------------- -->
+
+                                      <!---------------------- Edit Options for Polygon------------------------->
+                                      <div id="editPolygonValues">
+                                        <label for="editShapeSides">Number of Sides:</label>
+                                        <input type="number" id="editShapeSides">
+                                                          
+                                        <label for="editShapeRadius">Radius:</label>
+                                        <input type="number" id="editShapeRadius">
+                                      </div>
+                                      <!-- ------------------------------------------------------------------ -->
+
+                                      <!-- Shape Color -->
+                                      <label for="editShapeFill">Fill Color:</label>
+                                      <input type="color" id="editShapeFill">
+
+                                      <!-- Border Color-->
+                                      <label for="editShapeStroke">Stroke Color:</label>
+                                      <input type="color" id="editShapeStroke">
+
+                                      <!-- Border Width -->
+                                      <label for="editShapeStrokeWidth">Stroke Width:</label>
+                                      <input type="number" id="editShapeStrokeWidth">
+
+                                      <!-- Shape X location -->
+                                      <br>
+                                      <label for="editShapeX">X:</label>
+                                      <br>
+                                      <input type="number" id="editShapeX">
+
+                                      <!-- Shape Y location -->
+                                      <br>
+                                      <label for="editShapeY">Y:</label>
+                                      <br>
+                                      <input type="number" id="editShapeY">
+
+                                      <!-- Shape animation *Note shapeType although used do determine what type of animation you chose eg. clockwise it is repurposed to hold konva.animation. May need to make a new attribute   -->
+
+                                      <!-- Shape Opacity -->
+                                      <label for="editShapeOpacity">Opacity:</label>
+                                      <div class="block">
+                                        <input type="range" id="editShapeOpacity" min="0" max="1" step="0.1">
+                                        <label id="editShapeOpacityValue"></label>
+                                      </div>
+
+                                      <label for="editAnimationType">Animation Type: </label>
+                                      <select name="editShapeAnimation" id="editShapeAnimation">
+                                        <option value="None">None</option>
+                                        <option value="Clockwise">Clockwise</option>
+                                        <option value="Counter-Clockwise">Counter-Clockwise</option>
+                                      </select>
+
+                                      <!-- Start Time -->
+                                      <label>Start Time:</label>
+                                      <input type="text" id="editShapeStartTime">
+
+                                      <!-- End time -->
+                                      <label>End Time:</label>
+                                      <input type="text" id="editShapeEndTime">
+                                      
+                                      <!-- Save Changes -->
+                                      <button id="saveChangeButton">Save Changes</button>
                                     </div>
-                                </td>
-                                
-                                
-                                <!-- Properties Column -->
-                                <td class="propertiesPage" width="15%" style="background-color: lightslategray;">
-                                  <div id="editShapePopUp" style="display:none;">
-                                    <h2 id="editHeader"></h2>
 
-                                    <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
-                                    <label>Shape Name:</label>
-                                    <input type="text" id="editShapeName"> 
-
-                                    <!-- Might not use shape type -->
-
-                                    <!--------------------- Edit Options for rectangle ---------------------->
-                                    <!-- Shape Width -->
-                                    <div id="editRectangleValues">
-                                      <label for="editShapeWidth">Width:</label>
-                                      <input type="number" id="editShapeWidth">
-
-                                      <!-- Shape Height -->
-                                      <label for="editShapeHeight">Height:</label>
-                                      <input type="number" id="editShapeHeight">
-                                    </div>
-                                    <!-- ----------------------------------------------------------------- -->
-
-                                    <!---------------------- Edit Options for Polygon------------------------->
-                                    <div id="editPolygonValues">
-                                      <label for="editShapeSides">Number of Sides:</label>
-                                      <input type="number" id="editShapeSides">
-                                                        
-                                      <label for="editShapeRadius">Radius:</label>
-                                      <input type="number" id="editShapeRadius">
-                                    </div>
-                                    <!-- ------------------------------------------------------------------ -->
-
-                                    <!-- Shape Color -->
-                                    <label for="editShapeFill">Fill Color:</label>
-                                    <input type="color" id="editShapeFill">
-
-                                    <!-- Border Color-->
-                                    <label for="editShapeStroke">Stroke Color:</label>
-                                    <input type="color" id="editShapeStroke">
-
-                                    <!-- Border Width -->
-                                    <label for="editShapeStrokeWidth">Stroke Width:</label>
-                                    <input type="number" id="editShapeStrokeWidth">
-
-                                    <!-- Shape X location -->
-                                    <br>
-                                    <label for="editShapeX">X:</label>
-                                    <br>
-                                    <input type="number" id="editShapeX">
-
-                                    <!-- Shape Y location -->
-                                    <br>
-                                    <label for="editShapeY">Y:</label>
-                                    <br>
-                                    <input type="number" id="editShapeY">
-
-                                    <!-- Shape animation *Note shapeType although used do determine what type of animation you chose eg. clockwise it is repurposed to hold konva.animation. May need to make a new attribute   -->
-
-                                    <!-- Shape Opacity -->
-                                    <label for="editShapeOpacity">Opacity:</label>
-                                    <div class="block">
-                                      <input type="range" id="editShapeOpacity" min="0" max="1" step="0.1">
-                                      <label id="editShapeOpacityValue"></label>
+                                    <div id ="editBackgroundPopUp" style="display: none;">
+                                      <!-- File Name -->
+                                      <!-- <label></label> -->
+                                      <!-- File Input -->
+                                      <label>File Input:</label><br>
+                                      <input type="file" style="width: 80%;" id="editFileInput"><br>
+                                      <!-- Start Time -->
+                                      <label>Start Time:</label><br>
+                                      <input type="text" id="editStartTime"><br>
+                                      <!-- Save background changes -->
+                                      <br>
+                                      <button id="saveBackgroundButton" onclick="saveBackgroundChanges()">
+                                        Save Changes
+                                      </button>
                                     </div>
 
-                                    <label for="editAnimationType">Animation Type: </label>
-                                    <select name="editShapeAnimation" id="editShapeAnimation">
-                                      <option value="None">None</option>
-                                      <option value="Clockwise">Clockwise</option>
-                                      <option value="Counter-Clockwise">Counter-Clockwise</option>
-                                    </select>
-
-                                    <!-- Start Time -->
-                                    <label>Start Time:</label>
-                                    <input type="text" id="editShapeStartTime">
-
-                                    <!-- End time -->
-                                    <label>End Time:</label>
-                                    <input type="text" id="editShapeEndTime">
-                                    
-                                    <!-- Save Changes -->
-                                    <button id="saveChangeButton">Save Changes</button>
-                                  </div>
-
-                                  <div id ="editBackgroundPopUp" style="display: none;">
-                                    <!-- File Name -->
-                                    <!-- <label></label> -->
-                                    <!-- File Input -->
-                                    <label>File Input:</label><br>
-                                    <input type="file" style="width: 80%;" id="editFileInput"><br>
-                                    <!-- Start Time -->
-                                    <label>Start Time:</label><br>
-                                    <input type="text" id="editStartTime"><br>
-                                    <!-- Save background changes -->
-                                    <br>
-                                    <button id="saveBackgroundButton" onclick="saveBackgroundChanges()">
-                                      Save Changes
-                                    </button>
-                                  </div>
-
-                                </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="text-align: center; background-color: #ecb5a2">
-                              <span id="audioTimestamp">00:00.0</span>
-                            </td>
-                        </tr>
-                        <!-- <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr> -->
-                    </tbody>
-                </table>
+                                    <!-- Pulley Arrow and Square -->
+                                    <!-- <div id="propertiesPulley" class="pulley">
+                                      <div class="arrow"></div>
+                                    </div> -->
+                                  </td>
+                          </tr>
+                          <tr colspan="3">
+                              <td style="width: 15%;">
+                                hello
+                              </td>
+                              <td  style="text-align: center; background-color: #ecb5a2; width: 70%;">
+                                <input class="slider" type="range" id="timeSlider" min="0" max="100" step="1" value="0" />
+                                <span id="audioTimestamp">00:00.0</span>
+                              </td>
+                              <td style="width: 15%;">
+                                what up
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
             </div>
         </div>
 
@@ -865,5 +859,6 @@
             </nav>
         </div>
     </div>
+
 </body>
 </html>

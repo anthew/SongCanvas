@@ -152,6 +152,10 @@ function createLogo(){
     alert("Logo Added");
 }
 
+// export function toggleLogoVisibility(logoName) {
+
+// }
+
 //I don't think we need this function right?
 // function updateShapeAttributes() // Still needs to be MVC
 // {
@@ -402,7 +406,7 @@ export function saveShapeChanges(shapeName, shapeType) // Needs to change for MV
     }
     
     console.log(ShapeClassObject);
-   
+    
     //Get the shape from the stage to set it's new attributes
     //var shape = stage.find('.' + shapeName)[0];
 
@@ -777,7 +781,6 @@ export function showEditBackgroundSection(fileName) {
     //Hide the shapePop or others if there not already
     document.getElementById("editShapePopUp").style.setProperty("display", "none");
     
-
     //Display backgroundpop up if not already
     document.getElementById("editBackgroundPopUp").style.setProperty("display", "block");
 
@@ -928,10 +931,60 @@ document.addEventListener('keydown', function(event){
 
         //If any other button do nothing
         // restart button
-        // case "r":
+        case "r":
+            audio.currentTime = 0;
+
+                if (videoCont.src !== "") {
+                    videoCont.currentTime = 0;
+                }
+            break;
+
+        // full screen
+        case "f":
+            toggleFullScreen();
+            break;
+
+        case "m":
+            if (document.fullscreenElement) {
+                toggleFullScreen();
+            }
+            break;
 
         default:
             return;
+    }
+});
+
+// Add event listeners for play, pause, and restart buttons
+document.getElementById('playVideo').addEventListener('click', function(event) {
+    // Handle play button click
+    event.preventDefault();
+    paused = false;
+    audio.play();
+    
+    if (videoCont.src !== "") {
+        videoCont.play();
+    }
+});
+
+document.getElementById('pauseVideo').addEventListener('click', function(event) {
+    // Handle pause button click
+    event.preventDefault();
+    paused = true;
+    audio.pause();
+
+    if (videoCont.src !== "") {
+        videoCont.pause();
+    }
+});
+
+document.getElementById('restartVideo').addEventListener('click', function(event) {
+    // Handle restart button click
+    event.preventDefault();
+    audio.currentTime = 0;
+
+    if (videoCont.src !== "") {
+        videoCont.currentTime = 0;
     }
 });
 
@@ -1029,27 +1082,90 @@ function updateProjectElements(formattedTime){
     //Get the span element and update the time to it
     const timeDisplay = document.getElementById('audioTimestamp');
 
+    //Get the input type to control the time of video
+    const timeSlider = document.getElementById('timeSlider');
+
     // Update time display every decisecond (100 milliseconds)
     const updateTimer = setInterval(() => {
-    //   const currentTime = audio.currentTime * 100;
-      //console.log(audio.currentTime);
-      const minutes = Math.floor(audio.currentTime / 60);
-      const seconds = Math.floor(audio.currentTime % 60);
-      const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
-    //   console.log(deciseconds);
+    const minutes = Math.floor(audio.currentTime / 60);
+    const seconds = Math.floor(audio.currentTime % 60);
+    const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
 
-      // Format time string with leading zeros
-      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
+    // Format time string with leading zeros
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
 
-      timeDisplay.textContent = formattedTime;
-    
-      updateProjectElements(formattedTime);
-      
+    timeDisplay.textContent = formattedTime;
+
+    // Update slider position
+    const percentage = (audio.currentTime / audio.duration) * 100;
+    timeSlider.value = percentage;
+
+    updateProjectElements(formattedTime);
+
     }, 10);
 
     // When audio stops, timer stops
     audio.addEventListener('ended', () => {
-      clearInterval(updateTimer);
+    clearInterval(updateTimer);
     });
 
+    // Add event listener to handle slider change
+    timeSlider.addEventListener('input', () => {
+    const percentage = timeSlider.value;
+    const newTime = (percentage / 100) * audio.duration;
+    audio.currentTime = newTime;
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const zoomableContent = document.getElementById("zoomableContent");
+        const zoomInButton = document.getElementById("zoomIn");
+        const zoomOutButton = document.getElementById("zoomOut");
+  
+        let currentZoom = 1;
+  
+        zoomInButton.addEventListener("click", function() {
+          currentZoom += 0.1;
+          zoomableContent.style.transform = `scale(${currentZoom})`;
+        });
+  
+        zoomOutButton.addEventListener("click", function() {
+          currentZoom -= 0.1;
+          zoomableContent.style.transform = `scale(${currentZoom})`;
+        });
+      });
+
+// Get the CanvasColumn element
+const canvasColumn = document.getElementById('CanvasColumn');
+
+// Function to toggle fullscreen
+export function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        // If not in fullscreen mode, request fullscreen
+        if (canvasColumn.requestFullscreen) {
+            canvasColumn.requestFullscreen();
+        } else if (canvasColumn.mozRequestFullScreen) {
+            canvasColumn.mozRequestFullScreen(); // Firefox
+        } else if (canvasColumn.webkitRequestFullscreen) {
+            canvasColumn.webkitRequestFullscreen(); // Chrome, Safari and Opera
+        } else if (canvasColumn.msRequestFullscreen) {
+            canvasColumn.msRequestFullscreen(); // IE/Edge
+        }
+    } else {
+        // If in fullscreen mode, exit fullscreen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen(); // Firefox
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen(); // Chrome, Safari and Opera
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen(); // IE/Edge
+        }
+    }
+}
+    // JavaScript for Sliding Properties Page
+//     document.getElementById('propertiesPulley').addEventListener('click', function () {
+//     var propertiesPage = document.querySelector('.propertiesPage');
+//     propertiesPage.style.left = (propertiesPage.style.left === '0%' || propertiesPage.style.left === '') ? '-15%' : '0%';
+//   });   
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------

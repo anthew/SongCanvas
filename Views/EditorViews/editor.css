@@ -178,15 +178,56 @@ Style the canvas column
   float: right;
 }
 
-/* .editor .right-side-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 300px; 
-  height: 100%;
-  background-color: white;
-  border-left: 1px solid #ccc; 
-  padding: 20px;
-  overflow-y: auto; 
+.slider {
+  width: 100%;
+}
+
+/* Set the track color */
+/* .slider::-webkit-slider-runnable-track {
+  background-color: white; 
+  border-radius: 5px;
+  height: 10px;
+} */
+
+/* Set the thumb color */
+/* .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: red; 
+  height: 30px;
+  top: 10px;
+  width: 30px;  
+}
+
+.slider::-moz-range-track {
+  background-color: white; 
+  height: 30px;
+  width: 30px;
+} */
+
+/* Set the active thumb color (when user is dragging the slider) */
+/* .slider::-moz-range-thumb {
+  background: #FF0000; 
+} */
+
+/* CSS for Pulley Arrow and Square */
+/* .pulley {
+  position: absolute;
+  top: 50%;
+  right: -15px; 
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border-radius: 5px 0 0 5px;
+  cursor: pointer;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-left-color: #fff; 
 } */
