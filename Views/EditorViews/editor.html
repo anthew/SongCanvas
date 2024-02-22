@@ -90,8 +90,6 @@
                                     <li><a href="#">Display Hierarchy</a></li>
                                     <li><a href="#">Display Drag and Drop Option</a></li>
                                     <li><a href="#">Hide or Show Timeline</a></li>
-                                    <li><a id="zoomOut">Zoom Out</a></li>
-                                    <li><a id="zoomIn">Zoom In</a></li>
                                     <li><a id="fullScreen">Fullscreen</a></li>
                                     <li><a href="#">Change Theme</a></li>
                                     <hr>
@@ -107,17 +105,8 @@
                 </table>
             </div>
 
-            <div id="zoomableContent">
               <div class="context-table">
                   <table class="table table-white">
-                      <!-- <thead>
-                          <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">First</th>
-                              <th scope="col">Last</th>
-                              <th scope="col">Handle</th>
-                          </tr>
-                      </thead> -->
                       <tbody>
                           <tr>
                               <!-- <th scope="row">1</th> -->
@@ -195,8 +184,6 @@
                                                             logoOpacityInput.addEventListener("input", (event) => {
                                                               logoOpacityOutput.innerText = event.target.value;
                                                             });
-                                                            
-                                                            
 
                                                             function editLogoAttributes(logoName) {
                                                               alert(logoName);
@@ -210,8 +197,6 @@
                                                             function deleteLogo(logoName) {
                                                               alert('delete logo');
                                                             }
-
-
 
                                                           </script>
 
@@ -242,7 +227,32 @@
 
                                                       <div class="modal-footer"> 
                                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                          <button type="button" id="logoSubmit" class="btn btn-primary">Add Logo</button>
+                                                          <!-- <button type="button" id="logoSubmit" class="btn btn-primary">Add Logo</button> -->
+
+                                                          <button type="button" data-toggle="modal" data-target="#uploadLogoModal" class="btn btn-primary">
+                                                            Save Changes
+                                                          </button>
+                    
+                                                          <!-- Modal -->
+                                                            <div class="modal fade" id="uploadLogoModal" tabindex="-1" role="dialog" aria-labelledby="uploadLogoModalLabel" aria-hidden="true">
+                                                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title" id="uploadLogoModalLabel">Warning</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                      <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    Before continuing, do you want to save your changes?
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                    <button type="button" class="btn btn-primary" id="logoSubmit" data-dismiss="modal">Yes</button>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
                                                       </div>
                                                   </div>
                                                 </div>
@@ -366,8 +376,34 @@
                                                       </div>
 
                                                       <div class="modal-footer"> 
-                                                          <button type="button" class="btn btn-secondary">Close</button>
-                                                          <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button>
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                          <!-- <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button> -->
+
+                                                          <button type="button" data-toggle="modal" data-target="#uploadLyricsModal" class="btn btn-primary">
+                                                            Add to screen
+                                                          </button>
+                    
+                                                          <!-- Modal -->
+                                                            <div class="modal fade" id="uploadLyricsModal" tabindex="-1" role="dialog" aria-labelledby="uploadLyricsModalLabel" aria-hidden="true">
+                                                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title" id="uploadLyricsModalLabel">Warning</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                      <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    Before continuing, do you want to save your changes?
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                    <button type="button" class="btn btn-primary" id="lyricSubmit" onclick = "hideLyricsPlusButton()" data-dismiss="modal">Yes</button>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+
                                                       </div>
                                                   </div>
                                                 </div>
@@ -538,7 +574,33 @@
 
                                                       <div class="modal-footer"> 
                                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                          <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button>
+                                                          <!-- <button type="button" id="shapeSubmit" class="btn btn-primary">Add to Screen</button> -->
+
+                                                          <button type="button" data-toggle="modal" data-target="#uploadElementsModal" class="btn btn-primary">
+                                                            Add to screen
+                                                          </button>
+                    
+                                                          <!-- Modal -->
+                                                            <div class="modal fade" id="uploadElementsModal" tabindex="-1" role="dialog" aria-labelledby="uploadElementsModalLabel" aria-hidden="true">
+                                                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title" id="uploadLyricsModalLabel">Warning</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                      <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    Before continuing, do you want to save your changes?
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                    <button type="button" class="btn btn-primary" id="shapeSubmit" data-dismiss="modal">Yes</button>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+
                                                       </div>
                                                   </div>
                                                 </div>
@@ -616,7 +678,32 @@
     
                                                         <div class="modal-footer"> 
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button>
+                                                            <!-- <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button> -->
+
+                                                            <button type="button" data-toggle="modal" data-target="#uploadFilesModal" class="btn btn-primary">
+                                                              Add to screen
+                                                            </button>
+                      
+                                                            <!-- Modal -->
+                                                              <div class="modal fade" id="uploadFilesModal" tabindex="-1" role="dialog" aria-labelledby="uploadFilesModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                  <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                      <h5 class="modal-title" id="uploadFilesModalLabel">Warning</h5>
+                                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                      </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                      Before continuing, do you want to save your changes?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                      <button type="button" class="btn btn-primary" id="fileSubmit" data-dismiss="modal">Yes</button>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
                                                         </div>
                                                     </div>
                                                   </div>
@@ -668,30 +755,30 @@
                                       <h2 id="editHeader"></h2>
 
                                       <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
-                                      <label>Shape Name:</label>
-                                      <input type="text" id="editShapeName"> 
+                                      <!-- <label>Shape Name:</label> -->
+                                      <input type="text" id="editShapeName" placeholder="Enter Shape Name"> 
 
                                       <!-- Might not use shape type -->
 
                                       <!--------------------- Edit Options for rectangle ---------------------->
                                       <!-- Shape Width -->
                                       <div id="editRectangleValues">
-                                        <label for="editShapeWidth">Width:</label>
-                                        <input type="number" id="editShapeWidth">
+                                        <!-- <label for="editShapeWidth">Width:</label> -->
+                                        <input type="number" id="editShapeWidth" placeholder="Enter Width">
 
                                         <!-- Shape Height -->
-                                        <label for="editShapeHeight">Height:</label>
-                                        <input type="number" id="editShapeHeight">
+                                        <!-- <label for="editShapeHeight">Height:</label> -->
+                                        <input type="number" id="editShapeHeight" placeholder="Enter Height">
                                       </div>
                                       <!-- ----------------------------------------------------------------- -->
 
                                       <!---------------------- Edit Options for Polygon------------------------->
                                       <div id="editPolygonValues">
-                                        <label for="editShapeSides">Number of Sides:</label>
-                                        <input type="number" id="editShapeSides">
+                                        <!-- <label for="editShapeSides">Number of Sides:</label> -->
+                                        <input type="number" id="editShapeSides" placeholder="Enter number of sides">
                                                           
-                                        <label for="editShapeRadius">Radius:</label>
-                                        <input type="number" id="editShapeRadius">
+                                        <!-- <label for="editShapeRadius">Radius:</label> -->
+                                        <input type="number" id="editShapeRadius" placeholder="Enter the radius">
                                       </div>
                                       <!-- ------------------------------------------------------------------ -->
 
@@ -701,7 +788,7 @@
 
                                       <!-- Border Color-->
                                       <label for="editShapeStroke">Stroke Color:</label>
-                                      <input type="color" id="editShapeStroke">
+                                      <input type="color" id="editShapeStroke" placeholder="Enter a border color">
 
                                       <!-- Border Width -->
                                       <label for="editShapeStrokeWidth">Stroke Width:</label>
@@ -709,15 +796,15 @@
 
                                       <!-- Shape X location -->
                                       <br>
-                                      <label for="editShapeX">X:</label>
-                                      <br>
-                                      <input type="number" id="editShapeX">
+                                      <label for="editShapeX">X-axis:</label>
+                                      <!-- <br> -->
+                                      <input type="number" id="editShapeX" placeholder="Enter the X location">
 
                                       <!-- Shape Y location -->
+                                      <!-- <br> -->
+                                      <label for="editShapeY">Y-axis:</label>
                                       <br>
-                                      <label for="editShapeY">Y:</label>
-                                      <br>
-                                      <input type="number" id="editShapeY">
+                                      <input type="number" id="editShapeY" placeholder="Enter the Y location">
 
                                       <!-- Shape animation *Note shapeType although used do determine what type of animation you chose eg. clockwise it is repurposed to hold konva.animation. May need to make a new attribute   -->
 
@@ -736,15 +823,41 @@
                                       </select>
 
                                       <!-- Start Time -->
-                                      <label>Start Time:</label>
-                                      <input type="text" id="editShapeStartTime">
+                                      <!-- <label>Start Time:</label> -->
+                                      <input type="text" id="editShapeStartTime" placeholder="Enter start time (00:00.0)">
 
                                       <!-- End time -->
-                                      <label>End Time:</label>
-                                      <input type="text" id="editShapeEndTime">
+                                      <!-- <label>End Time:</label> -->
+                                      <input type="text" id="editShapeEndTime" placeholder="Enter end time (00:00.0)">
                                       
                                       <!-- Save Changes -->
-                                      <button id="saveChangeButton">Save Changes</button>
+
+                                      
+                                      <button type="button" data-toggle="modal" data-target="#saveShapesModal">
+                                        Save Changes
+                                      </button>
+
+                                      <!-- Modal -->
+                                        <div class="modal fade" id="saveShapesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                Before continuing, do you want to save your changes?
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="saveChangeButton" data-dismiss="modal">Save changes</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      
                                     </div>
 
                                     <div id ="editBackgroundPopUp" style="display: none;">
@@ -758,9 +871,31 @@
                                       <input type="text" id="editStartTime"><br>
                                       <!-- Save background changes -->
                                       <br>
-                                      <button id="saveBackgroundButton" onclick="saveBackgroundChanges()">
+                                      <button type="button" data-toggle="modal" data-target="#saveFileModal" >
                                         Save Changes
                                       </button>
+
+                                      <!-- Modal -->
+                                        <div class="modal fade" id="saveFileModal" tabindex="-1" role="dialog" aria-labelledby="saveFileModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="saveFileModalLabel">Warning</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                Before continuing, do you want to save your changes?
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <button type="button" class="btn btn-primary" id="saveBackgroundButton" onclick="saveBackgroundChanges()" data-dismiss="modal">Yes</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
                                     </div>
 
                                     <!-- Pulley Arrow and Square -->
@@ -774,7 +909,7 @@
                                 hello
                               </td>
                               <td  style="text-align: center; background-color: #ecb5a2; width: 70%;">
-                                <input class="slider" type="range" id="timeSlider" min="0" max="100" step="1" value="0" />
+                                <input class="slider" type="range" id="timeSlider" min="0" max="100" step="1" value="0" disabled />
                                 <span id="audioTimestamp">00:00.0</span>
                               </td>
                               <td style="width: 15%;">
@@ -784,7 +919,7 @@
                       </tbody>
                   </table>
               </div>
-            </div>
+            
         </div>
 
         

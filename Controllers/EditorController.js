@@ -208,12 +208,12 @@ function createShape()
         if(shapeType=="Polygon")
         {
             shape = new Polygon(shapeName, shapeType, shapeX, shapeY, shapeStartTime, shapeEndTime, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeAnimation_type, shapeOpacity, shapeRadius, shapeSides);
-            shape.instantiateKonvaShape();
+            //shape.instantiateKonvaShape();
         }
         else if(shapeType=="Rectangle")
         {
             shape = new Rectangle(shapeName, shapeType, shapeX, shapeY, shapeStartTime, shapeEndTime, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeAnimation_type, shapeOpacity, shapeHeight, shapeWidth);
-            shape.instantiateKonvaShape();
+            //shape.instantiateKonvaShape();
         }
 
         // assign animation to the shape based on user selection
@@ -240,6 +240,8 @@ function createShape()
 
         //Add the newly created shape to the canvas
         layer.add(shape.getKonvaShape());
+
+        console.log(shape.getStartTime() + " " + shape.getEndTime());
 
         //Add the newly created shape to the array
         var newShape = {
@@ -363,6 +365,7 @@ export function showEditShapeSection(shapeName, shapeType)
     document.getElementById("editShapeStartTime").value = ShapeArray[ShapeArray.findIndex(p=>p.shapeName == shapeName)].shapeStartTime;
 
     document.getElementById("editShapeEndTime").value = ShapeArray[ShapeArray.findIndex(p=>p.shapeName == shapeName)].shapeEndTime;
+    console.log(ShapeArray[ShapeArray.findIndex(p=>p.shapeName == shapeName)].shapeEndTime);
 
     //Have a save button
     document.getElementById("saveChangeButton").onclick = function() {saveShapeChanges(shapeName, shapeType)};
@@ -386,53 +389,64 @@ export function saveShapeChanges(shapeName, shapeType) // Needs to change for MV
     if(shapeType == "Rectangle")
     {
         //Modify the konva shape values 
-        ShapeClassObject.getKonvaShape.setAttr('width', document.getElementById("editShapeWidth").value);
-        ShapeClassObject.getKonvaShape.setAttr('height', document.getElementById("editShapeHeight").value);
+        ShapeClassObject.getKonvaShape().setAttr('width', document.getElementById("editShapeWidth").value);
+        ShapeClassObject.getKonvaShape().setAttr('height', document.getElementById("editShapeHeight").value);
     }
     else if(shapeType == "Polygon")
     {
-        ShapeClassObject.getKonvaShape.setAttr("sides", document.getElementById("editShapeSides").value);
-        ShapeClassObject.getKonvaShape.setAttr("radius", document.getElementById("editShapeRadius").value);
+        ShapeClassObject.getKonvaShape().setAttr("sides", document.getElementById("editShapeSides").value);
+        ShapeClassObject.getKonvaShape().setAttr("radius", document.getElementById("editShapeRadius").value);
     }
 
     //Handle the rest of the common attributes
 
     ShapeClassObject.setShapeName(document.getElementById("editShapeName").value);
 
-    ShapeClassObject.getKonvaShape.setAttr("fill", document.getElementById("editShapeFill").value);
+    ShapeClassObject.getKonvaShape().setAttr("fill", document.getElementById("editShapeFill").value);
     
- 
-    ShapeClassObject.getKonvaShape.setAttr("stroke", document.getElementById("editShapeStroke").value);
+    ShapeClassObject.getKonvaShape().setAttr("stroke", document.getElementById("editShapeStroke").value);
     
-    ShapeClassObject.setBorderWidth(document.getElementById("editShapeStrokeWidth").value);
-    shape.setAttr("strokeWidth", document.getElementById("editShapeStrokeWidth").value);
+    //ShapeClassObject.setBorderWidth(document.getElementById("editShapeStrokeWidth").value);
+    ShapeClassObject.getKonvaShape().setAttr("strokeWidth", document.getElementById("editShapeStrokeWidth").value);
     
-    ShapeClassObject.setX_loc(document.getElementById("editShapeX").value);
-    shape.setAttr("x", document.getElementById("editShapeX").value);
+    //ShapeClassObject.setX_loc(document.getElementById("editShapeX").value);
+    ShapeClassObject.getKonvaShape().setAttr("x", document.getElementById("editShapeX").value);
     
-    ShapeClassObject.setY_loc(document.getElementById("editShapeY").value);
-    shape.setAttr("y", document.getElementById("editShapeY").value);
+    //ShapeClassObject.setY_loc(document.getElementById("editShapeY").value);
+    ShapeClassObject.getKonvaShape().setAttr("y", document.getElementById("editShapeY").value);
     
-    ShapeClassObject.setShapeOpacity(document.getElementById("editShapeOpacity").value);
-    shape.setAttr("opacity", document.getElementById("editShapeOpacity").value);
+    //ShapeClassObject.setShapeOpacity(document.getElementById("editShapeOpacity").value);
+    ShapeClassObject.getKonvaShape().setAttr("opacity", document.getElementById("editShapeOpacity").value);
 
     // Get the selected animation type from the dropdown
     const shapeAnimationType = document.getElementById("editShapeAnimation").value;
 
     // Apply animation based on the selected type
-    if (shapeAnimationType !== "None") {
+    // if (shapeAnimationType != "None") {
         let animationObject;
 
-        if (shapeAnimationType === "Clockwise") {
+        if (shapeAnimationType == "Clockwise") {
             // Apply Clockwise animation logic here
+
+            ShapeClassObject.stopAnimation();
+
             animationObject = new Konva.Animation(function (frame) {
                 ShapeClassObject.getKonvaShape().rotate(1.5);
             }, layer);
-        } else if (shapeAnimationType === "Counter-Clockwise") {
+            // ShapeClassObject.setAnimationType("Clockwise");
+        } else if (shapeAnimationType == "Counter-Clockwise") {
             // Apply Counter-Clockwise animation logic here
+            ShapeClassObject.stopAnimation();
             animationObject = new Konva.Animation(function (frame) {
                 ShapeClassObject.getKonvaShape().rotate(-1.5);
             }, layer);
+            ShapeClassObject.setAnimationType("Counter-Clockwise");
+        } else {
+            ShapeClassObject.stopAnimation();
+            animationObject = new Konva.Animation(function (frame) {
+                ShapeClassObject.getKonvaShape().rotate(0);
+            }, layer);
+            ShapeClassObject.setAnimationType("None");
         }
     
         // Set the animation object
@@ -440,10 +454,10 @@ export function saveShapeChanges(shapeName, shapeType) // Needs to change for MV
     
         // Start the animation
         ShapeClassObject.getAnimation().start();
-    } else {
-        // If the selected animation type is "None", remove any existing animation
-        ShapeClassObject.setAnimation(null);
-    }
+    // } else {
+    //     // If the selected animation type is "None", remove any existing animation
+    //     ShapeClassObject.setAnimation(null);
+    // }
 
     ShapeClassObject.setStartTime(document.getElementById("editShapeStartTime").value);
     ShapeClassObject.setEndTime(document.getElementById("editShapeEndTime").value);
@@ -816,6 +830,8 @@ document.addEventListener('keydown', function (event) {
             if (videoCont.src !== "") {
                 videoCont.currentTime = 0;
             }
+
+            
             break;
 
         // full screen
@@ -950,7 +966,6 @@ function updateProjectElements(formattedTime){
     timeSlider.value = percentage;
 
     updateProjectElements(formattedTime);
-
     }, 10);
 
     // When audio stops, timer stops
@@ -964,24 +979,6 @@ function updateProjectElements(formattedTime){
     const newTime = (percentage / 100) * audio.duration;
     audio.currentTime = newTime;
     });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const zoomableContent = document.getElementById("zoomableContent");
-        const zoomInButton = document.getElementById("zoomIn");
-        const zoomOutButton = document.getElementById("zoomOut");
-  
-        let currentZoom = 1;
-  
-        zoomInButton.addEventListener("click", function() {
-          currentZoom += 0.1;
-          zoomableContent.style.transform = `scale(${currentZoom})`;
-        });
-  
-        zoomOutButton.addEventListener("click", function() {
-          currentZoom -= 0.1;
-          zoomableContent.style.transform = `scale(${currentZoom})`;
-        });
-      });
 
 // Get the CanvasColumn element
 const canvasColumn = document.getElementById('CanvasColumn');

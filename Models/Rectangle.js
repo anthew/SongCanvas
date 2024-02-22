@@ -4,7 +4,7 @@ export class Rectangle extends Shape {
 
     constructor (name, shapeType, xLoc, yLoc, startTime, endTime, fillColor, borderColor, borderWidth, animationType, opacity, height, width) {
 
-        super(shapeType, startTime, endTime, animationType);
+        super(name, shapeType, startTime, endTime, animationType);
 
         this.konvaShape = new Konva.Rect({
             name: name,

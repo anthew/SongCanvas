@@ -4,7 +4,7 @@ export class Polygon extends Shape {
 
     constructor(name, shapeType, xLoc, yLoc, startTime, endTime, fillColor, borderColor, borderWidth, animationType, opacity, radius, sides) {
        
-        super(shapeType, startTime, endTime, animationType);
+        super(name, shapeType, startTime, endTime, animationType);
         
         this.konvaShape = new Konva.RegularPolygon({
             name: name,
