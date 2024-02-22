@@ -1,85 +1,42 @@
 import {Shape} from './Shape.js';
 
 export class Polygon extends Shape {
-    // //Shape common attributes:
-    // P_name;
-    // P_xLoc;
-    // P_yLoc;
-    // P_startTime;
-    // P_endTime;
-    // P_fillColor;
-    // P_borderColor;
-    // P_borderWidth;
-    // animationType;
-    // animation;
-    // opacity;
-    // visible = true;
-
-    // // Konva shape that will be added to the canvas.
-    // konvaShape;
-    
-    // //Polygon-specific attributes
-    // radius;
-    // sides;
-
 
     constructor(name, shapeType, xLoc, yLoc, startTime, endTime, fillColor, borderColor, borderWidth, animationType, opacity, radius, sides) {
+       
+        super(shapeType, startTime, endTime, animationType);
         
-        super(name, xLoc, yLoc, startTime, endTime, fillColor, borderColor, borderWidth, animationType, opacity);
+        this.konvaShape = new Konva.RegularPolygon({
+            name: name,
+            fill: fillColor,
+            stroke: borderColor,
+            strokeWidth: borderWidth,
+            x: xLoc, 
+            y: yLoc,
+            radius: radius,
+            sides: sides, 
+            visible: false, // Polygons are invisible by default
+            opacity: opacity,
+        });
+    } // so instead of storing all the values in separa
 
-        this.shapeType = shapeType;
-        this.radius = radius;
-        this.sides = sides;
+    showKonvaShape() {
+        this.konvaShape.show();
     }
 
-    instantiateKonvaShape() {
-        this.konvaShape = new Konva.RegularPolygon({
-            name: this.name,
-            fill: this.fillColor,
-            stroke: this.borderColor,
-            strokeWidth: this.borderWidth,
-            x: this.xLoc, 
-            y: this.yLoc,
-            radius: this.radius,
-            sides: this.sides, 
-            visible: false, // Polygons are invisible by default
-            opacity: this.opacity,
-        });
-        return this.konvaShape;
+    hideKonvaShape() {
+        this.konvaShape.hide();
+    }
+
+    startAnimation() {
+        this.animation.start();
+    }
+
+    stopAnimation() {
+        this.animation.stop();
     }
 
     // ------------------------------------------- Setters ------------------------------
-    setShapeSides(sides){
-        this.sides = sides;
-    }
-
-    setShapeRadius(radius){
-        this.radius = radius;
-    }
-    
-    setShapeFillColor(fillColor){
-        this.fillColor = fillColor;
-    }
-
-    setX_loc(xLoc) {
-        this.xLoc = xLoc;
-    }
-
-    setY_loc(yLoc) {
-        this.yLoc = yLoc;
-    }
-    
-    setShapeOpacity(opacity){
-        this.opacity = opacity;        
-    }
-    
-    setBorderColor(borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    setBorderWidth(borderWidth) {
-        this.borderWidth = borderWidth;
-    }
     
     setStartTime(startTime){
         this.startTime = startTime;
@@ -99,6 +56,7 @@ export class Polygon extends Shape {
 
     setShapeName(name){
         this.name = name;
+        this.konvaShape.setAttr('name', name);
     }
 
     setAnimation(animation) {
@@ -128,23 +86,5 @@ export class Polygon extends Shape {
 
     getAnimation(){
         return this.animation;
-    }
-
-    showKonvaShape() {
-        this.visible = true;
-        this.konvaShape.show();
-    }
-
-    hideKonvaShape() {
-        this.visible = false;
-        this.konvaShape.hide();
-    }
-
-    startAnimation() {
-        this.animation.start();
-    }
-
-    stopAnimation() {
-        this.animation.stop();
     }
 }

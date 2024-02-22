@@ -42,22 +42,6 @@ stage.add(layer);
 
 // gifler("/EditorMedia/squidward.gif").frames(canvas, onDrawFrame);
 
-// var image = new Konva.Image({
-//     image: canvas,
-//     draggable: true,
-// });
-  
-// layer.add(image);
-
-//Testing with animation 
-// var anim = new Konva.Animation(function (frame) {
-//     var angleDiff = (frame.timeDiff * 90) / 1000;
-//     shapes.rotate(angleDiff);
-//   }, layer);
-
-// anim.start();
-
-
 
 // ---------------------- Logo ------------------------------------------
 var addLogoToScreenButton = document.getElementById("logoSubmit");
@@ -96,6 +80,13 @@ function createLogo(){
     let logoY = document.getElementById("logoY").value;
     let logoOpacity = document.getElementById("logoOpacity").value;
 
+    if(logoX >= 1050 && logoX <= 0) {
+        alert(logoX + " cannot be added. Dimensions are out of range.");
+    }
+
+    if(logoY >= 500 && logoY <= 0) {
+        alert(logoY + " cannot be added. Dimensions are out of range.");
+    }
     //alert(logoOpacity);
     //let logoBorderColor = document.getElementById("logoBorderColor").value;
     //let logoBorderWidth = document.getElementById("logoBorderWidth").value;
@@ -156,26 +147,6 @@ function createLogo(){
 
 // }
 
-//I don't think we need this function right?
-// function updateShapeAttributes() // Still needs to be MVC
-// {
-//     let newType = document.getElementById('editShapeType').value;
-//     let newWidth = document.getElementById('editShapeWidth').value;
-//     let newHeight = document.getElementById('editShapeHeight').value;
-//     let newFill = document.getElementById('editShapeFill').value;
-//     let newStroke = document.getElementById('editShapeStroke').value;
-//     let newStrokeWidth = document.getElementById('editShapeStrokeWidth').value;
-//     let newX = document.getElementById('editShapeX').value;
-//     let newY = document.getElementById('editShapeY').value;
-//     let newSides = document.getElementById('editShapeSides').value;
-//     let newRadius = document.getElementById('editShapeRadius').value;
-//     let newAnimationType = document.getElementById('editShapeAnimation').value;
-//     let newOpacity = document.getElementById('editShapeOpacity').value;
-
-//     console.log(newWidth);
-// }
-
-
 // ----------------------- Shapes ----------------------------------------
 
 //Function deticated to creating shapes based on user input
@@ -220,7 +191,13 @@ function createShape()
         if(ShapeArray[i].shapeName==shapeName)
         {
             duplicatNameFound=true;
-        }     
+        }
+        if(shapeX >= 1050 && shapeX <= 0) {
+            alert(shapeX + " cannot be added. Out of range");
+        }
+        if(shapeY >= 500 && shapeY <= 0) {
+            alert(shapeY + " cannot be added. Out of range");
+        }
     }
 
     var shape;
@@ -393,51 +370,39 @@ export function showEditShapeSection(shapeName, shapeType)
 
 export function saveShapeChanges(shapeName, shapeType) // Needs to change for MVC
 {
-    var shape;
-    // var shape = stage.find('.' + shapeName)[0];
     var ShapeClassObject; 
     //Do a for loop to find the shape based on shape name
     for(var i = 0; i < ShapeArray.length; i++){
         if(ShapeArray[i].shapeName == shapeName)
         {
-            shape = ShapeArray[i].shape.getKonvaShape();
             ShapeClassObject = ShapeArray[i].shape;
         }
     }
     
     console.log(ShapeClassObject);
     
-    //Get the shape from the stage to set it's new attributes
-    //var shape = stage.find('.' + shapeName)[0];
 
     //Determine what type of shape were acessing
     if(shapeType == "Rectangle")
     {
         //Modify the konva shape values 
-        ShapeClassObject.setShapeWidth(document.getElementById("editShapeWidth").value);
-        ShapeClassObject.setShapeHeight(document.getElementById("editShapeHeight").value);
-
-        shape.setAttr("width", document.getElementById("editShapeWidth").value); 
-        shape.setAttr("height", document.getElementById("editShapeHeight").value);
+        ShapeClassObject.getKonvaShape.setAttr('width', document.getElementById("editShapeWidth").value);
+        ShapeClassObject.getKonvaShape.setAttr('height', document.getElementById("editShapeHeight").value);
     }
     else if(shapeType == "Polygon")
     {
-        ShapeClassObject.setShapeSides(document.getElementById("editShapeSides").value);
-        ShapeClassObject.setShapeRadius(document.getElementById("editShapeRadius").value);
-
-        shape.setAttr("sides", document.getElementById("editShapeSides").value);
-        shape.setAttr("radius", document.getElementById("editShapeRadius").value);
+        ShapeClassObject.getKonvaShape.setAttr("sides", document.getElementById("editShapeSides").value);
+        ShapeClassObject.getKonvaShape.setAttr("radius", document.getElementById("editShapeRadius").value);
     }
 
     //Handle the rest of the common attributes
-    ShapeClassObject.setShapeName(document.getElementById("editShapeName").value);
-    shape.setAttr("name", document.getElementById("editShapeName").value);
 
-    ShapeClassObject.setShapeFillColor(document.getElementById("editShapeFill").value);
-    shape.setAttr("fill", document.getElementById("editShapeFill").value);
+    ShapeClassObject.setShapeName(document.getElementById("editShapeName").value);
+
+    ShapeClassObject.getKonvaShape.setAttr("fill", document.getElementById("editShapeFill").value);
     
-    ShapeClassObject.setBorderColor(document.getElementById("editShapeStroke").value);
-    shape.setAttr("stroke", document.getElementById("editShapeStroke").value);
+ 
+    ShapeClassObject.getKonvaShape.setAttr("stroke", document.getElementById("editShapeStroke").value);
     
     ShapeClassObject.setBorderWidth(document.getElementById("editShapeStrokeWidth").value);
     shape.setAttr("strokeWidth", document.getElementById("editShapeStrokeWidth").value);
@@ -540,9 +505,8 @@ export function deleteShape(shapeName)
 {
     //Find the shape in the layer
     //var shape = stage.find('.' + shapeName)[0];
-
     var shape;
-    // var shape = stage.find('.' + shapeName)[0];
+    
     var ShapeClassObject; 
     //Do a for loop to find the shape based on shape name
     for(var i = 0; i < ShapeArray.length; i++){
@@ -573,9 +537,6 @@ export function deleteShape(shapeName)
 }
 
 // ----------------------- Lyrics ----------------------------------------
-//TextLayernp
-//const lyricArray = ["I", "Am", "Wheezer's", "Number", "one", "fan", "Also a fellow Don Pollo Enjoyer"];
-
 //Create Textbox by adding a Tag(background) and Text
 var textBox = new Konva.Label({
     x: 400,
@@ -604,23 +565,6 @@ textBox.add(
 );
 
 layer.add(textBox);
-
-
-// var complexText = new Konva.Text({
-//     x: 400,
-//     y: 180,
-//     text: "",
-//     fontSize: 18,
-//     fontFamily: 'Calibri',
-//     fill: '#555',
-//     //width: 300, //without the width it will scale based on text
-//     padding: 20,
-//     align: 'center',
-//     id: 'P1',
-//     draggable: true,
-// });
-
-// layer.add(complexText);
 
 let lyricArray = []; //Used to store the lines entered in pop-up
 let indexVal = -1; //Start at the beggening of the array
@@ -660,38 +604,8 @@ addLyrics.addEventListener("click", createLyrics);
 
 // -------------------------- Background --------------------------------------
 
-//BackgroundLayer
-// let backgroundArray = [
-//     {
-//         "startTime" : "00:05.2",
-//         "contentFile" : "/EditorMedia/nature.jpg"
-//     },
-//     {
-//         "startTime" : "00:10.4",
-//         "contentFile" : "/EditorMedia/AmongUs.jpg"
-//     },
-//     {
-//         "startTime" : "00:15.1",
-//         "contentFile" : "/EditorMedia/squidward.gif"
-//     },
-//     {
-//         "startTime" : "00:16.2",
-//         "contentFile" : "/EditorMedia/CarrieUnderwood.mp4"
-//     },
-//     {
-//         "startTime" : "00:25.2",
-//         "contentFile" : "/EditorMedia/nature.jpg"
-//     },
-// ]
-
 let backgroundArray = [];
 let backgroundArrayIndex = 0; //Keeps track of the current background were going to use
-
-// let backgroundStartArray = [];
-// let backgroundStartArrayIndex = 0;
-
-// let backgroundEndArray = [];
-// let backgroundEndArrayIndex = 0;
 
 var imageCont = document.getElementById('imageContent'); //Used to acces the image element and manipulate it
 var videoCont = document.getElementById('videoContent'); //Used to access the video element and manipulate it
@@ -703,18 +617,6 @@ const audio = document.getElementById('musicPlayer');
 let submitFile = document.getElementById('fileSubmit');
 submitFile.addEventListener("click", createBackground);
 
-// let imageInput = document.getElementById('imgInput').files[0];
-
-// var imageReader = new FileReader();
-// imageReader.onload = function(e)  {
-//     imageCont.src = e.target.result;
-// }
- 
-// var videoReader = new FileReader();
-// videoReader.onload = function(e) {
-//     videoCont.src = e.target.result;
-// }
-
 // alert("Outside func");
 function createBackground(){
     
@@ -723,11 +625,9 @@ function createBackground(){
     var fileName = document.getElementById('imgInput').files[0].name;
 
     let backgroundStartTime = document.getElementById("backgroundStart").value;
-    // let backgroundEndTime = document.getElementById("backgroundEnd").value;
 
     var backgroundObject = {
         "backgroundStartTime" : backgroundStartTime,
-        // "backgroundEndTime"   : backgroundEndTime,
         "theFile": document.getElementById('imgInput').files[0], //USed to store the file into the user media folder
         "contentFile" : BackgroundFileInput,
         "fileName" : fileName,
@@ -740,12 +640,6 @@ function createBackground(){
     backgroundArray.sort(function (a, b) {
         return a.backgroundStartTime.localeCompare(b.backgroundStartTime);
     });
-
-    //Add the shape to an array that is sorted by end time
-    // backgroundEndArray.push(backgroundObject);
-    // backgroundEndArray.sort(function (a, b) {
-    //     return a.backgroundEndTime.localeCompare(b.backgroundEndTime);
-    // });
 
     alert("Added file");
 
@@ -793,7 +687,6 @@ export function showEditBackgroundSection(fileName) {
     }
 
     //Populate the fields with the the objects properties
-    //Populate the fields with the the objects properties
     document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
 
     //Change the function parementers in button for fileName
@@ -825,25 +718,14 @@ export function saveBackgroundChanges(fileName){
         document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundObjectFound.fileName;
     
         //Update the functions with the new file name
-
-        
-        //document.getElementById("showBackgroundButton" + fileName).setAttribute("onclick");
-
-        //document.getElementById('showBackgroundButton' + fileName).removeAttribute('onclick'); //Use this incase the parameters are not being passed. Remove and placing it seemed to do the trick
-
         document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `showEditBackgroundSection('${backgroundObjectFound.fileName}')`);
-        //document.getElementById('showBackgroundButton'+fileName).onclick = function() {showEditBackgroundSection(backgroundObjectFound.fileName)}
         document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" + backgroundObjectFound.fileName;
         
         document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `deleteBackground('${backgroundObjectFound.fileName}')`);
-        //document.getElementById("deleteBackgroundButton" + fileName).onclick = function() {deleteBackground(backgroundObjectFound.fileName);};
         document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundObjectFound.fileName;
 
         //Update the tr id 
         document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundObjectFound.fileName;
-
-        // console.log(document.getElementById("showBackgroundButton" + backgroundObjectFound.fileName));
-        // console.log(document.getElementById("deleteBackgroundButton" + backgroundObjectFound.fileName));
     }
 }
 
@@ -860,7 +742,6 @@ export function deleteBackground(fileName) {
             backgroundArray.splice(i, 1);
         }
     }
-    //console.log("after: " + backgroundArray);
 
     //Delete the row of the file
     document.getElementById("backgroundHierarchy").deleteRow(document.getElementById("addedBackgroundRow"+fileName).rowIndex);
@@ -872,19 +753,20 @@ export function deleteBackground(fileName) {
     alert('Delete image');
 }
 
-// submitFile.addEventListener("", createBackground);
 
+/*
+    Function used to listen for specific keyboard buttons such as p, f, ...
+*/
+    
 //Keyboard Event Listner
 let paused = true; //Start it out as paused
 
-document.addEventListener('keydown', function(event){
-    switch(event.key)
-    {
+document.addEventListener('keydown', function (event) {
+    switch (event.key) {
         //Display the next lyric
         case "ArrowRight":
-            if(indexVal<lyricArray.length-1)
-            {
-                indexVal+=1;
+            if (indexVal < lyricArray.length - 1) {
+                indexVal += 1;
                 //TextLayer.innerHTML = lyricArray[indexVal];
                 //complexText.text = "Hello there partner";
                 text.setAttr('text', lyricArray[indexVal]);
@@ -892,12 +774,11 @@ document.addEventListener('keydown', function(event){
             }
 
             break;
-        
+
         //Display the previous lyric
         case "ArrowLeft":
-            if(indexVal>=1)
-            {
-                indexVal-=1;
+            if (indexVal >= 1) {
+                indexVal -= 1;
                 text.setAttr('text', lyricArray[indexVal]);
                 //TextLayer.innerHTML = lyricArray[indexVal];
             }
@@ -906,23 +787,21 @@ document.addEventListener('keydown', function(event){
         //Pause and play the project
         case "p":
             //Flip the state 
-            paused=!paused;
-           
-            if(paused==true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
+            paused = !paused;
+
+            if (paused == true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
             {
                 audio.pause();
 
-                if(videoCont.src!="")
+                if (videoCont.src != "")
                     videoCont.pause();
-                //videoCont.pause();
-                //alert(audioElement.currentTime);
             }
             else //If we are playing start the timer, video, and audio layers
             {
                 //alert("playing");
                 audio.play();
 
-                if(videoCont.src!="")
+                if (videoCont.src != "")
                     videoCont.play();
                 //videoCont.play();
             }
@@ -934,9 +813,9 @@ document.addEventListener('keydown', function(event){
         case "r":
             audio.currentTime = 0;
 
-                if (videoCont.src !== "") {
-                    videoCont.currentTime = 0;
-                }
+            if (videoCont.src !== "") {
+                videoCont.currentTime = 0;
+            }
             break;
 
         // full screen
@@ -990,14 +869,6 @@ document.getElementById('restartVideo').addEventListener('click', function(event
 
 //Function to display elements at specific times. Called by setInterval
 function updateProjectElements(formattedTime){
-    //console.log(formattedTime);
-    //console.log(text.getAttr('x'));
-
-    //Round the time to the lowest integer
-    //var audioTimeStamp = Math.floor(audioElement.currentTime);
-
-    //Display the value to the paragraph. Use this for testing
-    // audioTracker.innerHTML = "Audio duration:" + audioTimeStamp;
 
     //Change Background content if the upcoming background element's start time mathces the audio time
     if(backgroundArray.length!=0 && backgroundArray[backgroundArrayIndex].backgroundStartTime==formattedTime)
@@ -1025,28 +896,6 @@ function updateProjectElements(formattedTime){
         if(backgroundArrayIndex < backgroundArray.length-1)
             backgroundArrayIndex+=1;   
     }
-    
-    // //Stop displaying video or image
-    // if(backgroundEndArray.length!=0 && backgroundEndArray[backgroundEndArrayIndex].backgroundEndTime==formattedTime)
-    // {
-    //     if(backgroundEndArray[backgroundEndArrayIndex].fileName.includes("mp4"))
-    //     {
-    //         //Display and play video
-    //         videoCont.src = "";
-    //         videoCont.pause();
-    //     }
-    //     //else load content to image src
-    //     else
-    //     {
-    //         //Display image
-    //         imageCont.src = "";
-    //     }
-
-
-    //     if(backgroundEndArrayIndex < backgroundEndArray.length-1)
-    //         backgroundEndArrayIndex+=1;
-    // }
-
 
     /******************Manage shapes******************/ 
     if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
