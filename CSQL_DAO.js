@@ -5,7 +5,7 @@ const path = require('path');
 
 //Handle data from login form
 router.post('/loginAuth', function(request, response){
-    // response.send("Hello there");
+
     //Get the form values from the json body
     let email = request.body.email;
     let password = request.body.password;
@@ -20,8 +20,7 @@ router.post('/loginAuth', function(request, response){
 			
             // If the account exists
 			if (results.length > 0) {
-				// Authenticate the user
-				//response.send("Logged In");
+				// Go to dashboard
 				response.redirect('/dashboardRedirect');
 			} 
             else {
@@ -52,10 +51,6 @@ router.post('/createAcc', function(req, res){
 	if(email && password && firstName && lastName)
 	{
 		//Check if there is a duplicate email with query
-		//im gonna check where in my js i did those little css stuff when you see that error message pop up
-		// on my FormValidator.js, it has all the error message setup
-		//ahh i see.
-		
 
 		//Insert the new user to the table
 		db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function(error, results, fields){

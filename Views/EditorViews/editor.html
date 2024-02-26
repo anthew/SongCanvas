@@ -39,6 +39,7 @@
 
     <!-- JS files -->
     <script type="module" src="/EditorController.js"></script>
+    <script type="module" src="/EditorManager.js"></script>
     
     <!-- Tab logo -->
 <!-- Path to file-->    
@@ -356,7 +357,7 @@
                                                             }
                                                             
                                                             function hideLyricsPlusButton(){
-                                                              alert ("inside of toggle");
+                                                              
                                                               const lyricsPlusButton = document.getElementById("lyricsPlusButton");
                                                               // const currentDisplayValue = lyricsPlusButton.getAttribute("display");
                                                               // console.log(currentDisplayValue);
@@ -376,7 +377,7 @@
                                                       </div>
 
                                                       <div class="modal-footer"> 
-                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                           <!-- <button type="button" id="lyricSubmit" class="btn btn-primary" data-bs-dismiss="modal" onclick = "hideLyricsPlusButton()">Add to Screen</button> -->
 
                                                           <button type="button" data-toggle="modal" data-target="#uploadLyricsModal" class="btn btn-primary">
@@ -618,10 +619,11 @@
                                                   </tr>
                                                 </table>
 
-                                                <!-- Functions to use with buttons in heirarchy table -->
+                                                <!-- Functions to use with buttons in hierarchy table -->
                                                 <script type="module">
-                                                  import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground, saveBackgroundChanges} from "/EditorController.js";
+                                                  import {deleteShape, modifyShapeSight, showEditShapeSection, saveShapeChanges, showEditBackgroundSection, deleteBackground, saveBackgroundChanges} from "/EditorManager.js";
                                                   
+
                                                   //Functions for background
                                                   window.showEditBackgroundSection = showEditBackgroundSection;
                                                   window.deleteBackground = deleteBackground;
@@ -725,7 +727,7 @@
                                   </td>
                                 
                                   <!-- Canvas Column -->
-                                  <td id="CanvasColumn" style="width: 70%;">
+                                  <td id="CanvasColumn" style="width: 70%; background-color: lightslategray; border: rgb(83, 82, 82); border-style: solid; border-width: 2px;">
                                       <!-- <div id="KonvaCanvas" style="background-color: beige;">
                                         
                                       </div> -->
@@ -750,12 +752,12 @@
                                   
                                   
                                   <!-- Properties Column -->
-                                  <td class="propertiesPage" style="background-color: lightslategray; width: 15%;">
+                                  <td class="propertiesPage" style="background-color: lightslategray; width: 15%; overflow-y: scroll; height: 150px;">
                                     <div id="editShapePopUp" style="display:none;">
                                       <h2 id="editHeader"></h2>
 
                                       <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
-                                      <!-- <label>Shape Name:</label> -->
+                                      <label>Shape Name:</label>
                                       <input type="text" id="editShapeName" placeholder="Enter Shape Name"> 
 
                                       <!-- Might not use shape type -->
@@ -763,21 +765,21 @@
                                       <!--------------------- Edit Options for rectangle ---------------------->
                                       <!-- Shape Width -->
                                       <div id="editRectangleValues">
-                                        <!-- <label for="editShapeWidth">Width:</label> -->
+                                        <label for="editShapeWidth">Width:</label>
                                         <input type="number" id="editShapeWidth" placeholder="Enter Width">
 
                                         <!-- Shape Height -->
-                                        <!-- <label for="editShapeHeight">Height:</label> -->
+                                        <label for="editShapeHeight">Height:</label>
                                         <input type="number" id="editShapeHeight" placeholder="Enter Height">
                                       </div>
                                       <!-- ----------------------------------------------------------------- -->
 
                                       <!---------------------- Edit Options for Polygon------------------------->
                                       <div id="editPolygonValues">
-                                        <!-- <label for="editShapeSides">Number of Sides:</label> -->
+                                        <label for="editShapeSides">Number of Sides:</label>
                                         <input type="number" id="editShapeSides" placeholder="Enter number of sides">
                                                           
-                                        <!-- <label for="editShapeRadius">Radius:</label> -->
+                                        <label for="editShapeRadius">Radius:</label>
                                         <input type="number" id="editShapeRadius" placeholder="Enter the radius">
                                       </div>
                                       <!-- ------------------------------------------------------------------ -->
@@ -823,11 +825,11 @@
                                       </select>
 
                                       <!-- Start Time -->
-                                      <!-- <label>Start Time:</label> -->
+                                      <label>Start Time:</label>
                                       <input type="text" id="editShapeStartTime" placeholder="Enter start time (00:00.0)">
 
                                       <!-- End time -->
-                                      <!-- <label>End Time:</label> -->
+                                      <label>End Time:</label>
                                       <input type="text" id="editShapeEndTime" placeholder="Enter end time (00:00.0)">
                                       
                                       <!-- Save Changes -->
