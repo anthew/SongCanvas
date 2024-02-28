@@ -11,12 +11,13 @@ export class Polygon extends Shape {
             fill: fillColor,
             stroke: borderColor,
             strokeWidth: borderWidth,
-            x: xLoc, 
-            y: yLoc,
+            x: Number(xLoc), 
+            y: Number(yLoc),
             radius: radius,
             sides: sides, 
-            visible: false, // Polygons are invisible by default
+            visible: true, // Polygons are invisible by default
             opacity: opacity,
+            draggable: true,
         });
     } // so instead of storing all the values in separa
 

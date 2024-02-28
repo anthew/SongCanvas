@@ -13,14 +13,15 @@ export class Rectangle extends Shape {
             fill: fillColor,
             stroke: borderColor,
             strokeWidth: borderWidth,
-            x: xLoc, 
-            y: yLoc, 
-            visible: false, // Shapes are invisible by default
+            x: Number(xLoc), 
+            y: Number(yLoc), 
+            visible: true, // Shapes are invisible by default
             opacity: opacity,
             offset: { //Note the offset variable is used to center the animations 
                 x: width/2,
                 y: height/2,
             },
+            draggable: true,
         });  
     }
 
