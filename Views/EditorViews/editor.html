@@ -744,7 +744,7 @@
                                         </div> -->
 
                                         <!-- Audio Element to play  -->
-                                        <audio id="musicPlayer">
+                                        <audio id="musicPlayer" preload="metadata">
                                           <source src="/EditorMedia/Weezer.mp3" type="audio/mpeg">
                                         </audio>
                                       </div>
@@ -907,16 +907,42 @@
                                   </td>
                           </tr>
                           <tr colspan="3">
-                              <td style="width: 15%;">
-                                hello
+                              <td style="width: 15%; background-color: #ecb5a2;">
+                                Current Time:<span id="audioTimestamp" style="float: right;">00:00.0</span>
                               </td>
                               <td  style="text-align: center; background-color: #ecb5a2; width: 70%;">
                                 <input class="slider" type="range" id="timeSlider" min="0" max="100" step="1" value="0" disabled />
-                                <span id="audioTimestamp">00:00.0</span>
+                                <!-- <span id="audioTimestamp">00:00.0</span> -->
                               </td>
-                              <td style="width: 15%;">
-                                what up
+
+                              <td style="width: 15%; background-color: #ecb5a2;">
+                                <span id="audioDuration" style="justify-content: left;"></span>
                               </td>
+
+                              <!-- Calcuate the duration of the audio file -->
+                              <script>
+                                //Get the duartion of the audio
+                                const audio = document.getElementById('musicPlayer');
+                                  
+                                //Calcuate duartion when metaData is ready
+                                audio.onloadedmetadata = function() {
+                                  console.log(audio.duration)
+                                  
+                                
+                                //Calculate Mins
+                                const min = Math.floor(audio.duration / 60);
+                                
+                                //Calculate Secs
+                                const seconds = Math.floor(audio.duration % 60);
+
+                                //Calcuate DeciSecs
+                                const deciseconds = Math.floor((audio.duration * 10)) % 10;
+
+                                //Display the clauclted timestamp to audioDuration
+                                const maxTime = `${min.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
+                                document.getElementById("audioDuration").innerText = maxTime;
+                                }; 
+                              </script>
                           </tr>
                       </tbody>
                   </table>

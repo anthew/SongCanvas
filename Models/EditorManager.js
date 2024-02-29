@@ -28,22 +28,22 @@ stage.add(layer);
 
 // anim.start();
 
-var canvas = document.createElement('canvas');
+// var canvas = document.createElement('canvas');
 
-function onDrawFrame(ctx, frame) {
-    // update canvas size
-    canvas.width = 1050;
-    canvas.height = 500;
-    // update canvas that we are using for Konva.Image
-    ctx.drawImage(frame.buffer, 0, 0);
-    // redraw the layer
-    layer.draw();
-}
+// function onDrawFrame(ctx, frame) {
+//     // update canvas size
+//     canvas.width = 1050;
+//     canvas.height = 500;
+//     // update canvas that we are using for Konva.Image
+//     ctx.drawImage(frame.buffer, 0, 0);
+//     // redraw the layer
+//     layer.draw();
+// }
 
-gifler("/EditorMedia/squidward.gif").frames(canvas, onDrawFrame);
+// gifler("/EditorMedia/squidward.gif").frames(canvas, onDrawFrame);
+
 
 // ---------------------- Logo ------------------------------------------
-
 //Create the logo object once
 var logo = new Konva.Image({
     draggable: true,
@@ -677,67 +677,6 @@ export function createLyrics(lyricsTextAreaStuff, lyricsBackgroundSelection){
     console.log(lyricArray);
 }
 
-// export function updateProjectElements(formattedTime){
-
-//     // //Change Background content if the upcoming background element's start time mathces the audio time
-//     // if(backgroundArray.length!=0 && backgroundArray[backgroundArrayIndex].backgroundStartTime==formattedTime)
-//     // {
-//     //     //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
-//     //     //if the current background elemnt to be displayed is a video load it to video element src
-//     //     if(backgroundArray[backgroundArrayIndex].fileName.includes("mp4"))
-//     //     {
-//     //         //Display and play video
-//     //         videoCont.src = backgroundArray[backgroundArrayIndex].contentFile;
-//     //         videoCont.play();
-//     //     }
-//     //     //else load content to image src
-//     //     else
-//     //     {
-//     //         //Stop video
-//     //         videoCont.src="";
-//     //         videoCont.pause();
-
-//     //         //Display image
-//     //         imageCont.src = backgroundArray[backgroundArrayIndex].contentFile;
-//     //     }
-        
-//     //     //Increment background index if current index is not at the end of array
-//     //     if(backgroundArrayIndex < backgroundArray.length-1)
-//     //         backgroundArrayIndex+=1;   
-//     // }
-
-//     /******************Manage shapes******************/ 
-//     if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
-//     {
-//         //Display the shape
-//         ShapeStartArray[ShapeStartIndex].shape.showKonvaShape();
-
-//         //Check if there is any animations for this shape
-//         //ShapeStartArray[ShapeStartIndex].animation.start(); 
-//         if(ShapeStartArray[ShapeStartIndex].shape.getAnimationType()!="None")
-//             ShapeStartArray[ShapeStartIndex].shape.startAnimation();
-
-//         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
-//         if(ShapeStartIndex < ShapeArray.length-1)
-//             ShapeStartIndex+=1;
-//     }
-
-//     if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].shapeEndTime==formattedTime)
-//     {
-//         //Hide the shape
-//         ShapeEndArray[ShapeEndIndex].shape.hideKonvaShape();
-
-//         //Stop the shapes animation if applicable
-//         if(ShapeEndArray[ShapeEndIndex].shapeAnimation!="None")
-//             ShapeEndArray[ShapeEndIndex].shape.stopAnimation();
-        
-//         //Move to the next shape if it is available
-//         if(ShapeEndIndex < ShapeArray.length-1)
-//             ShapeEndIndex+=1;
-//     }
-// } 
-
-
 /*
     Function used to listen for specific keyboard buttons such as p, f, ...
 */
@@ -979,6 +918,8 @@ export function toggleFullScreen() {
         }
     }
 }
+
+
     // JavaScript for Sliding Properties Page
 //     document.getElementById('propertiesPulley').addEventListener('click', function () {
 //     var propertiesPage = document.querySelector('.propertiesPage');
