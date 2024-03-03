@@ -16,16 +16,34 @@ import { Lyrics } from './Lyrics.mjs';
 //var canvasWidth = window.innerWidth * (parseInt(document.getElementById("CanvasColumn").getAttribute('width'))/100);
 //canvasWidth-16 test this later
 //console.log(canvasWidth);
-//Create the stage
-var stage = new Konva.Stage({
-    container: 'KonvaCanvas',
-    width: 1050,
-    height: 500, 
-});
 
-//Create and add layer to the stage
-var layer = new Konva.Layer();
-stage.add(layer);
+//Create the stage
+
+//console.log(Konva.isBrowser);
+
+//Determine if we are running on browser (true). Or testing using node (false)
+if(Konva.isBrowser==true)
+{
+    var stage = new Konva.Stage({
+        container: 'KonvaCanvas',
+        width: 1050,
+        height: 500, 
+    });
+
+    //Create and add layer to the stage
+    var layer = new Konva.Layer();
+    stage.add(layer);
+}
+else
+{
+    var stage = new Konva.Stage({
+        width: 1050,
+        height: 500, 
+    });
+    
+    var layer = new Konva.Layer();
+    stage.add(layer);
+}
 
 // ---------------------- Logo ------------------------------------------
 
@@ -46,10 +64,6 @@ let ShapeEndIndex = 0;
 
 let backgroundArray = [];
 let backgroundArrayIndex = 0; //Keeps track of the current background were going to use
-
-var imageCont = document.getElementById('imageContent'); //Used to acces the image element and manipulate it
-var videoCont = document.getElementById('videoContent'); //Used to access the video element and manipulate it
-videoCont.muted=true; //Ensure that there is no audio coming from video
 
 // ----------------------- Lyrics ----------------------------------------
 let lyricArray = []; //Used to store the lines entered in pop-up
@@ -99,31 +113,41 @@ export class EditorManager{
         document.getElementById("logoPlusButton").style.setProperty("display", "none");
     }
 
+    checkOutOfBounds(shapeX, shapeY)
+    {
+        if(shapeX > 1050 || shapeX < 0) {
+            //alert(shapeX + " cannot be added. Out of range");
+            return true;
+        }
+        
+        if(shapeY > 500 || shapeY < 0) {
+            //alert(shapeY + " cannot be added. Out of range");
+            return true;
+        }
+
+        //Shape is not out of bounds
+        return false;
+    }
+
     //Design Element functions and properties
     createShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeType, shapeRadius)
     {
-        //Check if there are any duplicate names
-        var duplicatNameFound=false;
-
         //For every shape in ShapeArray
         for(var i = 0; i < ShapeArray.length; i++){
-            //If the name is the 
+
+            //If the name is already existing 
             if(ShapeArray[i].shapeName==shapeName)
             {
-                duplicatNameFound=true;
-            }
-            if(shapeX >= 1050 && shapeX <= 0) {
-                alert(shapeX + " cannot be added. Out of range");
-            }
-            if(shapeY >= 500 && shapeY <= 0) {
-                alert(shapeY + " cannot be added. Out of range");
+                return true;//duplicatNameFound=true;
+            } //
+
+            if(this.checkOutOfBounds(shapeX, shapeY)==true)
+            {
+                return true;
             }
         }
 
         var shape;
-
-        if(duplicatNameFound==false)
-        { //No duplicate names were found 
         
             //Determine which type of shape user selected
             if(shapeType=="Polygon")
@@ -186,36 +210,12 @@ export class EditorManager{
                 return a.shape.getEndTime().localeCompare(b.shape.getEndTime());
             });
 
-            // let table = document.getElementById("shapeHierarchy");
-
-            // let template = `
-            //     <tr id="addedShapeRow${shapeName}" >
-            //         <td id="editShape " style="border: 1px solid black;">
-            //             <button id="editShapeButton${shapeName}" onclick="showEditShapeSection('${shapeName}', '${shapeType}')" style="background-color: white; border: none;">${shapeName}</button>
-            //         </td>
-            //         <td id="addedShapeVisible" style="border: 1px solid black;">
-            //             <button id="addedShapeNameButton${shapeName}" onclick="requestShapeVisibility('${shapeName}')" style="background-color: white; border: none;"><img style="width: 26px;
-            //             height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
-            //         </td>
-            //         <td id="deleteShape" style="border: 1px solid black;">
-            //             <button id="deleteShapeButton${shapeName}" onclick="requestDeleteShape('${shapeName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
-            //             height: 26px; "></button>
-            //         </td>
-            //     </tr>
-            // `;
-
-            // table.innerHTML += template;
-
-        } else {
-            alert('Duplicate found ' + shapeName);
-            duplicatNameFound = true;
-        }
+        return false;
     }
 
     deleteShape(shapeName)
     {
         //Find the shape in the layer
-        //var shape = stage.find('.' + shapeName)[0];
         var shape;
         
         var ShapeClassObject; 
@@ -241,11 +241,18 @@ export class EditorManager{
         shape.destroy();
     }
 
-    // modifyShapeSight(shapeName)
-    // {
-    //     //Change the shape visibility
-    //     shape.setAttr("visible",!shape.getAttr("visible"));
-    // }
+    modifyShapeSight(shapeName)
+    {
+        var shape = this.getShapeObject(shapeName).getKonvaShape();
+
+        //Change the shape visibility
+        shape.setAttr("visible",!shape.getAttr("visible"));
+    }
+
+    getVisibility(shapeName)
+    {
+        return this.getShapeObject(shapeName).getKonvaShape().getAttr("visible");
+    }
 
     //Move a majority of this function to the controller since it's just polulating the fields of an existing shapes attributes. 
     // Should just return the shape from the for loop to the requestShowEditShapeSection in the Controller
@@ -265,9 +272,11 @@ export class EditorManager{
         return ShapeClassObject;
     }
 
-    saveShapeChanges(shapeName, shapeType)
+    saveShapeChanges(shapeName, shapeType, newShapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeRadius)
     {
         var ShapeClassObject; 
+
+        console.log("Before function: " + shapeName);
         //Do a for loop to find the shape based on shape name
         for(var i = 0; i < ShapeArray.length; i++){
             if(ShapeArray[i].shapeName == shapeName)
@@ -276,73 +285,76 @@ export class EditorManager{
             }
         }
         
-        console.log(ShapeClassObject);
-        
-
         //Determine what type of shape we're acessing
         if(shapeType == "Rectangle")
         {
             //Modify the konva shape values 
-            ShapeClassObject.getKonvaShape().setAttr('width', document.getElementById("editShapeWidth").value);
-            ShapeClassObject.getKonvaShape().setAttr('height', document.getElementById("editShapeHeight").value);
+            ShapeClassObject.getKonvaShape().setAttr('width', shapeWidth);
+            ShapeClassObject.getKonvaShape().setAttr('height', shapeHeight);
 
             //Update the offset tof the konva shape to ensure it still amintains it's center point
-            ShapeClassObject.getKonvaShape().setAttr("offset", {x: document.getElementById("editShapeWidth").value/2, y:document.getElementById("editShapeHeight").value/2});
+            ShapeClassObject.getKonvaShape().setAttr("offset", {x: shapeWidth/2, y: shapeHeight/2});
         }
         else if(shapeType == "Polygon")
         {
-            ShapeClassObject.getKonvaShape().setAttr("sides", document.getElementById("editShapeSides").value);
-            ShapeClassObject.getKonvaShape().setAttr("radius", document.getElementById("editShapeRadius").value);
+            ShapeClassObject.getKonvaShape().setAttr("sides", shapeSides);
+            ShapeClassObject.getKonvaShape().setAttr("radius", shapeRadius);
         }
 
         //Handle the rest of the common attributes
 
-        ShapeClassObject.setShapeName(document.getElementById("editShapeName").value);
+        ShapeClassObject.setShapeName(newShapeName);
 
-        ShapeClassObject.getKonvaShape().setAttr("fill", document.getElementById("editShapeFill").value);
+        ShapeClassObject.getKonvaShape().setAttr("fill", shapeFill_color);
         
-        ShapeClassObject.getKonvaShape().setAttr("stroke", document.getElementById("editShapeStroke").value);
+        ShapeClassObject.getKonvaShape().setAttr("stroke", shapeStroke);
         
         //ShapeClassObject.setBorderWidth(document.getElementById("editShapeStrokeWidth").value);
-        ShapeClassObject.getKonvaShape().setAttr("strokeWidth", document.getElementById("editShapeStrokeWidth").value);
+        ShapeClassObject.getKonvaShape().setAttr("strokeWidth", shapeStrokeWidth);
         
         //ShapeClassObject.setX_loc(document.getElementById("editShapeX").value);
-        ShapeClassObject.getKonvaShape().setAttr("x", Number(document.getElementById("editShapeX").value));
+        ShapeClassObject.getKonvaShape().setAttr("x", Number(shapeX));
         
         //ShapeClassObject.setY_loc(document.getElementById("editShapeY").value);
-        ShapeClassObject.getKonvaShape().setAttr("y", Number(document.getElementById("editShapeY").value));
+        ShapeClassObject.getKonvaShape().setAttr("y", Number(shapeY));
         
         //ShapeClassObject.setShapeOpacity(document.getElementById("editShapeOpacity").value);
-        ShapeClassObject.getKonvaShape().setAttr("opacity", document.getElementById("editShapeOpacity").value);
+        ShapeClassObject.getKonvaShape().setAttr("opacity", shapeOpacity);
 
         // Get the selected animation type from the dropdown
-        const shapeAnimationType = document.getElementById("editShapeAnimation").value;
+        const shapeAnimationType = shapeAnimation_type;
 
         // Apply animation based on the selected type
         // if (shapeAnimationType != "None") {
             let animationObject;
 
+            if(ShapeClassObject.getAnimationType()!="None")
+                ShapeClassObject.stopAnimation();
+
             if (shapeAnimationType == "Clockwise") {
                 // Apply Clockwise animation logic here
 
-                ShapeClassObject.stopAnimation();
+                //ShapeClassObject.stopAnimation();
 
                 animationObject = new Konva.Animation(function (frame) {
                     ShapeClassObject.getKonvaShape().rotate(1.5);
                 }, layer);
-                // ShapeClassObject.setAnimationType("Clockwise");
+
+                ShapeClassObject.setAnimationType("Clockwise");
             } else if (shapeAnimationType == "Counter-Clockwise") {
                 // Apply Counter-Clockwise animation logic here
-                ShapeClassObject.stopAnimation();
+                //ShapeClassObject.stopAnimation();
+
                 animationObject = new Konva.Animation(function (frame) {
                     ShapeClassObject.getKonvaShape().rotate(-1.5);
                 }, layer);
+
                 ShapeClassObject.setAnimationType("Counter-Clockwise");
             } else {
-                ShapeClassObject.stopAnimation();
                 animationObject = new Konva.Animation(function (frame) {
                     ShapeClassObject.getKonvaShape().rotate(0);
                 }, layer);
+
                 ShapeClassObject.setAnimationType("None");
             }
         
@@ -350,18 +362,19 @@ export class EditorManager{
             ShapeClassObject.setAnimation(animationObject);
         
             // Start the animation
-            ShapeClassObject.getAnimation().start();
+            if(ShapeClassObject.getAnimationType()!="None")
+                ShapeClassObject.getAnimation().start();
         // } else {
         //     // If the selected animation type is "None", remove any existing animation
         //     ShapeClassObject.setAnimation(null);
         // }
 
-        ShapeClassObject.setStartTime(document.getElementById("editShapeStartTime").value);
-        ShapeClassObject.setEndTime(document.getElementById("editShapeEndTime").value);
+        ShapeClassObject.setStartTime(shapeStartTime);
+        ShapeClassObject.setEndTime(shapeEndTime);
         
         //Update the name in the row
-        document.getElementById("editShapeButton" + shapeName).innerHTML = document.getElementById("editShapeName").value;
-        document.getElementById("addedShapeRow" + shapeName).id = "addedShapeRow" + document.getElementById("editShapeName").value;
+        // document.getElementById("editShapeButton" + shapeName).innerHTML = document.getElementById("editShapeName").value;
+        // document.getElementById("addedShapeRow" + shapeName).id = "addedShapeRow" + document.getElementById("editShapeName").value;
 
 
         //Update the startTime, EndTime, and name for the shapeArray, shapeStartArray, and shapeEndArray
@@ -369,34 +382,44 @@ export class EditorManager{
         var shapeStartIndex = ShapeStartArray.findIndex(p=>p.shapeName == shapeName);
         var shapeEndIndex = ShapeEndArray.findIndex(p=>p.shapeName == shapeName);
 
-        ShapeArray[shapeIndex].shapeName = document.getElementById("editShapeName").value;
-        ShapeArray[shapeIndex].shapeStartTime = document.getElementById("editShapeStartTime").value;
-        ShapeArray[shapeIndex].shapeEndTime = document.getElementById("editShapeEndTime").value;
+        ShapeArray[shapeIndex].shapeName = newShapeName;
+        ShapeArray[shapeIndex].shapeStartTime = shapeStartTime;
+        ShapeArray[shapeIndex].shapeEndTime = shapeEndTime;
 
-        ShapeStartArray[shapeStartIndex].shapeName = document.getElementById("editShapeName").value;
-        ShapeStartArray[shapeStartIndex].shapeStartTime = document.getElementById("editShapeStartTime").value;
-        ShapeStartArray[shapeStartIndex].shapeEndTime = document.getElementById("editShapeEndTime").value;
+        ShapeStartArray[shapeStartIndex].shapeName = newShapeName;
+        ShapeStartArray[shapeStartIndex].shapeStartTime = shapeStartTime;
+        ShapeStartArray[shapeStartIndex].shapeEndTime = shapeEndTime;
 
-        ShapeEndArray[shapeEndIndex].shapeName = document.getElementById("editShapeName").value;
-        ShapeEndArray[shapeEndIndex].shapeStartTime = document.getElementById("editShapeStartTime").value;
-        ShapeEndArray[shapeEndIndex].shapeEndTime = document.getElementById("editShapeEndTime").value;
+        ShapeEndArray[shapeEndIndex].shapeName = newShapeName;
+        ShapeEndArray[shapeEndIndex].shapeStartTime = shapeStartTime;
+        ShapeEndArray[shapeEndIndex].shapeEndTime = shapeEndTime;
 
-        //Reasign the onclick and id of editShapeButton to the new name of the shape 
-        document.getElementById("editShapeButton" + shapeName).setAttribute("onClick", `showEditShapeSection('${document.getElementById("editShapeName").value}','${shapeType}')`);
-        document.getElementById("editShapeButton" + shapeName).id = "editShapeButton" + document.getElementById("editShapeName").value;
+        // //Reasign the onclick and id of editShapeButton to the new name of the shape 
+        // document.getElementById("editShapeButton" + shapeName).setAttribute("onClick", `showEditShapeSection('${document.getElementById("editShapeName").value}','${shapeType}')`);
+        // document.getElementById("editShapeButton" + shapeName).id = "editShapeButton" + document.getElementById("editShapeName").value;
 
-        //Reassign the new name to the shapeVisibilitybutton
-        document.getElementById("addedShapeNameButton" + shapeName).setAttribute("onClick", `requestShapeVisibility('${document.getElementById("editShapeName").value}')`);
-        document.getElementById("addedShapeNameButton" + shapeName).id = "addedShapeNameButton" + document.getElementById("editShapeName").value;
+        // //Reassign the new name to the shapeVisibilitybutton
+        // document.getElementById("addedShapeNameButton" + shapeName).setAttribute("onClick", `requestShapeVisibility('${document.getElementById("editShapeName").value}')`);
+        // document.getElementById("addedShapeNameButton" + shapeName).id = "addedShapeNameButton" + document.getElementById("editShapeName").value;
 
-        //Reassign the new name to the delete button
-        document.getElementById("deleteShapeButton" + shapeName).setAttribute("onClick", `requestDeleteShape('${document.getElementById("editShapeName").value}')`);
-        document.getElementById("deleteShapeButton" + shapeName).id = "deleteShapeButton" + document.getElementById("editShapeName").value;
+        // //Reassign the new name to the delete button
+        // document.getElementById("deleteShapeButton" + shapeName).setAttribute("onClick", `requestDeleteShape('${document.getElementById("editShapeName").value}')`);
+        // document.getElementById("deleteShapeButton" + shapeName).id = "deleteShapeButton" + document.getElementById("editShapeName").value;
+    }
 
-        console.log(document.getElementById("editShapeButton" + document.getElementById("editShapeName").value));
-        console.log(document.getElementById("addedShapeNameButton" + document.getElementById("editShapeName").value));
+    getShapeArray()
+    {
+        return ShapeArray;
+    }
 
-        console.log(ShapeClassObject);
+    getShapeStartArray()
+    {
+        return ShapeStartArray;
+    }
+
+    getShapeEndArray()
+    {
+        return ShapeEndArray;
     }
 
     //Lyrics functions and properties
@@ -421,16 +444,18 @@ export class EditorManager{
         text = this.lyricsObj.getKonvaText();
     }
 
+    getLyricArray()
+    {
+        return lyricArray;
+    }
+
+    getTextObject()
+    {
+        return text;
+    }
+
     //Background functions and properties
     createBackground(BackgroundFileInput, fileName, backgroundStartTime){
-
-        // var backgroundObject = {
-        //     "backgroundStartTime" : backgroundStartTime,
-        //     "theFile": document.getElementById('imgInput').files[0], //USed to store the file into the user media folder
-        //     "contentFile" : BackgroundFileInput,
-        //     "fileName" : fileName,
-        // }
-    
         var backgroundObject = new Background(BackgroundFileInput, fileName, backgroundStartTime);
     
         backgroundArray.push(backgroundObject.getBackgroundObject());
@@ -440,58 +465,37 @@ export class EditorManager{
         backgroundArray.sort(function (a, b) {
             return a.backgroundStartTime.localeCompare(b.backgroundStartTime);
         });
-    
-        // let table = document.getElementById("backgroundHierarchy");
-    
-        // let template = `
-        //     <tr id="addedBackgroundRow${fileName}" >
-        //         <td id="addedBackgroundName" style="border: 1px solid black;">
-        //             <button id="showBackgroundButton${fileName}" onclick="requestShowEditBackgroundSection('${fileName}')" style="background-color: white; border: none; width: 70px; white-space: nowrap; overflow: hidden;">${fileName}</button>
-        //         </td>
-        //         <td id="addedBackgroundVisible" style="border: 1px solid black;">
-        //             <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;"><img style="width: 26px;
-        //             height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
-        //         </td>
-        //         <td id="deleteBackground" style="border: 1px solid black;">
-        //             <button id="deleteBackgroundButton${fileName}" onclick="requestDeleteBackground('${fileName}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
-        //             height: 26px; "></button>
-        //         </td>
-        //     </tr>
-        // `;
-    
-        // table.innerHTML += template;
-        // imageCont.src = URL.createObjectURL(imageInput.files[0]);
     }
 
-    showEditBackgroundSection(fileName) {
-        alert("In the function edit "+ fileName);
-        var backgroundObjectFound;
+    // showEditBackgroundSection(fileName) {
+    //     //alert("In the function edit "+ fileName);
+    //     var backgroundObjectFound;
     
-        //Make sure the file input of a prevous edit is gone 
-        document.getElementById('editFileInput').value='';
+    //     //Make sure the file input of a prevous edit is gone 
+    //     document.getElementById('editFileInput').value='';
     
-        //Hide the shapePop or others if there not already
-        document.getElementById("editShapePopUp").style.setProperty("display", "none");
+    //     //Hide the shapePop or others if there not already
+    //     document.getElementById("editShapePopUp").style.setProperty("display", "none");
         
-        //Display backgroundpop up if not already
-        document.getElementById("editBackgroundPopUp").style.setProperty("display", "block");
+    //     //Display backgroundpop up if not already
+    //     document.getElementById("editBackgroundPopUp").style.setProperty("display", "block");
     
     
-        //Find the object that has the fileName
-        for(var i=0; i < backgroundArray.length; i++)
-        {
-            if(backgroundArray[i].fileName==fileName)
-                backgroundObjectFound = backgroundArray[i];
-        }
+    //     //Find the object that has the fileName
+    //     for(var i=0; i < backgroundArray.length; i++)
+    //     {
+    //         if(backgroundArray[i].fileName==fileName)
+    //             backgroundObjectFound = backgroundArray[i];
+    //     }
     
-        //Populate the fields with the the objects properties
-        document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
+    //     //Populate the fields with the the objects properties
+    //     document.getElementById('editStartTime').value = backgroundObjectFound.backgroundStartTime;
     
-        //Change the function parementers in button for fileName
-        document.getElementById("saveBackgroundButton").onclick = function() {requestSaveBackgroundChanges(fileName)};
+    //     //Change the function parementers in button for fileName
+    //     document.getElementById("saveBackgroundButton").onclick = function() {requestSaveBackgroundChanges(backgroundObjectFound.fileName)};
     
-        console.log(document.getElementById("saveBackgroundButton"));
-    }
+    //     console.log(document.getElementById("saveBackgroundButton"));
+    // }
 
     deleteBackground(fileName) {
         //console.log("Before: " + backgroundArray);
@@ -507,17 +511,33 @@ export class EditorManager{
             }
         }
     
-        //Delete the row of the file
-        document.getElementById("backgroundHierarchy").deleteRow(document.getElementById("addedBackgroundRow"+fileName).rowIndex);
+        // //Delete the row of the file
+        // document.getElementById("backgroundHierarchy").deleteRow(document.getElementById("addedBackgroundRow"+fileName).rowIndex);
     
-        //Set the filepath of imageCont and videoCont to be empty so that the background stops showing if it's currently showing when being deleted
-        imageCont.src = '';
-        videoCont.src = '';
+        // //Set the filepath of imageCont and videoCont to be empty so that the background stops showing if it's currently showing when being deleted
+        // imageCont.src = '';
+        // videoCont.src = '';
     
         // alert('Delete image');
     }
 
-    saveBackgroundChanges(fileName){
+    getBackgroundObject(fileName)
+    {
+        
+        //Find the background object to update
+        for(var i=0; i < backgroundArray.length; i++)
+        {
+            if(backgroundArray[i].fileName==fileName)
+                return backgroundArray[i];
+        }
+    }
+
+    getBackgroundArray()
+    {
+        return backgroundArray;
+    }
+
+    saveBackgroundChanges(fileName, backgroundStartTime, backgroundFileInput){
         var backgroundObjectFound;
     
         //Find the background object to update
@@ -528,26 +548,26 @@ export class EditorManager{
         }
     
         //Change the background objects attributes with the input fieds from the properites panel
-        backgroundObjectFound.backgroundStartTime = document.getElementById("editStartTime").value;
+        backgroundObjectFound.backgroundStartTime = backgroundStartTime;
     
-        if(document.getElementById('editFileInput').files.length != 0) //If the user has selected a file then don't chnage the objexts propties for the file 
+        if(backgroundFileInput.files.length != 0) //If the user has selected a file then don't chnage the objexts propties for the file 
         {
             //Update the background object's file 
-            backgroundObjectFound.contentFile = URL.createObjectURL(document.getElementById('editFileInput').files[0]);
-            backgroundObjectFound.fileName = document.getElementById('editFileInput').files[0].name;
+            backgroundObjectFound.contentFile = URL.createObjectURL(backgroundFileInput.files[0]);
+            backgroundObjectFound.fileName = backgroundFileInput.files[0].name;
         
-            //Update the file name
-            document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundObjectFound.fileName;
+            // //Update the file name
+            // document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundObjectFound.fileName;
         
-            //Update the functions with the new file name
-            document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `requestShowEditBackgroundSection('${backgroundObjectFound.fileName}')`);
-            document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" + backgroundObjectFound.fileName;
+            // //Update the functions with the new file name
+            // document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `requestShowEditBackgroundSection('${backgroundObjectFound.fileName}')`);
+            // document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" + backgroundObjectFound.fileName;
             
-            document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `requestDeleteBackground('${backgroundObjectFound.fileName}')`);
-            document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundObjectFound.fileName;
+            // document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `requestDeleteBackground('${backgroundObjectFound.fileName}')`);
+            // document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundObjectFound.fileName;
     
-            //Update the tr id 
-            document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundObjectFound.fileName;
+            // //Update the tr id 
+            // document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundObjectFound.fileName;
         }
     }
 }
@@ -558,243 +578,241 @@ export class EditorManager{
     Function used to listen for specific keyboard buttons such as p, f, ...
 */
     
-//Keyboard Event Listner
-let paused = true; //Start it out as paused
+// //Keyboard Event Listner
+// let paused = true; //Start it out as paused
 
-document.addEventListener('keydown', function (event) {
-    switch (event.key) {
-        //Display the next lyric
-        case "ArrowRight":
-            if (indexVal < lyricArray.length - 1) {
-                indexVal += 1;
-                //TextLayer.innerHTML = lyricArray[indexVal];
-                //complexText.text = "Hello there partner";
-                text.setAttr('text', lyricArray[indexVal]);
-                //layer.draw();
-            }
+// document.addEventListener('keydown', function (event) {
+//     switch (event.key) {
+//         //Display the next lyric
+//         case "ArrowRight":
+//             if (indexVal < lyricArray.length - 1) {
+//                 indexVal += 1;
+//                 //TextLayer.innerHTML = lyricArray[indexVal];
+//                 //complexText.text = "Hello there partner";
+//                 text.setAttr('text', lyricArray[indexVal]);
+//                 //layer.draw();
+//             }
 
-            break;
+//             break;
 
-        //Display the previous lyric
-        case "ArrowLeft":
-            if (indexVal >= 1) {
-                indexVal -= 1;
-                text.setAttr('text', lyricArray[indexVal]);
-                //TextLayer.innerHTML = lyricArray[indexVal];
-            }
-            break;
+//         //Display the previous lyric
+//         case "ArrowLeft":
+//             if (indexVal >= 1) {
+//                 indexVal -= 1;
+//                 text.setAttr('text', lyricArray[indexVal]);
+//                 //TextLayer.innerHTML = lyricArray[indexVal];
+//             }
+//             break;
 
-        //Pause and play the project
-        case "p":
-            //Flip the state 
-            paused = !paused;
+//         //Pause and play the project
+//         case "p":
+//             //Flip the state 
+//             paused = !paused;
 
-            if (paused == true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
-            {
-                audio.pause();
+//             if (paused == true) //If we are pausing stop the timer, audio, video(if we are currently using it as background)
+//             {
+//                 audio.pause();
 
-                if (videoCont.src != "")
-                    videoCont.pause();
-            }
-            else //If we are playing start the timer, video, and audio layers
-            {
-                audio.play();
-                if (videoCont.src != "")
-                    videoCont.play();
-            }
+//                 if (videoCont.src != "")
+//                     videoCont.pause();
+//             }
+//             else //If we are playing start the timer, video, and audio layers
+//             {
+//                 audio.play();
+//                 if (videoCont.src != "")
+//                     videoCont.play();
+//             }
 
-            break;
+//             break;
 
-        //If any other button do nothing
-        // restart button
-        case "r":
-            audio.currentTime = 0;
+//         //If any other button do nothing
+//         // restart button
+//         case "r":
+//             audio.currentTime = 0;
 
-            if (videoCont.src !== "") {
-                videoCont.currentTime = 0;
-            }
+//             if (videoCont.src !== "") {
+//                 videoCont.currentTime = 0;
+//             }
 
             
-            break;
+//             break;
 
-        // full screen
-        case "f":
-            toggleFullScreen();
-            break;
+//         // full screen
+//         case "f":
+//             toggleFullScreen();
+//             break;
 
-        // case "m":
-        //     if (document.fullscreenElement) {
-        //         toggleFullScreen();
-        //     }
-        //     break;
+//         // case "m":
+//         //     if (document.fullscreenElement) {
+//         //         toggleFullScreen();
+//         //     }
+//         //     break;
 
-        default:
-            return;
-    }
-});
+//         default:
+//             return;
+//     }
+// });
 
-// Add event listeners for play, pause, and restart buttons
-document.getElementById('playVideo').addEventListener('click', function(event) {
-    // Handle play button click
-    event.preventDefault();
-    paused = false;
-    audio.play();
+// // Add event listeners for play, pause, and restart buttons
+// document.getElementById('playVideo').addEventListener('click', function(event) {
+//     // Handle play button click
+//     event.preventDefault();
+//     paused = false;
+//     audio.play();
     
-    if (videoCont.src !== "") {
-        videoCont.play();
-    }
-});
+//     if (videoCont.src !== "") {
+//         videoCont.play();
+//     }
+// });
 
-document.getElementById('pauseVideo').addEventListener('click', function(event) {
-    // Handle pause button click
-    event.preventDefault();
-    paused = true;
-    audio.pause();
+// document.getElementById('pauseVideo').addEventListener('click', function(event) {
+//     // Handle pause button click
+//     event.preventDefault();
+//     paused = true;
+//     audio.pause();
 
-    if (videoCont.src !== "") {
-        videoCont.pause();
-    }
-});
+//     if (videoCont.src !== "") {
+//         videoCont.pause();
+//     }
+// });
 
-document.getElementById('restartVideo').addEventListener('click', function(event) {
-    // Handle restart button click
-    event.preventDefault();
-    audio.currentTime = 0;
+// document.getElementById('restartVideo').addEventListener('click', function(event) {
+//     // Handle restart button click
+//     event.preventDefault();
+//     audio.currentTime = 0;
 
-    if (videoCont.src !== "") {
-        videoCont.currentTime = 0;
-    }
-});
+//     if (videoCont.src !== "") {
+//         videoCont.currentTime = 0;
+//     }
+// });
 
 //Function to display elements at specific times. Called by setInterval
-function updateProjectElements(formattedTime){
-
-    //Change Background content if the upcoming background element's start time mathces the audio time
-    if(backgroundArray.length!=0 && backgroundArray[backgroundArrayIndex].backgroundStartTime==formattedTime)
-    {
-        //reader.readAsDataURL(backgroundArray[backgroundIndex].contentFile);
-        //if the current background elemnt to be displayed is a video load it to video element src
-        if(backgroundArray[backgroundArrayIndex].fileName.includes("mp4"))
-        {
-            //Display and play video
-            videoCont.src = backgroundArray[backgroundArrayIndex].contentFile;
-            videoCont.play();
-        }
-        //else load content to image src
-        else
-        {
-            //Stop video
-            videoCont.src="";
-            videoCont.pause();
-
-            //Display image
-            imageCont.src = backgroundArray[backgroundArrayIndex].contentFile;
-        }
+// function updateProjectElements(formattedTime){
+//     //Change Background content if the upcoming background element's start time mathces the audio time
+//     if(backgroundArray.length!=0 && backgroundArray[backgroundArrayIndex].backgroundStartTime==formattedTime)
+//     {
         
-        //Increment background index if current index is not at the end of array
-        if(backgroundArrayIndex < backgroundArray.length-1)
-            backgroundArrayIndex+=1;   
-    }
+//         //if the current background elemnt to be displayed is a video load it to video element src
+//         if(backgroundArray[backgroundArrayIndex].fileName.includes("mp4"))
+//         {
+//             //Display and play video
+//             videoCont.src = backgroundArray[backgroundArrayIndex].contentFile;
+//             videoCont.play();
+//         }
+//         //else load content to image src
+//         else
+//         {
+//             //Stop video
+//             videoCont.src="";
+//             videoCont.pause();
 
-    /******************Manage shapes******************/ 
-    if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
-    {
-        //Display the shape
-        ShapeStartArray[ShapeStartIndex].shape.showKonvaShape();
-
-        //Check if there is any animations for this shape
-        //ShapeStartArray[ShapeStartIndex].animation.start(); 
-        if(ShapeStartArray[ShapeStartIndex].shape.getAnimationType()!="None")
-            ShapeStartArray[ShapeStartIndex].shape.startAnimation();
-
-        //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
-        if(ShapeStartIndex < ShapeArray.length-1)
-            ShapeStartIndex+=1;
-    }
-
-    if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].shapeEndTime==formattedTime)
-    {
-        //Hide the shape
-        ShapeEndArray[ShapeEndIndex].shape.hideKonvaShape();
-
-        //Stop the shapes animation if applicable
-        if(ShapeEndArray[ShapeEndIndex].shapeAnimation!="None")
-            ShapeEndArray[ShapeEndIndex].shape.stopAnimation();
+//             //Display image
+//             imageCont.src = backgroundArray[backgroundArrayIndex].contentFile;
+//         }
         
-        //Move to the next shape if it is available
-        if(ShapeEndIndex < ShapeArray.length-1)
-            ShapeEndIndex+=1;
-    }
-}
+//         //Increment background index if current index is not at the end of array
+//         if(backgroundArrayIndex < backgroundArray.length-1)
+//             backgroundArrayIndex+=1;   
+//     }
 
-//Audio
-const audio = document.getElementById('musicPlayer');
+//     /******************Manage shapes******************/ 
+//     if(ShapeStartArray.length!=0 && ShapeStartArray[ShapeStartIndex].shapeStartTime==formattedTime) //Display shape when it's start time meets formattedTime
+//     {
+//         //Display the shape
+//         ShapeStartArray[ShapeStartIndex].shape.showKonvaShape();
 
-    //Get the span element and update the time to it
-    const timeDisplay = document.getElementById('audioTimestamp');
+//         //Check if there is any animations for this shape 
+//         if(ShapeStartArray[ShapeStartIndex].shape.getAnimationType()!="None")
+//             ShapeStartArray[ShapeStartIndex].shape.startAnimation();
 
-    //Get the input type to control the time of video
-    const timeSlider = document.getElementById('timeSlider');
+//         //Move to the next shape wating to be displayed. Check if we had exceeded the array boundry
+//         if(ShapeStartIndex < ShapeArray.length-1)
+//             ShapeStartIndex+=1;
+//     }
 
-    // Update time display every decisecond (100 milliseconds)
-    const updateTimer = setInterval(() => {
-    const minutes = Math.floor(audio.currentTime / 60);
-    const seconds = Math.floor(audio.currentTime % 60);
-    const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
+//     if(ShapeArray.length!=0 && ShapeEndArray[ShapeEndIndex].shapeEndTime==formattedTime)
+//     {
+//         //Hide the shape
+//         ShapeEndArray[ShapeEndIndex].shape.hideKonvaShape();
 
-    // Format time string with leading zeros
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
+//         //Stop the shapes animation if applicable
+//         if(ShapeEndArray[ShapeEndIndex].shapeAnimation!="None")
+//             ShapeEndArray[ShapeEndIndex].shape.stopAnimation();
+        
+//         //Move to the next shape if it is available
+//         if(ShapeEndIndex < ShapeArray.length-1)
+//             ShapeEndIndex+=1;
+//     }
+// }
 
-    timeDisplay.textContent = formattedTime;
+// //Audio
+// const audio = document.getElementById('musicPlayer');
 
-    // Update slider position
-    const percentage = (audio.currentTime / audio.duration) * 100;
-    timeSlider.value = percentage;
+//     //Get the span element and update the time to it
+//     const timeDisplay = document.getElementById('audioTimestamp');
 
-    updateProjectElements(formattedTime);
-    }, 10);
+//     //Get the input type to control the time of video
+//     const timeSlider = document.getElementById('timeSlider');
 
-    // When audio stops, timer stops
-    audio.addEventListener('ended', () => {
-    clearInterval(updateTimer);
-    });
+//     // Update time display every decisecond (100 milliseconds)
+//     const updateTimer = setInterval(() => {
+//     const minutes = Math.floor(audio.currentTime / 60);
+//     const seconds = Math.floor(audio.currentTime % 60);
+//     const deciseconds = Math.floor((audio.currentTime * 10)) % 10;
 
-    // Add event listener to handle slider change
-    timeSlider.addEventListener('input', () => {
-    const percentage = timeSlider.value;
-    const newTime = (percentage / 100) * audio.duration;
-    audio.currentTime = newTime;
-    });
+//     // Format time string with leading zeros
+//     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds.toString().padStart(1, '0')}`;
+
+//     timeDisplay.textContent = formattedTime;
+
+//     // Update slider position
+//     const percentage = (audio.currentTime / audio.duration) * 100;
+//     timeSlider.value = percentage;
+
+//     updateProjectElements(formattedTime);
+//     }, 10);
+
+//     // When audio stops, timer stops
+//     audio.addEventListener('ended', () => {
+//     clearInterval(updateTimer);
+//     });
+
+//     // Add event listener to handle slider change
+//     timeSlider.addEventListener('input', () => {
+//     const percentage = timeSlider.value;
+//     const newTime = (percentage / 100) * audio.duration;
+//     audio.currentTime = newTime;
+//     });
 
 // Get the CanvasColumn element
-const canvasColumn = document.getElementById('CanvasColumn');
+// const canvasColumn = document.getElementById('CanvasColumn');
 
-// Function to toggle fullscreen
-export function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        // If not in fullscreen mode, request fullscreen
-        if (canvasColumn.requestFullscreen) {
-            canvasColumn.requestFullscreen();
-        } else if (canvasColumn.mozRequestFullScreen) {
-            canvasColumn.mozRequestFullScreen(); // Firefox
-        } else if (canvasColumn.webkitRequestFullscreen) {
-            canvasColumn.webkitRequestFullscreen(); // Chrome, Safari and Opera
-        } else if (canvasColumn.msRequestFullscreen) {
-            canvasColumn.msRequestFullscreen(); // IE/Edge
-        }
-    } else {
-        // If in fullscreen mode, exit fullscreen
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen(); // Firefox
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen(); // Chrome, Safari and Opera
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen(); // IE/Edge
-        }
-    }
-}
+// // Function to toggle fullscreen
+// export function toggleFullScreen() {
+//     if (!document.fullscreenElement) {
+//         // If not in fullscreen mode, request fullscreen
+//         if (canvasColumn.requestFullscreen) {
+//             canvasColumn.requestFullscreen();
+//         } else if (canvasColumn.mozRequestFullScreen) {
+//             canvasColumn.mozRequestFullScreen(); // Firefox
+//         } else if (canvasColumn.webkitRequestFullscreen) {
+//             canvasColumn.webkitRequestFullscreen(); // Chrome, Safari and Opera
+//         } else if (canvasColumn.msRequestFullscreen) {
+//             canvasColumn.msRequestFullscreen(); // IE/Edge
+//         }
+//     } else {
+//         // If in fullscreen mode, exit fullscreen
+//         if (document.exitFullscreen) {
+//             document.exitFullscreen();
+//         } else if (document.mozCancelFullScreen) {
+//             document.mozCancelFullScreen(); // Firefox
+//         } else if (document.webkitExitFullscreen) {
+//             document.webkitExitFullscreen(); // Chrome, Safari and Opera
+//         } else if (document.msExitFullscreen) {
+//             document.msExitFullscreen(); // IE/Edge
+//         }
+//     }
+// }
 
 
     // JavaScript for Sliding Properties Page

@@ -14,11 +14,15 @@ export class Shape { //should be Abstract class, if possible
 
     getKonvaShape() {}
 
+    getName() {}
+
     getStartTime() {}
 
     getEndTime() {}
 
-    getaAnimationType() {}
+    getAnimationType() {}
+
+    getShapeType() {}
 
     setAnimation() {}
 

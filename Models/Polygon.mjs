@@ -69,12 +69,17 @@ export class Polygon extends Shape {
         return this.konvaShape;
     }
 
-    getShapeName() {
+    getName() {
         return this.name;
     }
 
     getStartTime() {
         return this.startTime;
+    }
+
+    getShapeType()
+    {
+        return this.shapeType;
     }
 
     getEndTime() {

@@ -94,4 +94,8 @@ export class Rectangle extends Shape {
         return this.shapeType;
     }
 
+    getName(){
+        return this.name;
+    }
+
 }

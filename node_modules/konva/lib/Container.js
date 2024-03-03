@@ -205,7 +205,8 @@ class Container extends Node_1.Node {
     }
     _drawChildren(drawMethod, canvas, top, bufferCanvas) {
         var _a;
-        var context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (clipWidth && clipHeight) || clipFunc;
+        var context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (typeof clipWidth === 'number' && typeof clipHeight === 'number') ||
+            clipFunc;
         const selfCache = top === this;
         if (hasClip) {
             context.save();
@@ -220,7 +221,7 @@ class Container extends Node_1.Node {
             else {
                 var clipX = this.clipX();
                 var clipY = this.clipY();
-                context.rect(clipX, clipY, clipWidth, clipHeight);
+                context.rect(clipX || 0, clipY || 0, clipWidth, clipHeight);
             }
             context.clip.apply(context, clipArgs);
             m = transform.copy().invert().getMatrix();
