@@ -41,6 +41,6 @@ export class Lyrics{
 
     getKonvaBackground()
     {
-        return this.text;
+        return this.textBackground;
     }
 }

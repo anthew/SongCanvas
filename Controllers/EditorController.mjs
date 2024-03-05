@@ -256,11 +256,20 @@ var indexVal = -1;
 function requestCreateLyrics () {
     //Grab the values from the text area in the pop-up
     let lyricsTextAreaStuff = document.getElementById("lyricsTextArea").value;
+    let lyricBackgroundColor = "";
 
-    //Grab the radio buttons and check if the user had selected a colored background
+    var FontType = document.getElementById("lyricFontType").value;
+    var FontSize = document.getElementById("lyricFontSize").value;
+    var FontColor = document.getElementById("lyricFontColor").value;
+
     var lyricsBackgroundSelection = document.getElementsByName("lyricBackground");
+    //Grab the radio buttons and check if the user had selected a colored background
+    if(lyricsBackgroundSelection[1].checked)
+        lyricBackgroundColor = document.getElementById("lyricbackgroundColor").value;
 
-    EditorManagerObj.createLyrics(lyricsTextAreaStuff, lyricsBackgroundSelection);
+    //var lyricsBackgroundSelection = document.getElementsByName("lyricBackground");
+
+    EditorManagerObj.createLyrics(lyricsTextAreaStuff, lyricBackgroundColor, FontColor, FontSize, FontType);
 
     lyricArray = EditorManagerObj.getLyricArray();
     text = EditorManagerObj.getTextObject();
@@ -355,25 +364,37 @@ export function requestDeleteBackground(fileName)
 
 export function requestSaveBackgroundChanges(fileName)
 {
-    var backgroundFileInput = document.getElementById('editFileInput');
+    //var BackgroundFileInput = URL.createObjectURL(document.getElementById('imgInput').files[0]);
+    let backgroundFileInput = document.getElementById('editFileInput').files[0];
+
+    let backgroundFileContent;
     let backgroundStartTime = document.getElementById("editStartTime").value;
+    let backgroundFileInputName;
+    let fileInputLength = document.getElementById('editFileInput').files.length;
 
-    EditorManagerObj.saveBackgroundChanges(fileName, backgroundStartTime, backgroundFileInput);
+    //Check if there is a file in the input
+    if(fileInputLength==1)
+    {
+        backgroundFileInputName = backgroundFileInput.name;
+        backgroundFileContent = URL.createObjectURL(backgroundFileInput);
+    }
 
-    if(backgroundFileInput.files.length != 0)
+    EditorManagerObj.saveBackgroundChanges(fileName, backgroundStartTime, backgroundFileContent, backgroundFileInputName, fileInputLength);
+
+    if(fileInputLength != 0)
     {
         //Update the file name
-        document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundFileInput.files[0].name;
+        document.getElementById("showBackgroundButton" + fileName).innerHTML = backgroundFileInput.name;
             
         //Update the functions with the new file name
-        document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `requestShowEditBackgroundSection('${backgroundFileInput.files[0].name}')`);
-        document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" +backgroundFileInput.files[0].name;
+        document.getElementById("showBackgroundButton" + fileName).setAttribute("onClick", `requestShowEditBackgroundSection('${backgroundFileInput.name}')`);
+        document.getElementById("showBackgroundButton" + fileName).id = "showBackgroundButton" +backgroundFileInput.name;
         
-        document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `requestDeleteBackground('${backgroundFileInput.files[0].name}')`);
-        document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundFileInput.files[0].name;
+        document.getElementById("deleteBackgroundButton" + fileName).setAttribute("onClick", `requestDeleteBackground('${backgroundFileInput.name}')`);
+        document.getElementById("deleteBackgroundButton" + fileName).id = "deleteBackgroundButton" + backgroundFileInput.name;
 
         //Update the tr id 
-        document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundFileInput.files[0].name;
+        document.getElementById("addedBackgroundRow" + fileName).id = "addedBackgroundRow" + backgroundFileInput.name;
     }
 
     //Get the new backgroundArray

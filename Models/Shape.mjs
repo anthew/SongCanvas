@@ -10,7 +10,7 @@ export class Shape { //should be Abstract class, if possible
         this.endTime = endTime;
     }
 
-    instantiateKonvaShape() {}
+    // instantiateKonvaShape() {}
 
     getKonvaShape() {}
 
