@@ -3,7 +3,7 @@ export class Background{
     {
         this.backgroundObject = {
             "backgroundStartTime" : backgroundStartTime,
-            //"theFile": document.getElementById('imgInput').files[0], //USed to store the file into the user media folder
+            "theFile": "", //document.getElementById('imgInput').files[0], //USed to store the file into the user media folder
             "contentFile" : BackgroundFileInput,
             "fileName" : fileName,
         }

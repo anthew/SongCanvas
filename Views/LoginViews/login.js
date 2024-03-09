@@ -4,7 +4,7 @@ import { PasswordInputToggle } from "./PasswordInputToggle.js";
 document.addEventListener("DOMContentLoaded", () => {
   initializePasswordInputToggle();
 
-  loginForm = document.getElementById("login-form");
+  //loginForm = document.getElementById("login-form");
 });
 
 function initializePasswordInputToggle() {

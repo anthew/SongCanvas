@@ -289,11 +289,12 @@ let submitFile = document.getElementById('fileSubmit');
 submitFile.addEventListener("click", requestCreateBackground);
 
 function requestCreateBackground(){
-    //Grab the inputed file
+
+    //Grab the inputed file and 
     var BackgroundFileInput = URL.createObjectURL(document.getElementById('imgInput').files[0]);
-    
     var fileName = document.getElementById('imgInput').files[0].name;
 
+    //
     let backgroundStartTime = document.getElementById("backgroundStart").value;
 
     EditorManagerObj.createBackground(BackgroundFileInput, fileName, backgroundStartTime);
@@ -452,12 +453,25 @@ document.addEventListener('keydown', function (event) {
         //If any other button do nothing
         // restart button
         case "r":
+            //Set the timer
             audio.currentTime = 0;
 
+            //Handle the background
             if (videoCont.src !== "") {
                 videoCont.currentTime = 0;
             }
 
+            imageCont.src = "";
+            videoCont.src = "";
+
+            backgroundArrayIndex=0;
+
+            //Set the shape start and end index to 0
+            ShapeStartIndex=0;
+            ShapeEndIndex=0;
+
+            //Hide all the shapes
+            EditorManagerObj.hideAllShapes();
             
             break;
 
@@ -508,6 +522,18 @@ document.getElementById('restartVideo').addEventListener('click', function(event
     if (videoCont.src !== "") {
         videoCont.currentTime = 0;
     }
+
+    imageCont.src = "";
+    videoCont.src = "";
+
+    backgroundArrayIndex=0;
+
+    //Set the shape start and end index to 0
+    ShapeStartIndex = 0;
+    ShapeEndIndex = 0;
+
+    //Hide all the shapes
+    EditorManagerObj.hideAllShapes();
 });
 
 //Function to display elements at specific times. Called by setInterval
@@ -636,3 +662,76 @@ function toggleFullScreen() {
         }
     }
 }
+
+
+//Ajax request 
+// $(document).ready(function(){
+
+//     const $db_button = $('#db_Button');
+//     $db_button.on("click", submitHandler);
+
+//     function submitHandler(e){
+//         e.preventDefault();
+
+//         //console.log(ShapeArray);
+//         // delete ShapeArray[0]["shape"];
+//         // console.log(ShapeArray);
+
+//         var copyShapeArray=[];
+//         //Perform a copy of the Shape Array
+//         for(var i=0; i< ShapeArray.length; i++)
+//         {
+//             var shape = ShapeArray[i].shape.getKonvaShape();
+
+//             var sides = "";
+//             var radius = "";
+//             var width = "";
+//             var height = "";
+
+//             if(ShapeArray[i].shapeType == "Rectangle")
+//             {
+//                 width = shape.getAttr("width");
+//                 height = shape.getAttr("height");
+//             }
+//             else if(ShapeArray[i].shapeType == "Polygon")
+//             {
+//                 sides = shape.getAttr("sides");
+//                 radius = shape.getAttr("radius");
+//             }
+
+//             var copyObject = {
+//                 "shapeStartTime": ShapeArray[i].shapeStartTime,
+//                 "shapeEndTime": ShapeArray[i].shapeEndTime,
+//                 "shapeAnimation": ShapeArray[i].shapeAnimation,
+//                 "shapeName": ShapeArray[i].shapeName,
+//                 "shapeType" : ShapeArray[i].shapeType,
+//                 "fill": shape.getAttr("fill"),
+//                 "stroke": shape.getAttr("stroke"),
+//                 "strokeWidth": shape.getAttr("strokeWidth"),
+//                 "x": shape.getAttr("x"),
+//                 "y": shape.getAttr("y"),
+//                 "opacity": shape.getAttr("opacity"),
+//                 "width": width,
+//                 "height": height,
+//                 "sides": sides,
+//                 "radius": radius,
+//             }
+
+//             copyShapeArray.push(copyObject);
+//         }
+
+//         $.ajax({
+//             url: '/LoginSomething',
+//             method: 'POST',
+//             dataType: 'json',
+//             data: {
+//                 shape: copyShapeArray,
+//                 background: EditorManagerObj.getBackgroundArray(),
+//             }
+//         }).done(response => {
+//             console.log(response.msg);
+//             alert("Hello world");
+//             //window.location.href = "Hello.html"
+//         });
+//     }
+// });

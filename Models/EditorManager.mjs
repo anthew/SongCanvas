@@ -7,6 +7,7 @@ import { Clockwise } from './Clockwise.mjs';
 import { CounterClockwise } from './CounterClockwise.mjs';
 import { AnimationStrategy } from './Strategy.mjs';
 import { Bouncing } from './Bouncing.mjs';
+import { Circular } from './Circular.mjs';
 
 //C:\Users\valle\Desktop\EJ's Code\SongCanvas\node_modules\konva
 
@@ -47,6 +48,32 @@ else
     var layer = new Konva.Layer();
     stage.add(layer);
 }
+
+// var canvas = document.createElement('canvas');
+
+// // Use gifler to parse and draw the GIF animation
+// function onDrawFrame(ctx, frame) {
+//     // Update canvas size
+//     canvas.width = 100;
+//     canvas.height = 100;
+
+//     // Draw the frame onto the canvas
+//     ctx.drawImage(frame.buffer, 0, 0);
+
+//     // Redraw the Konva layer
+//     layer.draw();
+// }
+
+// // Load the GIF (replace with your own GIF URL)
+// gifler('/EditorMedia/squidward.gif').frames(canvas, onDrawFrame);
+
+// // Draw the resulting canvas as a Konva.Image
+// var image = new Konva.Image({
+//     image: canvas,
+//     draggable: true,
+// });
+
+// layer.add(image);
 
 // ---------------------- Logo ------------------------------------------
 
@@ -198,7 +225,7 @@ export class EditorManager{
 
                 //shape.setAnimation(animation);
 
-                console.log(shape.getAnimation());
+                //console.log(shape.getAnimation());
             }
             else if (shapeAnimation_type == "Counter-Clockwise") {
                 //AnimationStrat = new AnimationStrategy(new CounterClockwise());
@@ -222,6 +249,11 @@ export class EditorManager{
                 //     AnimationStrat.getAnimationObjectStrategy(shape)
                 // );
             }
+            else if(shapeAnimation_type == "Circular")
+            {
+                AnimationStrat = new AnimationStrategy(new Circular(), layer);
+                AnimationStrat.getAnimationObjectStrategy(shape);
+            }
         }
 
         //Add the newly created shape to the canvas
@@ -234,6 +266,7 @@ export class EditorManager{
             "shape": shape,
             "shapeAnimation": shapeAnimation_type,
             "shapeName": shapeName,
+            "shapeType" : shapeType,
         }
 
         //Save the shape to array that will be used to store to database 
@@ -404,6 +437,10 @@ export class EditorManager{
 
                 ShapeClassObject.setAnimationType("Bouncing");
             }
+            else if(shapeAnimationType == "Circular"){
+                AnimationStrat = new AnimationStrategy(new Circular(), layer);
+                AnimationStrat.getAnimationObjectStrategy(ShapeClassObject);
+            }
             else if (shapeAnimationType == "None") { //When the animatiion type is none
                 // animationObject = new Konva.Animation(function (frame) {
                 //     ShapeClassObject.getKonvaShape().rotate(0);
@@ -482,6 +519,15 @@ export class EditorManager{
         return this.ShapeEndArray;
     }
 
+    hideAllShapes()
+    {
+        for(var i = 0; i < this.ShapeArray.length; i++){
+            
+            //shape = ShapeArray[i].shape.getKonvaShape();
+            this.ShapeArray[i].shape.getKonvaShape().setAttr("visible", false);
+        }
+    }
+
     //Lyrics functions and properties
     createLyrics(lyricsTextAreaStuff, lyricBackgroundColor, FontColor, FontSize, FontType){
         //Add the lines to the table
@@ -522,7 +568,7 @@ export class EditorManager{
     //Background functions and properties
     createBackground(BackgroundFileInput, fileName, backgroundStartTime){
         var backgroundObject = new Background(BackgroundFileInput, fileName, backgroundStartTime);
-    
+        
         this.backgroundArray.push(backgroundObject.getBackgroundObject());
     
         //Add the shape to an array that sorted by start time

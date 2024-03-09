@@ -39,7 +39,10 @@
 
     <!-- JS files -->
     <script type="module" src="/EditorController.mjs"></script>
-    <script type="module" src="/EditorManager.mjs"></script>
+    <!-- <script type="module" src="/EditorManager.mjs"></script> -->
+
+    <!-- Added this for the Ajax server calls -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <!-- Tab logo -->
 <!-- Path to file-->    
@@ -65,7 +68,7 @@
                                       <li><a href="#">Open Project in New Window</a></li>
                                       <li><a href="#">Open Project in This Window</a></li>
                                       <li><a href="#">Make Copy</a></li>
-                                      <li><a href="#">Save</a></li>
+                                      <li><a href="#" id="db_Button">Save</a></li>
                                       <li><a href="#">Autosave</a></li>
                                     </ul>
                                 </div>
@@ -561,6 +564,7 @@
                                                             <option value="Clockwise">Clockwise</option>
                                                             <option value="Counter-Clockwise">Counter-Clockwise</option>
                                                             <option value="Bouncing">Bouncing</option>
+                                                            <option value="Circular">Circular</option>
                                                           </select>
                                                           <br><br>
                                                           
@@ -824,6 +828,7 @@
                                         <option value="Clockwise">Clockwise</option>
                                         <option value="Counter-Clockwise">Counter-Clockwise</option>
                                         <option value="Bouncing">Bouncing</option>
+                                        <option value="Circular">Circular</option>
                                       </select>
 
                                       <!-- Start Time -->
