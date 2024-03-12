@@ -13,8 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Bring over and execute the GET and POST route methods for login and create account
-const CSQL_DAO_for_FormPosts = require("./CSQL_DAO");
-app.use(CSQL_DAO_for_FormPosts);
+
+const dbFacade = require("./DatabaseFacade.js");
+app.use(dbFacade);
 
 // Specify the starting page (login)
 app.get('/', function (req, res) { 

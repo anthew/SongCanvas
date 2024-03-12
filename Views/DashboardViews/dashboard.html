@@ -29,6 +29,13 @@
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- Added this for the Ajax server calls -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Used for it's ajax call -->
+    <script type="module" src="/DashboardController.mjs"></script>
+
+    
     <!-- Tab logo --> 
 <!-- Path to file-->    
     <link rel="icon" href="/mic.png">
@@ -51,7 +58,8 @@
                 </div>
             </a>
 <!-- Path to file-->            
-            <a href="/EditorViews/editor.html" class="card-link">
+            <!-- <a href="/EditorViews/editor.html" class="card-link"> -->
+            <a class="card-link" id="editorModal" data-toggle="modal" data-target="#exampleModal" >
                 <div class="editor-view">
                     <div class="div">
                         <div class="rectangle-2"></div>
@@ -62,6 +70,71 @@
                     </div>
                 </div>
             </a>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-target="#exampleModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <!-- Add table to access projects from editor.html -->
+                        <div class="modal-body">
+                            <table id="editorProjects">
+                                <tr colspan="5" style="border: none;">
+                                  <th style="border: 1px solid black; width: 32%;">Project Name</th>
+                                  <th style="border: 1px solid black; width: 32%;">Created At</th>
+                                  <th style="border: 1px solid black; width: 32%;">Updated At</th>
+                                  <th style="width: 4%; border: none;"><input type="image" src="/EditorMedia/Plus.png" width="20" height="20" data-toggle="modal" data-target="#leaveModal" id="backgroundPlusButton"></th>
+                                </tr>
+                            </table>
+                            <br>
+                            
+                            <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-target="#leaveModal">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <!-- insert values -->
+                                    <div class="modal-body">
+
+                                        <b>Project Name:</b><br>
+                                        <input type="text" name="projectName" id="insertProjectName" placeholder="Enter project name">
+                                        <br><br>
+
+                                        <b>Audio File Input:</b><br>
+                                        <input type="file" id="audioInput" name="audioInput">
+                                        <br><br>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#leaveModal">Close</button>
+                                      <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <!-- Div for modifying existing project -->
+                            <!-- button for edit, delete, and open -->
+                            <!-- <div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Add Project</button>
+                            </div> -->
+                        </div>
+                        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#exampleModal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
             </div>
             <div class="overlap-2">
                 <!-- <div class="top-bar"></div> -->
