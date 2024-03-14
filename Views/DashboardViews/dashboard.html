@@ -46,7 +46,7 @@
     <div class="dashboard">
         <div class="overlap">
 <!-- Path to file-->            
-            <a href="player_view.html" class="card-link">
+            <a href="/EditorViews/editor.html" class="card-link">
                 <div class="player-view">
                     <div class="overlap-group">
                         <div class="rectangle"></div>
@@ -91,8 +91,12 @@
                                         <th style="width: 5%; border: none; margin: auto;"><input type="image" style="margin-top: 30%;" src="/EditorMedia/Plus.png" width="20" height="20" data-toggle="modal" data-target="#leaveModal" id="backgroundPlusButton"></th>
                                     </tr>
                                 </table>
+                                <br>
+                                <div>
+                                    <button id="ProjectOpenButton">Open</button> <button id="ProjectDeleteButton">Delete</button> <button>Modify</button>
+                                </div>
                                 <script type="module">
-
+                                    // Controller the ids of the button
                                 </script>
                                 <br>
                             </div>
@@ -113,7 +117,7 @@
                                             <br><br>
 
                                             <b>Audio File Input:</b><br>
-                                            <input type="file" id="audioInput" name="audioInput">
+                                            <input type="file" id="audioInput" name="audioInput" accept="audio/*">
                                             <br><br>
 
                                         </div>

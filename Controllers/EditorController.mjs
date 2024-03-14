@@ -664,74 +664,137 @@ function toggleFullScreen() {
 }
 
 
+
+
+//============================================================================================================
+
+
+
 //Ajax request 
-// $(document).ready(function(){
+$(document).ready(function(){
 
-//     const $db_button = $('#db_Button');
-//     $db_button.on("click", submitHandler);
+    //Once page loads in, get all existing data from project
+    
+/*--------------------------Get Project Data from DB----------------------------- */ 
+    $.ajax({
+        url: "/loadProjectElementData",
+        method: "POST",
+    }).done(response => {
+        //createShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeType, shapeRadius)
+        //Respsonse Values from post request
+        var shapes = response.shapeImportArray;
+        
+        //Once you get the shapeImportArray call the editor manager createShape function and iterate throguh array
+        for(var i=0; i < shapes.length; i++)
+        {
+            EditorManagerObj.createShape(shapes[i].DesignElement_Name, shapes[i].Width, shapes[i].Height, shapes[i].FillColor, shapes[i].BorderColor, shapes[i].BorderWidth, shapes[i].X, shapes[i].Y, shapes[i].Sides, shapes[i].AnimType, shapes[i].Opacity, shapes[i].StartTime, shapes[i].EndTime, shapes[i].ShapeType, shapes[i].Radius);
+            let table = document.getElementById("shapeHierarchy");
 
-//     function submitHandler(e){
-//         e.preventDefault();
+            let template = `
+                <tr id="addedShapeRow${shapes[i].DesignElement_Name}" >
+                    <td id="editShape " style="border: 1px solid black;">
+                        <button id="editShapeButton${shapes[i].DesignElement_Name}" onclick="showEditShapeSection('${shapes[i].DesignElement_Name}', '${shapes[i].ShapeType}')" style="background-color: white; border: none;">${shapes[i].DesignElement_Name}</button>
+                    </td>
+                    <td id="addedShapeVisible" style="border: 1px solid black;">
+                        <button id="addedShapeNameButton${shapes[i].DesignElement_Name}" onclick="requestShapeVisibility('${shapes[i].DesignElement_Name}')" style="background-color: white; border: none;"><img style="width: 26px;
+                        height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+                    </td>
+                    <td id="deleteShape" style="border: 1px solid black;">
+                        <button id="deleteShapeButton${shapes[i].DesignElement_Name}" onclick="requestDeleteShape('${shapes[i].DesignElement_Name}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                        height: 26px; "></button>
+                    </td>
+                </tr>
+            `;
 
-//         //console.log(ShapeArray);
-//         // delete ShapeArray[0]["shape"];
-//         // console.log(ShapeArray);
+            table.innerHTML += template;
 
-//         var copyShapeArray=[];
-//         //Perform a copy of the Shape Array
-//         for(var i=0; i< ShapeArray.length; i++)
-//         {
-//             var shape = ShapeArray[i].shape.getKonvaShape();
+            ShapeArray= EditorManagerObj.getShapeArray();
+            ShapeStartArray = EditorManagerObj.getShapeStartArray();
+            ShapeEndArray = EditorManagerObj.getShapeEndArray();
 
-//             var sides = "";
-//             var radius = "";
-//             var width = "";
-//             var height = "";
+            console.log(ShapeArray.length);
+        }
 
-//             if(ShapeArray[i].shapeType == "Rectangle")
-//             {
-//                 width = shape.getAttr("width");
-//                 height = shape.getAttr("height");
-//             }
-//             else if(ShapeArray[i].shapeType == "Polygon")
-//             {
-//                 sides = shape.getAttr("sides");
-//                 radius = shape.getAttr("radius");
-//             }
+        alert("Project Loaded");
+    });
 
-//             var copyObject = {
-//                 "shapeStartTime": ShapeArray[i].shapeStartTime,
-//                 "shapeEndTime": ShapeArray[i].shapeEndTime,
-//                 "shapeAnimation": ShapeArray[i].shapeAnimation,
-//                 "shapeName": ShapeArray[i].shapeName,
-//                 "shapeType" : ShapeArray[i].shapeType,
-//                 "fill": shape.getAttr("fill"),
-//                 "stroke": shape.getAttr("stroke"),
-//                 "strokeWidth": shape.getAttr("strokeWidth"),
-//                 "x": shape.getAttr("x"),
-//                 "y": shape.getAttr("y"),
-//                 "opacity": shape.getAttr("opacity"),
-//                 "width": width,
-//                 "height": height,
-//                 "sides": sides,
-//                 "radius": radius,
-//             }
 
-//             copyShapeArray.push(copyObject);
-//         }
+    
+    // $.ajax({
+    //     url: '/openProject',
+    //     method: 'POST',
+    //     data: {
+    //         project_ID: theProjID,
+    //     },
+    // }).done(response=>{
+    //     window.location.href = "/EditorViews/editor.html";
+    // });
+    
+    const $saveToDB_Button = $('#saveToDB_Button');
+    $saveToDB_Button.on("click", submitHandler);
 
-//         $.ajax({
-//             url: '/LoginSomething',
-//             method: 'POST',
-//             dataType: 'json',
-//             data: {
-//                 shape: copyShapeArray,
-//                 background: EditorManagerObj.getBackgroundArray(),
-//             }
-//         }).done(response => {
-//             console.log(response.msg);
-//             alert("Hello world");
-//             //window.location.href = "Hello.html"
-//         });
-//     }
-// });
+    function submitHandler(e){
+        e.preventDefault();
+
+        //console.log(ShapeArray);
+        // delete ShapeArray[0]["shape"];
+        // console.log(ShapeArray);
+
+        var copyShapeArray=[];
+        //Perform a copy of the Shape Array
+        for(var i=0; i< ShapeArray.length; i++)
+        {
+            var shape = ShapeArray[i].shape.getKonvaShape();
+
+            var sides = 0;
+            var radius = 0;
+            var width = 0;
+            var height = 0;
+
+            if(ShapeArray[i].shapeType == "Rectangle")
+            {
+                width = shape.getAttr("width");
+                height = shape.getAttr("height");
+            }
+            else if(ShapeArray[i].shapeType == "Polygon")
+            {
+                sides = shape.getAttr("sides");
+                radius = shape.getAttr("radius");
+            }
+
+            var copyObject = {
+                "shapeStartTime": ShapeArray[i].shapeStartTime,
+                "shapeEndTime": ShapeArray[i].shapeEndTime,
+                "shapeAnimation": ShapeArray[i].shapeAnimation,
+                "shapeName": ShapeArray[i].shapeName,
+                "shapeType" : ShapeArray[i].shapeType,
+                "fill": shape.getAttr("fill"),
+                "stroke": shape.getAttr("stroke"),
+                "strokeWidth": shape.getAttr("strokeWidth"),
+                "x": shape.getAttr("x"),
+                "y": shape.getAttr("y"),
+                "opacity": shape.getAttr("opacity"),
+                "width": width,
+                "height": height,
+                "sides": sides,
+                "radius": radius,
+            }
+
+            copyShapeArray.push(copyObject);
+        }
+/*--------------------------Save Project to DB----------------------------- */ 
+        $.ajax({
+            url: '/saveProjectData',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                shape: copyShapeArray,
+                //background: EditorManagerObj.getBackgroundArray(),
+            }
+        }).done(response => {
+            console.log(response.msg);
+            alert("Hello world");
+            //window.location.href = "Hello.html"
+        });
+    }
+});

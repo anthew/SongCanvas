@@ -3,14 +3,35 @@ const router = express.Router();
 const db = require("./database.js");
 const path = require('path');
 const LoginDAO = require("./LoginDAO.js");
+const EditorDAO = require("./EditorDAO.js");
 
 //Keeps track of who is currently logged in
 var currentUser;
 
-// var loginDAOObject = new LoginDAO();
+//Keeps track of which 
+var currentProjectID;
+
 var loginDAOObject = new LoginDAO();
 
-//Keeps track of the current poject being used
+var editorDAOObject = new EditorDAO();
+
+//Keeps track of the current project being used
+
+
+var customFileName;
+const multer = require('multer');
+const storage = multer.diskStorage({
+	destination: function(req, file, cb)
+	{
+		cb(null, 'UserMedia/');
+	}, 
+
+	filename: function(req, file, cb){
+		console.log("Hello world");
+		cb(null, file.originalname); //Revert back to file.orginalname
+	}
+});
+const upload = multer({storage: storage});
 
 //Handle data from login form
 router.post('/loginAuth', async function(request, response){
@@ -45,7 +66,7 @@ router.post('/loginAuth', async function(request, response){
 });
 
 //Handle form data from the create account page
-router.post('/createAcc', function(req, res){
+router.post('/createAcc', async function(req, res){
 	//Get the form values from the json body
     let email = req.body.email;
     let password = req.body.password;
@@ -75,31 +96,19 @@ router.post('/createAcc', function(req, res){
 		}
 		else
 		{
-			//Check if there is a duplicate email with query
-			db.query('SELECT * FROM Users WHERE email = ?', [email], function (error, results, fields) {
+			//Try to add the new user
+			var result = await loginDAOObject.isAccCreated(email, password, firstName, lastName);
+			
+			if(result==true) //Account has been created
+			{
+				res.json({msg: "true"});
+			}
+			else //Duplicate was found
+			{
+				res.json({msg: "false", alert:"duplicate account found"});
+			}
 
-				// If there is an issue with the query, output the error
-				if (error) throw error;
-
-				// If the account exists
-				if (results.length > 0) {
-					// Go to dashboard
-					res.json({ msg: "false", alert: "duplicate account found" });
-				}
-				else { //An account doesnt exist
-					//Insert the new user to the table
-					db.query('insert into Users(first_name, last_name, email, password) Values (?, ?, ?, ?)', [firstName, lastName, email, password], function (error, results, fields) {
-						// If there is an issue with the query, output the error
-						if (error) throw error;
-					});
-
-					//Later, call a successMessage() function or something
-					//response.redirect('/');
-					res.json({ msg: "true" });
-				}
-				//response.json({msg: ""})			
-				res.end();
-			});
+			res.end();
 		}
 	}
 	else
@@ -109,43 +118,113 @@ router.post('/createAcc', function(req, res){
 	}
 });
 
-//Retrieve project data from DB realted to user
-router.post("/projectRetrival", function(req, res){
-	console.log("In the request");
 
-	//Add a db query to retetrive all rows related to user
-	db.query('SELECT Project_ID, ProjectName, CreatedAt, updated_at FROM Project WHERE UserId=(SELECT id FROM Users WHERE email=?)', [currentUser], function(error, results, fields)
-	{
-		//Handle potentail error
-		if (error) throw error;
 
-		//console.log(results);
+/*--------------------------Section for Handling Requests from Dahsboard ------------------------------*/
+//Retrieve project data from DB related to user
+router.post("/dashboardProjectsRetrieval", async function(req, res){
 
-		//Have resposne store the array as a json object array and send back to client
-		res.end();
-	});
+	console.log("In the request dahsboardProjectRetrival");
+	var result = await loginDAOObject.getExistingProjects(currentUser);
+	
+	//Use res json to return array to dashboard controller
+	res.json({data: result});
 
-	// //Send the db result to dashboard (maybe res.json())
-	// res.end();
+	//Send the db result to dashboard (maybe res.json())
+	res.end();
+});
+
+
+router.post("/openProject", async function(req, res){
+	//Assign req value to currentProjectID
+	currentProjectID = req.body.project_ID;
+
+	res.end();
+});
+
+router.post("/deleteProject", async function(req, res){
+	//Grab the Project Name to send
+	var projID = req.body.project_ID;
+
+
+	
+	//Call query and pass in project id + currentUser
+	await loginDAOObject.deleteProject(projID, currentUser)
+	//End the 
+	res.end();
 });
 
 //Create project based on what values where entered by user in dashboard pop-up
-router.post("/createProject", function(req, res){
-
+router.post("/createProject", upload.single('soundFile'), async function(req, res){
 	//Grab the values from req (fileName and projectName)
+	var projectName = req.body.projectName;
+	var filePath = req.file.originalname;
 	
-	console.log("In the create project post");
+	//Call query to create project
+	var result = await loginDAOObject.isProjectCreated(currentUser, projectName, filePath);
+	
+	
+	if(result==true) //Project Created
+		res.json({msg: "true"});
+	else //Duplicate Found
+		res.json({msg: "false"});
 
-	//Check if there is an existing project with same name?
-
-	//Create project given values
-	db.query('insert into Project (UserId, ProjectName, SongFile) Values (Select id FROM Users WHERE email=?, ?, ?)', [currentUser, projectName, filePath], function(error, results, fields){
-		if(error) throw error;
-
-		res.end();
-	});
-
+	res.end();
 });
+
+
+
+/*--------------------------Get Project Data from DB----------------------------- */ 
+router.post("/loadProjectElementData", async function(req, res){
+	console.log(currentProjectID);
+	
+	// var result = await 
+
+	//Get Design Element data from table related to currentProjectID
+	var shapeArray = await editorDAOObject.getAllDesignElements(currentProjectID);
+
+	//Get Background element data from table related to currentProjectID
+
+	//Get Logo element data from table related to currentProjectID
+
+	//Get Lyrics element data from table related to currentProjectID
+	res.json({shapeImportArray: shapeArray});
+	res.end();
+});
+
+
+/*--------------------------Save Project to DB----------------------------- */ 
+router.post("/saveProjectData", async function(req, res){
+	
+	//Shape add 
+	var shapeArray = req.body.shape;
+
+	if(shapeArray!=undefined)
+	{ 	
+
+		console.log("Shapes to save: " + shapeArray);
+		console.log("Shape lenght:" + shapeArray.length);
+		//Remove all DesignElement Data in the DB for new data
+		editorDAOObject.removeAllDesignElements(currentProjectID); 
+
+		//Check if there is any data to input
+		//console.log(shapeArray); //Grab the values from shape and send to Design Elements Table using currentProjectID
+
+		for(var i=0; i<shapeArray.length; i++)
+		{
+			console.log("In the shape loop");
+			await editorDAOObject.saveDesignElement(currentProjectID, shapeArray[i]);
+		}
+	}
+	//Grab the values from background array and send to Backgrounds Table using currentProjectID
+
+	//
+
+
+	res.end();
+});
+
+
 
 router.post("/something", function(req, res){
 	console.log(req.body.shape);

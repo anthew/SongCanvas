@@ -1,44 +1,111 @@
-const express = require("express");
-const router = express.Router();
 const db = require("./database.js");
-const path = require('path');
+const fs = require("fs");
 
-//Retrieve project data from DB realted to user
-router.post("/projectRetrival", function(req, res){
-	console.log("In the request");
-
-	//Add a db query to retetrive all rows related to user
-	db.query('SELECT Project_ID, ProjectName, CreatedAt, updated_at FROM Project WHERE UserId=(SELECT id FROM Users WHERE email=?)', [currentUser], function(error, results, fields)
+class EditorDAO {
+	async getProjectData()
 	{
-		//Handle potentail error
-		if (error) throw error;
+		return new Promise((resolve, reject) => {
+            db.query('', [], function(error, results, fields)
+	        {
+		        //Handle potential error
+		        if (error){
+                    reject(error);
+                    return;
+                };
 
-		//console.log(results);
+		        //Have response store the array as a json object array and send back to client
+		        resolve(results);
+	        });
+        });
+	}
 
-		//Have resposne store the array as a json object array and send back to client
-		res.end();
-	});
+	async saveDesignElement(currentProjectID, shapeArray)
+	{
+		console.log("In shape create with shape: " + shapeArray);
 
-	// //Send the db result to dashboard (maybe res.json())
-	// res.end();
-});
+		return new Promise((resolve, reject) => {
+            db.query('insert into DesignElement(Width, BorderColor, X, AnimType, Opacity, BorderWidth, EndTime, Sides, DesignElement_Name, FillColor, shapeType, Height, Y, Radius, StartTime, ProjectID) Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ', [shapeArray.width, shapeArray.stroke, shapeArray.x, shapeArray.shapeAnimation, shapeArray.opacity, shapeArray.strokeWidth, shapeArray.shapeEndTime, shapeArray.sides, shapeArray.shapeName, shapeArray.fill, shapeArray.shapeType, shapeArray.height, shapeArray.y, shapeArray.radius, shapeArray.shapeStartTime, currentProjectID], function(error, results, fields)
+	        {
+		        //Handle potential error
+				
+		        if (error){
+                    reject(error);
+                    return;
+                };
 
-//Create project based on what values where entered by user in dashboard pop-up
-router.post("/createProject", function(req, res){
+		        //Have response store the array as a json object array and send back to client
+		        resolve(true);
+	        });
+        });
+	}
 
-	//Grab the values from req (fileName and projectName)
+	async removeAllDesignElements(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('DELETE FROM DesignElement WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+
+				resolve(true);
+			});
+		});
+	}
+
+	async getAllDesignElements(currentProjectID) {
+		return new Promise((resolve, reject) =>{
+			db.query('SELECT * FROM DesignElement WHERE ProjectID=?', [currentProjectID], function(error, results, fields)
+	        {
+		        //Handle potential error
+				
+		        if (error){
+                    reject(error);
+                    return;
+                };
+
+		        //Have response store the array as a json object array and send back to client
+		        resolve(results);
+	        });
+		}) ;
+	}
+}
+//Retrieve project data from DB related to user
+// router.post("/dashboardProjectsRetrieval", function(req, res){
+// 	console.log("In the request");
+
+// 	//Add a db query to retetrive all rows related to user
+// 	db.query('SELECT Project_ID, ProjectName, CreatedAt, updated_at FROM Project WHERE UserId=(SELECT id FROM Users WHERE email=?)', [currentUser], function(error, results, fields)
+// 	{
+// 		//Handle potentail error
+// 		if (error) throw error;
+
+// 		//console.log(results);
+
+// 		//Have resposne store the array as a json object array and send back to client
+// 		res.end();
+// 	});
+
+// 	// //Send the db result to dashboard (maybe res.json())
+// 	// res.end();
+// });
+
+// //Create project based on what values were entered by user in dashboard pop-up
+// router.post("/createProject", function(req, res){
+
+// 	//Grab the values from req (fileName and projectName)
 	
-	console.log("In the create project post");
+// 	console.log("In the create project post");
 
-	//Check if there is an existing project with same name?
+// 	//Check if there is an existing project with same name?
 
-	//Create project given values
-	db.query('insert into Project (UserId, ProjectName, SongFile) Values (Select id FROM Users WHERE email=?, ?, ?)', [currentUser, projectName, filePath], function(error, results, fields){
-		if(error) throw error;
+// 	//Create project given values
+// 	db.query('insert into Project (UserId, ProjectName, SongFile) Values (Select id FROM Users WHERE email=?, ?, ?)', [currentUser, projectName, filePath], function(error, results, fields){
+// 		if(error) throw error;
 
-		res.end();
-	});
+// 		res.end();
+// 	});
 
-});
+// });
 
-module.exports = router;
+module.exports = EditorDAO;

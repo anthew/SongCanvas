@@ -49,5 +49,4 @@ $(document).ready(function(){
                 alert(response.alert);
         });
     }
-
 });
