@@ -440,6 +440,8 @@ export class EditorManager{
             else if(shapeAnimationType == "Circular"){
                 AnimationStrat = new AnimationStrategy(new Circular(), layer);
                 AnimationStrat.getAnimationObjectStrategy(ShapeClassObject);
+
+                ShapeClassObject.setAnimationType("Circular");
             }
             else if (shapeAnimationType == "None") { //When the animatiion type is none
                 // animationObject = new Konva.Animation(function (frame) {
@@ -482,14 +484,17 @@ export class EditorManager{
         this.ShapeArray[shapeIndex].shapeName = newShapeName;
         this.ShapeArray[shapeIndex].shapeStartTime = shapeStartTime;
         this.ShapeArray[shapeIndex].shapeEndTime = shapeEndTime;
+        this.ShapeArray[shapeIndex].shapeAnimation = shapeAnimationType;
 
         this.ShapeStartArray[shapeStartIndex].shapeName = newShapeName;
         this.ShapeStartArray[shapeStartIndex].shapeStartTime = shapeStartTime;
         this.ShapeStartArray[shapeStartIndex].shapeEndTime = shapeEndTime;
+        this.ShapeStartArray[shapeStartIndex].shapeAnimation = shapeAnimationType;
 
         this.ShapeEndArray[shapeEndIndex].shapeName = newShapeName;
         this.ShapeEndArray[shapeEndIndex].shapeStartTime = shapeStartTime;
         this.ShapeEndArray[shapeEndIndex].shapeEndTime = shapeEndTime;
+        this.ShapeEndArray[shapeEndIndex].shapeAnimation = shapeAnimationType;
 
         // //Reasign the onclick and id of editShapeButton to the new name of the shape 
         // document.getElementById("editShapeButton" + shapeName).setAttribute("onClick", `showEditShapeSection('${document.getElementById("editShapeName").value}','${shapeType}')`);

@@ -183,12 +183,16 @@ router.post("/loadProjectElementData", async function(req, res){
 	//Get Design Element data from table related to currentProjectID
 	var shapeArray = await editorDAOObject.getAllDesignElements(currentProjectID);
 
+	//
+	var soundFilepath = await editorDAOObject.getFileName(currentProjectID);
+	//console.log(soundFilepath);
+
 	//Get Background element data from table related to currentProjectID
 
 	//Get Logo element data from table related to currentProjectID
 
 	//Get Lyrics element data from table related to currentProjectID
-	res.json({shapeImportArray: shapeArray});
+	res.json({shapeImportArray: shapeArray, SongFile: soundFilepath});
 	res.end();
 });
 
@@ -204,8 +208,9 @@ router.post("/saveProjectData", async function(req, res){
 
 		console.log("Shapes to save: " + shapeArray);
 		console.log("Shape lenght:" + shapeArray.length);
+		
 		//Remove all DesignElement Data in the DB for new data
-		editorDAOObject.removeAllDesignElements(currentProjectID); 
+		await editorDAOObject.removeAllDesignElements(currentProjectID); 
 
 		//Check if there is any data to input
 		//console.log(shapeArray); //Grab the values from shape and send to Design Elements Table using currentProjectID

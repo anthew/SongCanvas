@@ -683,7 +683,10 @@ $(document).ready(function(){
         //createShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeType, shapeRadius)
         //Respsonse Values from post request
         var shapes = response.shapeImportArray;
-        
+      
+        //Set the src for the audio element
+        document.getElementById('musicPlayer').setAttribute('src', "/" + response.SongFile[0].SongFile);
+
         //Once you get the shapeImportArray call the editor manager createShape function and iterate throguh array
         for(var i=0; i < shapes.length; i++)
         {

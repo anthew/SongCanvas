@@ -19,6 +19,21 @@ class EditorDAO {
         });
 	}
 
+	async getFileName(currentProjectID)
+	{
+		return new Promise((resolve, reject) => {
+			db.query('Select SongFile FROM Project WHERE Project_ID=?', [currentProjectID], function(error, results, fields)	
+			{
+				if (error){
+                    reject(error);
+                    return;
+                };
+
+				resolve(results);
+			});
+		});
+	}
+
 	async saveDesignElement(currentProjectID, shapeArray)
 	{
 		console.log("In shape create with shape: " + shapeArray);

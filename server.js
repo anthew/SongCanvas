@@ -7,6 +7,8 @@ app.use(express.static(path.join(__dirname, 'Views')));
 app.use(express.static(path.join(__dirname, 'WebsiteMedia')));
 app.use(express.static(path.join(__dirname, 'Controllers')));
 app.use(express.static(path.join(__dirname, 'Models')));
+app.use(express.static(path.join(__dirname, 'UserMedia')));
+//app.use(express.static(path.join(__dirname, 'uploads')));
 
 //Used for reading form data from json
 app.use(express.json());
