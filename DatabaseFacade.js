@@ -146,8 +146,6 @@ router.post("/deleteProject", async function(req, res){
 	//Grab the Project Name to send
 	var projID = req.body.project_ID;
 
-
-	
 	//Call query and pass in project id + currentUser
 	await loginDAOObject.deleteProject(projID, currentUser)
 	//End the 
@@ -163,7 +161,6 @@ router.post("/createProject", upload.single('soundFile'), async function(req, re
 	//Call query to create project
 	var result = await loginDAOObject.isProjectCreated(currentUser, projectName, filePath);
 	
-	
 	if(result==true) //Project Created
 		res.json({msg: "true"});
 	else //Duplicate Found
@@ -178,21 +175,24 @@ router.post("/createProject", upload.single('soundFile'), async function(req, re
 router.post("/loadProjectElementData", async function(req, res){
 	console.log(currentProjectID);
 	
-	// var result = await 
 
 	//Get Design Element data from table related to currentProjectID
 	var shapeArray = await editorDAOObject.getAllDesignElements(currentProjectID);
 
-	//
+	//Get Lyrics element data from table related to currentProjectID
+	var lyricsObj = await editorDAOObject.getLyricsElement(currentProjectID);
+
+	//Get the sound file from database
 	var soundFilepath = await editorDAOObject.getFileName(currentProjectID);
-	//console.log(soundFilepath);
+	
+
 
 	//Get Background element data from table related to currentProjectID
 
 	//Get Logo element data from table related to currentProjectID
 
 	//Get Lyrics element data from table related to currentProjectID
-	res.json({shapeImportArray: shapeArray, SongFile: soundFilepath});
+	res.json({shapeImportArray: shapeArray, SongFile: soundFilepath, lyrics: lyricsObj});
 	res.end();
 });
 
@@ -200,32 +200,38 @@ router.post("/loadProjectElementData", async function(req, res){
 /*--------------------------Save Project to DB----------------------------- */ 
 router.post("/saveProjectData", async function(req, res){
 	
-	//Shape add 
+	//Save Design Elements 
 	var shapeArray = req.body.shape;
 
 	if(shapeArray!=undefined)
-	{ 	
-
-		console.log("Shapes to save: " + shapeArray);
-		console.log("Shape lenght:" + shapeArray.length);
-		
+	{ 			
 		//Remove all DesignElement Data in the DB for new data
 		await editorDAOObject.removeAllDesignElements(currentProjectID); 
 
-		//Check if there is any data to input
-		//console.log(shapeArray); //Grab the values from shape and send to Design Elements Table using currentProjectID
-
+		//Insert all design elements into Database
 		for(var i=0; i<shapeArray.length; i++)
 		{
-			console.log("In the shape loop");
 			await editorDAOObject.saveDesignElement(currentProjectID, shapeArray[i]);
 		}
 	}
+
+	//Save Lyrics
+	var lyricsObj = req.body.lyrics;
+	
+	if(lyricsObj!=undefined)
+	{
+		//Remove any old existing lyric
+		await editorDAOObject.removeLyricsElement(currentProjectID);
+
+		//Add the lyrics object to table
+		await editorDAOObject.saveLyricsElement(currentProjectID, lyricsObj);
+	}
+
 	//Grab the values from background array and send to Backgrounds Table using currentProjectID
 
-	//
+	
 
-
+	res.json({msg: "done"});
 	res.end();
 });
 

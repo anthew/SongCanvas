@@ -146,7 +146,7 @@
                                                           </button> -->
                                                           
                                                           <b>Name:</b><br>
-                                                            <input type="text" name="logoName" id="logoName">
+                                                            <input type="text" name="logoName" id="logoName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()">
                                                             <br><br>
 
                                                           <b>File Input:</b><br>
@@ -299,7 +299,7 @@
                                                         
                                                         <!-- Input textfield for the lyrics -->
                                                           <b>Lyrics:</b><br>
-                                                          <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"></textarea>
+                                                          <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()"></textarea>
                                                           <br><br>
 
                                                           <b>Font Type: </b><br>
@@ -456,7 +456,7 @@
                                                           <br><br>
                                                           
                                                           <b>Name:</b><br>
-                                                          <input type="text" name="shapeName" id="shapeName">
+                                                          <input type="text" name="shapeName" id="shapeName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()">
                                                           <br><br>
                                                           
                                                           <div id="PolygonOption" style="display:none;">
@@ -626,7 +626,11 @@
 
                                                 <!-- Functions to use with buttons in hierarchy table -->
                                                 <script type="module">
-                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility} from "/EditorController.mjs";
+                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility, createKeyboardListner, disableKeyboardListner} from "/EditorController.mjs";
+
+                                                  //Functions for keypress
+                                                  window.createKeyboardListner = createKeyboardListner;
+                                                  window.disableKeyboardListner = disableKeyboardListner;
 
                                                   //Functions for background
                                                   window.requestShowEditBackgroundSection = requestShowEditBackgroundSection;
@@ -737,7 +741,7 @@
                                       </div> -->
                                       <div id="CanvasWindow">
                                         <div id="BackgroundLayer">
-                                          <img id="imageContent">
+                                          <img id="imageContent" onload="this.style.display='block'" onerror="this.style.display='none'">
                                           <video id="videoContent"></video>
                                         </div>
                                         <div id="KonvaCanvas" style="width: 100%; height: 100%;">
@@ -763,7 +767,7 @@
 
                                       <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
                                       <label>Shape Name:</label>
-                                      <input type="text" id="editShapeName" placeholder="Enter Shape Name"> 
+                                      <input type="text" id="editShapeName" placeholder="Enter Shape Name" onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()"> 
 
                                       <!-- Might not use shape type -->
 

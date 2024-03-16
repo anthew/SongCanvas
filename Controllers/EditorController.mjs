@@ -12,6 +12,9 @@ import {EditorManager} from './EditorManager.mjs';
 //Create Manager Object
 var EditorManagerObj = new EditorManager();
 
+//Create event listner for key presses
+createKeyboardListner();
+
 
 // ---------------------- Logo ------------------------------------------
 var addLogoToScreenButton = document.getElementById("logoSubmit");
@@ -404,9 +407,10 @@ export function requestSaveBackgroundChanges(fileName)
 
 //********************************Event Listners************************************** 
 //Keyboard Event Listner
-let paused = true; //Start it out as paused
+let paused = true;
 
-document.addEventListener('keydown', function (event) {
+function keyboardEnabled(event) {
+
     switch (event.key) {
         //Display the next lyric
         case "ArrowRight":
@@ -480,16 +484,26 @@ document.addEventListener('keydown', function (event) {
             toggleFullScreen();
             break;
 
-        // case "m":
-        //     if (document.fullscreenElement) {
-        //         toggleFullScreen();
-        //     }
-        //     break;
-
         default:
             return;
     }
-});
+}
+
+function handler(event)
+{
+    keyboardEnabled(event);
+}
+
+export function createKeyboardListner()
+{
+    document.addEventListener('keydown', handler);
+}
+
+
+export function disableKeyboardListner(){
+    document.removeEventListener('keydown', handler);
+}
+
 
 // Add event listeners for play, pause, and restart buttons
 document.getElementById('playVideo').addEventListener('click', function(event) {
@@ -718,6 +732,17 @@ $(document).ready(function(){
             console.log(ShapeArray.length);
         }
 
+        //Create lyrics with loaded data
+        var lyrics = response.lyrics;
+
+        if(lyrics[0]!=undefined)
+        {
+            EditorManagerObj.createLyrics(lyrics[0].TextContent, lyrics[0].BGColor, lyrics[0].FontColor, lyrics[0].FontSize, lyrics[0].FontType);
+
+            lyricArray = EditorManagerObj.getLyricArray();
+            text = EditorManagerObj.getTextObject();
+            indexVal=-1;
+        }
         alert("Project Loaded");
     });
 
@@ -739,12 +764,8 @@ $(document).ready(function(){
     function submitHandler(e){
         e.preventDefault();
 
-        //console.log(ShapeArray);
-        // delete ShapeArray[0]["shape"];
-        // console.log(ShapeArray);
-
-        var copyShapeArray=[];
         //Perform a copy of the Shape Array
+        var copyShapeArray=[];
         for(var i=0; i< ShapeArray.length; i++)
         {
             var shape = ShapeArray[i].shape.getKonvaShape();
@@ -785,6 +806,31 @@ $(document).ready(function(){
 
             copyShapeArray.push(copyObject);
         }
+
+        //Copy content of lyric object
+        var textContent;
+        var lyricObjectCopy;
+
+        if(lyricArray.length!=0) //Check if there is any content to add
+        {
+            textContent = lyricArray[0];
+
+            //Iterate throught the rest of the array and add dividers (\n~~~\n)
+            for(let i=1; i<lyricArray.length; i++)
+            {
+                textContent = textContent + "\n~~~\n" + lyricArray[i];
+            }
+
+            lyricObjectCopy = {
+                "TextContent": textContent,
+                "FontColor": text.getAttr('fill'),
+                "FontType": text.getAttr('fontFamily'),
+                "BGColor": EditorManagerObj.getLyricObject().getKonvaBackground().getAttr('fill'),
+                "FontSize": text.getAttr('fontSize'),
+            }
+        }
+
+
 /*--------------------------Save Project to DB----------------------------- */ 
         $.ajax({
             url: '/saveProjectData',
@@ -792,6 +838,8 @@ $(document).ready(function(){
             dataType: 'json',
             data: {
                 shape: copyShapeArray,
+                lyrics: lyricObjectCopy,
+
                 //background: EditorManagerObj.getBackgroundArray(),
             }
         }).done(response => {

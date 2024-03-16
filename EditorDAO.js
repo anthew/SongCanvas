@@ -34,10 +34,55 @@ class EditorDAO {
 		});
 	}
 
+	// ********************************************     Lyrics      ******************************************
+	async saveLyricsElement(currentProjectID, lyricObj)
+	{
+		return new Promise((resolve, reject)=>{
+
+			db.query('insert into Lyrics(FontColor, TextContent, FontType, BGColor, FontSize, ProjectID) Values(?, ?, ?, ?, ?, ?)', [lyricObj.FontColor, lyricObj.TextContent, lyricObj.FontType, lyricObj.BGColor, lyricObj.FontSize, currentProjectID], function(error, results, fields)
+			{
+				if (error){
+					reject(error);
+					return;
+				};
+	
+				resolve(true);
+			});
+		});
+	}
+
+	async removeLyricsElement(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('Delete FROM Lyrics WHERE ProjectID=?', [currentProjectID], function(error, results, fields)
+			{
+				if (error){
+					reject(error);
+					return;
+				};
+	
+				resolve(true);
+			});
+		});
+	}
+
+	async getLyricsElement(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('SELECT * FROM Lyrics WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+	
+				resolve(results);
+			});
+		});
+	}
+
+	// ******************************************** Design Elements ******************************************
 	async saveDesignElement(currentProjectID, shapeArray)
 	{
-		console.log("In shape create with shape: " + shapeArray);
-
 		return new Promise((resolve, reject) => {
             db.query('insert into DesignElement(Width, BorderColor, X, AnimType, Opacity, BorderWidth, EndTime, Sides, DesignElement_Name, FillColor, shapeType, Height, Y, Radius, StartTime, ProjectID) Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ', [shapeArray.width, shapeArray.stroke, shapeArray.x, shapeArray.shapeAnimation, shapeArray.opacity, shapeArray.strokeWidth, shapeArray.shapeEndTime, shapeArray.sides, shapeArray.shapeName, shapeArray.fill, shapeArray.shapeType, shapeArray.height, shapeArray.y, shapeArray.radius, shapeArray.shapeStartTime, currentProjectID], function(error, results, fields)
 	        {
