@@ -7,3 +7,5 @@ env_variables:
   DB_NAME: "songCanvas"
   DB_HOST: "34.168.103.146"
   DB_PORT: "3306"
+  GOOGLE_CLOUD_PROJECT: "songcanvas"
+  GCLOUD_STORAGE_BUCKET: "songcanvas.appspot.com"

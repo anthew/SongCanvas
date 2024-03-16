@@ -17,7 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 //Bring over and execute the GET and POST route methods for login and create account
 
 const dbFacade = require("./DatabaseFacade.js");
+const cloudStorage = require("./CloudStorage.js");
 app.use(dbFacade);
+app.use(cloudStorage);
 
 // Specify the starting page (login)
 app.get('/', function (req, res) { 
