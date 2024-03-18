@@ -710,8 +710,10 @@ $(document).ready(function(){
         var shapes = response.shapeImportArray;
       
         //Set the src for the audio element
-        document.getElementById('musicPlayer').setAttribute('src', "/" + response.SongFile[0].SongFile);
+        //document.getElementById('musicPlayer').setAttribute('src', "/" + response.SongFile[0].SongFile);
+        document.getElementById('musicPlayer').setAttribute('src', "https://storage.cloud.google.com/songcanvas.appspot.com/" + response.SongFile[0].SongFile);
 
+        //https://storage.cloud.google.com/songcanvas.appspot.com/Unknown-2.png
         //Once you get the shapeImportArray call the editor manager createShape function and iterate throguh array
         for(var i=0; i < shapes.length; i++)
         {
