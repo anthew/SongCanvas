@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const {Storage} = require('@google-cloud/storage');
 const db = require("./database.js");
 const path = require('path');
 const LoginDAO = require("./LoginDAO.js");
 const EditorDAO = require("./EditorDAO.js");
+const Multer = require('multer');
 
 //Keeps track of who is currently logged in
 var currentUser;
@@ -15,23 +17,34 @@ var loginDAOObject = new LoginDAO();
 
 var editorDAOObject = new EditorDAO();
 
+// Instantiate a storage client
+const storage = new Storage();
+
 //Keeps track of the current project being used
-
-
-var customFileName;
-const multer = require('multer');
-const storage = multer.diskStorage({
-	destination: function(req, file, cb)
-	{
-		cb(null, 'UserMedia/');
-	}, 
-
-	filename: function(req, file, cb){
-		console.log("Hello world");
-		cb(null, file.originalname); //Revert back to file.originalname
-	}
+const multer = Multer({
+	storage: Multer.memoryStorage(),
+	limits: {
+	  fileSize: 50 * 1024 * 1024, // 50mb file size limit
+	},
 });
-const upload = multer({storage: storage});
+
+// A bucket is a container for objects (files).
+const bucket = storage.bucket("songcanvas.appspot.com");
+
+// var customFileName;
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+// 	destination: function(req, file, cb)
+// 	{
+// 		cb(null, 'UserMedia/');
+// 	}, 
+
+// 	filename: function(req, file, cb){
+// 		console.log("Hello world");
+// 		cb(null, file.originalname); //Revert back to file.originalname
+// 	}
+// });
+// const upload = multer({storage: storage});
 
 //Handle data from login form
 router.post('/loginAuth', async function(request, response){
@@ -153,13 +166,45 @@ router.post("/deleteProject", async function(req, res){
 });
 
 //Create project based on what values where entered by user in dashboard pop-up
-router.post("/createProject", upload.single('soundFile'), async function(req, res){
+router.post("/createProject", multer.single('soundFile'), async function(req, res, next){
 	//Grab the values from req (fileName and projectName)
 	var projectName = req.body.projectName;
 	var filePath = req.file.originalname;
 	
 	//Call query to create project
 	var result = await loginDAOObject.isProjectCreated(currentUser, projectName, filePath);
+
+	//Get the project ID
+	var projID = await loginDAOObject.getProjectID(currentUser, projectName); 
+
+	//Get the newFileName
+	var newFileName = await editorDAOObject.getFileName(projID[0].Project_ID);
+
+	console.log("New File name is : " + newFileName[0].SongFile);
+
+	// Create a new blob in the bucket and upload the file data.
+	const blob = bucket.file(req.file.originalname); // The name of the file as it was retrieved from uploading
+	const blobStream = blob.createWriteStream({
+	  resumable: false,
+	});
+  
+	blobStream.on('error', err => {
+	  next(err);
+	});
+
+	blobStream.on('finish', () => {
+		// The public URL can be used to directly access the file via HTTP.
+		const publicUrl = format(
+		  `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+		);
+	
+		//res.json({file: publicUrl});
+		//res.status(200).send(publicUrl);
+	});
+
+	blobStream.end(req.file.buffer);
+
+	await bucket.file(req.file.originalname).move(newFileName[0].SongFile);
 	
 	if(result==true) //Project Created
 		res.json({msg: "true"});

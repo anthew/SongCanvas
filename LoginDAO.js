@@ -62,6 +62,34 @@ class LoginDAO {
         });
     }
 
+    async getProjectID(currentUser, projectName)
+    {
+        return new Promise((resolve, reject) =>{
+            console.log(currentUser);
+            db.query("SELECT id FROM Users where email=?", [currentUser], function(error, results, fields){
+                //Handle potential error
+                if (error){
+                    reject(error);
+                    return;
+                };
+
+                var userID = results[0].id;
+
+                console.log(userID);
+
+                db.query("Select Project_ID FROM Project Where ProjectName=? AND UserId=?", [projectName, userID], function(error, results, fields){
+                    //Handle potential error
+                    if (error){
+                        reject(error);
+                        return;
+                    };
+
+                    resolve(results);
+                });
+            });
+        });
+    }
+
     async isProjectCreated(currentUser, projectName, filePath){
         return new Promise((resolve, reject) =>{
             //Create Project
@@ -112,9 +140,9 @@ class LoginDAO {
                                 //Create new file name to replace in the UserMedia folder and in database
                                 newFileName = projectID + "_sound_"+ filePath; 
 
-                                fs.rename('UserMedia/'+filePath, 'UserMedia/'+newFileName, function(err) {
-                                    if (err) console.log('ERROR: ' + err);
-                                });
+                                // fs.rename('UserMedia/'+filePath, 'UserMedia/'+newFileName, function(err) {
+                                //     if (err) console.log('ERROR: ' + err);
+                                // });
 
                                 //Step 5: Update SongFile with new file name
                                 db.query('UPDATE Project SET SongFile=? WHERE ProjectName=? AND UserId=?', [newFileName, projectName, userID], function(error, results, fields){

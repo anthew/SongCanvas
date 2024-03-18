@@ -93,20 +93,20 @@ $(document).ready(function(){
         formData.append('projectName', document.getElementById("insertProjectName").value);
 
         $.ajax({
-            url: '/cloudStorageTest',
+            url: '/createProject',
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             encType: "multipart/form-data",
         }).done(response => {
-            // if(repsonse.msg=="true")
-            //     alert("Project Successfuly Created");
-            // else
-            //     alert("Duplicate Project Found");
-            alert(response.file);
-            console.log(response.file);
-            alert("function worked");
+            if(response.msg=="true")
+                alert("Project Successfuly Created");
+            else
+                alert("Duplicate Project Found");
+            // alert(response.file);
+            // console.log(response.file);
+            // alert("function worked");
         });
 
     }

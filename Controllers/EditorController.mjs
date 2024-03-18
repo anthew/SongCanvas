@@ -183,6 +183,17 @@ export function showEditShapeSection(shapeName, shapeType)
 
     document.getElementById("editShapeOpacity").value = shape.getAttr("opacity");
 
+    //Select the anim type of the current shape in selection
+    var optionsList = document.getElementById('editShapeAnimation').options; //Iterate though anim options list to find the value
+    for(let i=0; i < optionsList.length; i++)
+    {
+        if(optionsList[i].value==ShapeObject.getAnimationType())
+        {
+            document.getElementById('editShapeAnimation').selectedIndex = i;
+
+        }
+    }
+
     //Update the opcaity label to mathc the slider vlaue
     const shapeEditOpacityOutput = document.getElementById("editShapeOpacityValue");
     const shapeEditOpacityInput = document.getElementById("editShapeOpacity");
