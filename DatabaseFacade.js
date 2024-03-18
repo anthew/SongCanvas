@@ -205,7 +205,7 @@ router.post("/createProject", multer.single('soundFile'), async function(req, re
 	blobStream.end(req.file.buffer);
 
 	await bucket.file(req.file.originalname).move(newFileName[0].SongFile);
-	
+	await bucket.file(newFileName[0].SongFile).makePublic();
 	if(result==true) //Project Created
 		res.json({msg: "true"});
 	else //Duplicate Found
