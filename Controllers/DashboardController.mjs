@@ -101,7 +101,21 @@ $(document).ready(function(){
             encType: "multipart/form-data",
         }).done(response => {
             if(response.msg=="true")
+            {
                 alert("Project Successfuly Created");
+
+                //Make another ajax request to change the name
+                $.ajax({
+                    url: '/changeFileName',
+                    method: "POST",
+                    data: {
+                        newFileName: response.newFileName, 
+                        oldFileName: response.oldFileName,
+                    }
+                }).done(response => {
+                    alert("Rename complete");
+                });
+            }
             else
                 alert("Duplicate Project Found");
             // alert(response.file);

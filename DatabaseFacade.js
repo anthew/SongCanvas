@@ -182,37 +182,101 @@ router.post("/createProject", multer.single('soundFile'), async function(req, re
 
 	console.log("New File name is : " + newFileName[0].SongFile);
 
+	await uploadSoundFile(filePath, req);
+
 	// Create a new blob in the bucket and upload the file data.
-	const blob = bucket.file(req.file.originalname); // The name of the file as it was retrieved from uploading
-	const blobStream = blob.createWriteStream({
-	  resumable: false,
-	});
+	// const blob = bucket.file(filePath); // The name of the file as it was retrieved from uploading
+
+	// const blobStream = blob.createWriteStream({
+	//   resumable: false,
+	// });
   
-	blobStream.on('error', err => {
-	  next(err);
-	});
+	// blobStream.on('error', err => {
+	//   next(err);
+	// });
 
-	blobStream.on('finish', () => {
-		// The public URL can be used to directly access the file via HTTP.
-		const publicUrl = format(
-		  `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-		);
+	// blobStream.on('finish', () => {
+	// 	// The public URL can be used to directly access the file via HTTP.
+	// 	const publicUrl = format(
+	// 	  `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+	// 	);
 	
-		//res.json({file: publicUrl});
-		//res.status(200).send(publicUrl);
-	});
+	// 	//res.json({file: publicUrl});
+	// 	//res.status(200).send(publicUrl);
+	// });
 
-	blobStream.end(req.file.buffer);
+	// blobStream.end(req.file.buffer);
 
-	await bucket.file(req.file.originalname).move(newFileName[0].SongFile);
-	await bucket.file(newFileName[0].SongFile).makePublic();
+
+	//await changeName(newFileName[0].SongFile, filePath);
+
+	// await bucket.file(req.file.originalname).move(newFileName[0].SongFile);
+	// await bucket.file(newFileName[0].SongFile).makePublic();
+
+	// await storage
+	// 	.bucket(bucketName)
+    // 	.file(srcFileName)
+    // 	.move(destFileName, moveOptions);
+
 	if(result==true) //Project Created
-		res.json({msg: "true"});
+		res.json({msg: "true", newFileName: newFileName[0].SongFile, oldFileName: filePath});
 	else //Duplicate Found
 		res.json({msg: "false"});
 
 	res.end();
 });
+
+router.post("/changeFileName", async function (req, res, next)
+{
+	//Get the old and new file from body
+	var newFileName = req.body.newFileName;
+	var oldFileName = req.body.oldFileName;
+
+	await bucket.file(oldFileName).move(newFileName);
+	await bucket.file(newFileName).makePublic();
+
+	res.end();
+});
+
+async function changeName(newFileName, filePath)
+{
+	return new Promise((resolve, reject) => {
+		bucket.file(filePath).move(newFileName);
+		resolve (true);
+	});
+}
+
+async function changeToPublic(newFileName)
+{
+	return new Promise((resolve, reject) => {
+		bucket.file(newFileName).makePublic();
+		resolve (true);
+	});
+}
+
+async function uploadSoundFile(filePath, req)
+{
+	return new Promise((resolve, reject) => {
+		
+		const blob = bucket.file(filePath); // The name of the file as it was retrieved from uploading
+
+		const blobStream = blob.createWriteStream({
+			resumable: false,
+		});
+	
+		blobStream.on('error', err => {
+			reject(err);
+			return;
+		});
+
+		blobStream.end(req.file.buffer);
+
+		resolve(true);
+
+	});
+}
+
+
 
 
 
