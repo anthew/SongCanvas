@@ -34,6 +34,51 @@ class EditorDAO {
 		});
 	}
 
+	// ********************************************     Logo        ******************************************
+	async saveLogoElement(currentProjectID, logoObject)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('insert into Logo(Name, file_name, opacity, height, width, x, y, ProjectID) Values(?, ?, ?, ?, ?, ?, ?, ?)', [logoObject.LogoName, currentProjectID + "_Logo_" + logoObject.LogoFileName, logoObject.LogoOpacity, logoObject.LogoHeight, logoObject.LogoWidth, logoObject.LogoX, logoObject.LogoY, currentProjectID], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+
+				resolve(true);
+			});
+		});
+	}
+
+	async removeLogoElement(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('DELETE FROM Logo WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+
+				resolve(true);
+			});
+		});
+	}
+
+	async getLogoElement(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('SELECT * FROM Logo WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+	
+				resolve(results);
+			});
+		});
+	}
+
+
+
 	// ********************************************     Lyrics      ******************************************
 	async saveLyricsElement(currentProjectID, lyricObj)
 	{

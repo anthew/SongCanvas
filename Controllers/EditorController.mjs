@@ -31,7 +31,51 @@ function requestCreateLogo(){
     let logoY = document.getElementById("logoY").value;
     let logoOpacity = document.getElementById("logoOpacity").value;
 
-    EditorManagerObj.createLogo(logoName, logoPic, logoWidth, logoHeight, logoX, logoY, logoOpacity);
+    //Have manager create logo
+    EditorManagerObj.createLogo(logoName, URL.createObjectURL(logoPic), logoWidth, logoHeight, logoX, logoY, logoOpacity);
+
+    EditorManagerObj.getLogoObject().setLogoFile(logoPic);
+
+    //Create Logo row
+    let table = document.getElementById("logoHierarchy");
+    
+    let template = `
+        <tr id="addedLogoRow">
+            <td id="addedLogoName" style="border: 1px solid black;"> 
+                <button class="addedLogoNameButton" onclick="editLogoAttributes()" style="background-color: white; border: none;">Logo</button>
+            </td>
+            <td id="addedLogoVisibility" style="border: 1px solid black;">
+                <button class="addedLogoVisibilityButton" onclick="toggleLogoVisibility()" style="background-color: white; border: none;"><img style="width: 26px;
+                height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+            </td>
+            <td id="deleteLogo" style="border: 1px solid black;">
+                <button class="deleteLogoButton" onclick="requestDeleteLogo()" style="background-color: white; border: none;" ><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                height: 26px; "></button>
+            </td>
+            </tr>
+    `;    
+    table.innerHTML += template;
+
+    //Hide the plus button for logo to prevent
+    document.getElementById("logoPlusButton").style.setProperty("visibility", "hidden");
+}
+
+export function requestDeleteLogo()
+{
+    //Call editor manager
+    EditorManagerObj.deleteLogo();
+
+    //Remove row
+    document.getElementById("logoHierarchy").deleteRow(1);
+
+    //Unhide plus button for logo
+    document.getElementById("logoPlusButton").style.setProperty("visibility", "visible");
+}
+
+export function toggleLogoVisibility()
+{
+    //Call Editor manager function
+    EditorManagerObj.changeLogoVisibility();
 }
 
 // ----------------------- Shapes ----------------------------------------
@@ -275,19 +319,64 @@ function requestCreateLyrics () {
     var FontType = document.getElementById("lyricFontType").value;
     var FontSize = document.getElementById("lyricFontSize").value;
     var FontColor = document.getElementById("lyricFontColor").value;
-
     var lyricsBackgroundSelection = document.getElementsByName("lyricBackground");
+
     //Grab the radio buttons and check if the user had selected a colored background
     if(lyricsBackgroundSelection[1].checked)
         lyricBackgroundColor = document.getElementById("lyricbackgroundColor").value;
 
-    //var lyricsBackgroundSelection = document.getElementsByName("lyricBackground");
-
+    //Call Editor manager to create Lyrics object
     EditorManagerObj.createLyrics(lyricsTextAreaStuff, lyricBackgroundColor, FontColor, FontSize, FontType);
 
+    //Create Row in hierarchy
+    let table = document.getElementById("lyricHierarchy");
+    
+    let template = `
+        <tr id="addedLyricRow">
+            <td id="addedLyricName" style="border: 1px solid black;">
+                <button id="showLyricButton" onclick="requestShowEditLyricSection()" style="background-color: white; border: none; white-space: nowrap; overflow: hidden;">Logo</button>
+            </td>
+            <td id="addedLyricVisible" style="border: 1px solid black;">
+                <button class="addedLyricNameButton" onclick="modifyLyricSight()" style="background-color: white; border: none;"><img style="width: 26px;
+                height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+            </td>
+            <td id="deleteLyric" style="border: 1px solid black;">
+                <button id="deleteLyricButton" onclick="requestDeleteLyric()" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                height: 26px; "></button>
+            </td>
+        </tr>
+    `;
+    
+    table.innerHTML += template;
+
+    //Obtain values related to lyrics object
     lyricArray = EditorManagerObj.getLyricArray();
     text = EditorManagerObj.getTextObject();
     indexVal=-1;
+}
+
+//Removes lyric object from project
+export function requestDeleteLyric(){
+
+    //Call Editor Manager
+    EditorManagerObj.removeLyrics();
+
+    //Remove the row from hierarchy
+    document.getElementById("lyricHierarchy").deleteRow(1);
+
+    //Set the values to back to default
+    lyricArray = EditorManagerObj.getLyricArray();
+    indexVal=-1;
+
+    //Redisplay the plus button for lyric
+    document.getElementById("lyricsPlusButton").style.setProperty("visibility", "visible");
+    //document.getElementById("lyricsPlusButton").style.setProperty("float", "left");
+}
+
+//Hides the lyric object in the stage
+export function modifyLyricSight()
+{
+    EditorManagerObj.changeLyricVisibility();
 }
 
 
@@ -705,8 +794,7 @@ $(document).ready(function(){
         url: "/loadProjectElementData",
         method: "POST",
     }).done(response => {
-        //createShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeType, shapeRadius)
-        //Respsonse Values from post request
+        //Response Values from post request
         var shapes = response.shapeImportArray;
       
         //Set the src for the audio element
@@ -748,14 +836,77 @@ $(document).ready(function(){
         //Create lyrics with loaded data
         var lyrics = response.lyrics;
 
-        if(lyrics[0]!=undefined)
+        if(lyrics[0]!=undefined) 
         {
+            //Create the lyric object with the data
             EditorManagerObj.createLyrics(lyrics[0].TextContent, lyrics[0].BGColor, lyrics[0].FontColor, lyrics[0].FontSize, lyrics[0].FontType);
 
+            //Obtain the array of lyrics, set index, and get refrence to text object
             lyricArray = EditorManagerObj.getLyricArray();
             text = EditorManagerObj.getTextObject();
             indexVal=-1;
+
+            //Create Lyric row
+            let table = document.getElementById("lyricHierarchy");
+    
+            let template = `
+            <tr id="addedLyricRow">
+                <td id="addedLyricName" style="border: 1px solid black;">
+                    <button id="showLyricButton" onclick="requestShowEditLyricSection()" style="background-color: white; border: none; white-space: nowrap; overflow: hidden;">Logo</button>
+                </td>
+                <td id="addedLyricVisible" style="border: 1px solid black;">
+                    <button class="addedLyricNameButton" onclick="modifyLyricSight()" style="background-color: white; border: none;"><img style="width: 26px;
+                    height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+                </td>
+                <td id="deleteLyric" style="border: 1px solid black;">
+                    <button id="deleteLyricButton" onclick="requestDeleteLyric()" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                    height: 26px; "></button>
+                </td>
+            </tr>
+            `;
+    
+            table.innerHTML += template;
+            
+            //Hide the plus button for lyrics
+            document.getElementById("lyricsPlusButton").style.setProperty("visibility", "hidden");
         }
+
+        //Create logo with loaded data
+        var logo = response.logo;
+
+        if(logo[0]!=undefined)
+        {
+            // createLogo(logoName, logoPic, logoWidth, logoHeight, logoX, logoY, logoOpacity)
+            //Create Logo with Editor Manager
+            var fileLink = "https://storage.cloud.google.com/songcanvas.appspot.com/" + logo[0].file_name;
+
+            EditorManagerObj.createLogo(logo[0].Name, fileLink, logo[0].width, logo[0].height, logo[0].x, logo[0].y, logo[0].opacity);
+
+            //Create Logo row
+            let table = document.getElementById("logoHierarchy");
+    
+            let template = `
+                <tr id="addedLogoRow">
+                    <td id="addedLogoName" style="border: 1px solid black;"> 
+                        <button class="addedLogoNameButton" onclick="editLogoAttributes()" style="background-color: white; border: none;">Logo</button>
+                    </td>
+                    <td id="addedLogoVisibility" style="border: 1px solid black;">
+                        <button class="addedLogoVisibilityButton" onclick="toggleLogoVisibility()" style="background-color: white; border: none;"><img style="width: 26px;
+                        height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+                    </td>
+                    <td id="deleteLogo" style="border: 1px solid black;">
+                        <button class="deleteLogoButton" onclick="requestDeleteLogo()" style="background-color: white; border: none;" ><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                        height: 26px; "></button>
+                    </td>
+                </tr>
+            `;    
+            table.innerHTML += template;
+
+            //Hide plus button for logo
+            document.getElementById("logoPlusButton").style.setProperty("visibility", "hidden");
+        }
+
+        
         alert("Project Loaded");
     });
 
@@ -843,6 +994,55 @@ $(document).ready(function(){
             }
         }
 
+        //Copy content of logo object 
+        var logoCopyObject;
+        var logoFile
+
+        if(EditorManagerObj.getLogoObject() != undefined && EditorManagerObj.getLogoObject().getLogoFile() !=undefined) //No file has been uploaded or there is no logo to save
+        {
+            var logoObject = EditorManagerObj.getLogoObject().getKonvaLogo();
+            logoFile = EditorManagerObj.getLogoObject().getLogoFile();
+
+            logoCopyObject = {
+                "LogoFileName": logoFile.name,
+                "LogoWidth": logoObject.getAttr('width'),
+                "LogoHeight": logoObject.getAttr('height'),
+                "LogoOpacity": logoObject.getAttr('opacity'),
+                "LogoName": logoObject.getAttr('name'),
+                "LogoX": logoObject.getAttr('x'), 
+                "LogoY": logoObject.getAttr('y'),
+            }
+        }
+
+
+/* -------------------------Save Files to Cloud Stroage----------------------------- */
+        // if(logoFile!=undefined) //Check if we have a file to
+        // {
+        //     var logoForm = new FormData();
+
+        //     logoForm.append('logoFile', logoFile);
+
+        //     $.ajax({
+                // url:'/uploadLogoFile',
+                // method: 'POST',
+                // data: logoForm,
+                // processData: false,
+                // contentType: false,
+                // encType: "multipart/form-data",
+        //     }).done(response => {
+        //         console.log("Logo File Uploaded");
+
+        //         //Call another request to rename file and make it public
+        //         $.ajax({
+        //             url:'/renameLogoFile',
+        //             method: 'POST',
+        //             data: {"FileName": logoFile.name},
+        //         }).done(response => {
+        //             console.log("Logo file renamed and public");
+        //         });
+        //     });
+        // };
+
 
 /*--------------------------Save Project to DB----------------------------- */ 
         $.ajax({
@@ -852,13 +1052,50 @@ $(document).ready(function(){
             data: {
                 shape: copyShapeArray,
                 lyrics: lyricObjectCopy,
+                logo: logoCopyObject,
 
                 //background: EditorManagerObj.getBackgroundArray(),
             }
         }).done(response => {
             console.log(response.msg);
             alert("Hello world");
+
+            //console.log(response.oldLogoFileName[0].file_name);
+
+
+            //Save Logo File to cloud storage
+            if(logoFile != undefined)
+            {
+                var logoForm = new FormData();
+                logoForm.append('logoFile', logoFile);
+                
+                logoForm.append('OldLogoFileName', response.oldLogoFileName);
+
+                $.ajax({
+                    url:'/uploadLogoFile',
+                    method: 'POST',
+                    data: logoForm,
+                    processData: false,
+                    contentType: false,
+                    encType: "multipart/form-data",
+                }).done(response => {
+                    console.log("Finish file upload");
+
+                    //Rename file with another ajax request
+                    $.ajax({
+                        url: '/renameLogoFile',
+                        method: 'POST', 
+                        data: {FileName: logoFile.name},
+                    }).done(repsonse =>{
+                        console.log("Finish renaming Logo file");
+                    })
+                });
+            }
+
             //window.location.href = "Hello.html"
         });
+
+        //Save files to cloud storage
+
     }
 });

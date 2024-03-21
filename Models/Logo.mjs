@@ -18,7 +18,19 @@ export class Logo{
         });  
 
         //Add the fileInput to the imageObj
-        imageObj.src = URL.createObjectURL(logoPic);
+        imageObj.src = logoPic;
+    }
+
+    //Used to store the file user selected from input.  
+    setLogoFile(logoFileInput)
+    {
+        this.LogoFile = logoFileInput;
+    }
+
+    //Get the inputed file user selected and save it to cloud storage
+    getLogoFile()
+    {
+        return this.LogoFile;
     }
 
     getKonvaLogo()

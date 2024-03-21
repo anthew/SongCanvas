@@ -291,6 +291,9 @@ router.post("/loadProjectElementData", async function(req, res){
 	//Get Lyrics element data from table related to currentProjectID
 	var lyricsObj = await editorDAOObject.getLyricsElement(currentProjectID);
 
+	//Get Logo element data from table related to currentProjectID
+	var logoObj = await editorDAOObject.getLogoElement(currentProjectID);
+
 	//Get the sound file from database
 	var soundFilepath = await editorDAOObject.getFileName(currentProjectID);
 	
@@ -301,10 +304,51 @@ router.post("/loadProjectElementData", async function(req, res){
 	//Get Logo element data from table related to currentProjectID
 
 	//Get Lyrics element data from table related to currentProjectID
-	res.json({shapeImportArray: shapeArray, SongFile: soundFilepath, lyrics: lyricsObj});
+	res.json({shapeImportArray: shapeArray, SongFile: soundFilepath, lyrics: lyricsObj, logo: logoObj});
 	res.end();
 });
 
+
+/* --------------------Save project files to cloud storage----------------- */
+router.post("/uploadLogoFile", multer.single('logoFile'), async function(req, res, next){
+
+	//Check if we have a existing logo added to project. If there is delete old file from cloud storage
+
+	if(req.body.OldLogoFileName != "")
+	{
+		console.log("In the delete");
+
+		//Remove File
+		await bucket.file(req.body.OldLogoFileName).delete();
+	}
+
+	//Create File
+	const blob = bucket.file(req.file.originalname); // The name of the file as it was retrieved from uploading
+
+	const blobStream = blob.createWriteStream({
+		resumable: false,
+	});
+	
+	blobStream.on('error', err => {
+		next(err);
+	});
+
+	blobStream.end(req.file.buffer);
+
+	res.end();
+});
+
+router.post("/renameLogoFile", async function(req, res){
+
+	//Get the necessary values
+	var oldFileName = await editorDAOObject.getLogoElement(currentProjectID);
+	var newFileName = req.body.FileName;
+
+	await bucket.file(oldFileName[0].file_name).move(newFileName);
+	await bucket.file(newFileName).makePublic();
+
+	res.end();
+});
 
 /*--------------------------Save Project to DB----------------------------- */ 
 router.post("/saveProjectData", async function(req, res){
@@ -336,11 +380,29 @@ router.post("/saveProjectData", async function(req, res){
 		await editorDAOObject.saveLyricsElement(currentProjectID, lyricsObj);
 	}
 
+	//Save Logo
+	var logoObject = req.body.logo;
+	var oldLogoFileName="";
+
+	if(logoObject!=undefined)
+	{
+		//Obtain filePath of old logo if available
+		var LogoResult= await editorDAOObject.getLogoElement(currentProjectID);
+
+		if(LogoResult.length !=0)
+			oldLogoFileName = LogoResult[0].file_name;
+
+		//Remove any old existing logo
+		await editorDAOObject.removeLogoElement(currentProjectID);
+
+		//Add logo object to the table
+		await editorDAOObject.saveLogoElement(currentProjectID, logoObject);
+	}
+
 	//Grab the values from background array and send to Backgrounds Table using currentProjectID
 
-	
-
-	res.json({msg: "done"});
+	//Return the old fileNames of Logo
+	res.json({msg: "done", oldLogoFileName: oldLogoFileName});
 	res.end();
 });
 

@@ -365,7 +365,7 @@
                                                               // const currentDisplayValue = lyricsPlusButton.getAttribute("display");
                                                               // console.log(currentDisplayValue);
                                                               
-                                                              lyricsPlusButton.style.setProperty("display", "none");
+                                                              lyricsPlusButton.style.setProperty("visibility", "hidden");
                                                               // if (currentDisplayValue == "none")
                                                               // {
                                                               //   lyricsPlusButton.style.setProperty("display", "block");
@@ -415,7 +415,13 @@
                                             </div>
                                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                               <div class="card-body">
-                                                Something with lyrics
+                                                <table id="lyricHierarchy">
+                                                  <tr colspan="3" style="border: 1px solid black;">
+                                                    <td style="border: 1px solid black;">Name</td>
+                                                    <td style="border: 1px solid black;">Visibility</td>
+                                                    <td style="border: 1px solid black;">Delete</td>
+                                                  </tr>
+                                                </table>
                                               </div>
                                             </div>
                                           </div>
@@ -626,12 +632,20 @@
 
                                                 <!-- Functions to use with buttons in hierarchy table -->
                                                 <script type="module">
-                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility, createKeyboardListner, disableKeyboardListner} from "/EditorController.mjs";
+                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility, createKeyboardListner, disableKeyboardListner, requestDeleteLyric, modifyLyricSight, toggleLogoVisibility, requestDeleteLogo} from "/EditorController.mjs";
 
                                                   //Functions for keypress
                                                   window.createKeyboardListner = createKeyboardListner;
                                                   window.disableKeyboardListner = disableKeyboardListner;
 
+                                                  //Functions for Lyrics
+                                                  window.requestDeleteLyric = requestDeleteLyric;
+                                                  window.modifyLyricSight = modifyLyricSight;
+
+                                                  //Functions for Logo
+                                                  window.toggleLogoVisibility = toggleLogoVisibility;
+                                                  window.requestDeleteLogo = requestDeleteLogo;
+                                                  
                                                   //Functions for background
                                                   window.requestShowEditBackgroundSection = requestShowEditBackgroundSection;
                                                   window.requestDeleteBackground = requestDeleteBackground;
@@ -872,6 +886,7 @@
                                         </div>
                                       
                                     </div>
+
 
                                     <div id ="editBackgroundPopUp" style="display: none;">
                                       <!-- File Name -->
