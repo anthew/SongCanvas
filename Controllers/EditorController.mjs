@@ -1088,7 +1088,7 @@ $(document).ready(function(){
                         data: {FileName: logoFile.name},
                     }).done(repsonse =>{
                         console.log("Finish renaming Logo file");
-                    })
+                    });
                 });
             }
 
