@@ -396,11 +396,15 @@ function requestCreateBackground(){
     //Grab the inputed file and 
     var BackgroundFileInput = URL.createObjectURL(document.getElementById('imgInput').files[0]);
     var fileName = document.getElementById('imgInput').files[0].name;
-
-    //
     let backgroundStartTime = document.getElementById("backgroundStart").value;
 
+    //Create background using editor manager
     EditorManagerObj.createBackground(BackgroundFileInput, fileName, backgroundStartTime);
+
+    //Store the file user inputed
+    EditorManagerObj.getBackgroundObject(fileName).theFile = document.getElementById('imgInput').files[0];
+
+    //console.log(EditorManagerObj.getBackgroundObject(fileName).getBackgroundFileInput().name);
 
     let table = document.getElementById("backgroundHierarchy");
     
@@ -481,10 +485,14 @@ export function requestSaveBackgroundChanges(fileName)
     {
         backgroundFileInputName = backgroundFileInput.name;
         backgroundFileContent = URL.createObjectURL(backgroundFileInput);
+
+        //Store the file user inputed
+        EditorManagerObj.getBackgroundObject(fileName).theFile = backgroundFileInput;
     }
 
     EditorManagerObj.saveBackgroundChanges(fileName, backgroundStartTime, backgroundFileContent, backgroundFileInputName, fileInputLength);
 
+    
     if(fileInputLength != 0)
     {
         //Update the file name
@@ -833,6 +841,43 @@ $(document).ready(function(){
             console.log(ShapeArray.length);
         }
 
+        //Create background objects with loaded data
+        var backgroundInputArray = response.backgroundImportArray;
+
+        for(var i=0; i<backgroundInputArray.length; i++)
+        {
+
+            //Get the file url for background object
+            var backgroundFileLink = "https://storage.cloud.google.com/songcanvas.appspot.com/" + backgroundInputArray[i].file_name;
+
+            //Create background object
+            EditorManagerObj.createBackground(backgroundFileLink, backgroundInputArray[i].Name, backgroundInputArray[i].StartTime);
+
+            //Make table row
+            let table = document.getElementById("backgroundHierarchy");
+    
+            let template = `
+                <tr id="addedBackgroundRow${backgroundInputArray[i].Name}" >
+                    <td id="addedBackgroundName" style="border: 1px solid black;">
+                        <button id="showBackgroundButton${backgroundInputArray[i].Name}" onclick="requestShowEditBackgroundSection('${backgroundInputArray[i].Name}')" style="background-color: white; border: none; width: 70px; white-space: nowrap; overflow: hidden;">${backgroundInputArray[i].Name}</button>
+                    </td>
+                    <td id="addedBackgroundVisible" style="border: 1px solid black;">
+                        <button class="addedBackgroundNameButton" onclick="modifyBackgroundSight()" style="background-color: white; border: none;"><img style="width: 26px;
+                        height: 26px;" src='/LoginMedia/EyeShow.png' ></button>
+                    </td>
+                    <td id="deleteBackground" style="border: 1px solid black;">
+                        <button id="deleteBackgroundButton${backgroundInputArray[i].Name}" onclick="requestDeleteBackground('${backgroundInputArray[i].Name}')" style="background-color: white; border: none;"><img src='/EditorMedia/TrashCan.png' style="width: 26px;
+                        height: 26px; "></button>
+                    </td>
+                </tr>
+            `;
+    
+            table.innerHTML += template;
+
+            //Get the new backgroundArray
+            backgroundArray = EditorManagerObj.getBackgroundArray();
+        }
+
         //Create lyrics with loaded data
         var lyrics = response.lyrics;
 
@@ -996,7 +1041,7 @@ $(document).ready(function(){
 
         //Copy content of logo object 
         var logoCopyObject;
-        var logoFile
+        var logoFile;
 
         if(EditorManagerObj.getLogoObject() != undefined && EditorManagerObj.getLogoObject().getLogoFile() !=undefined) //No file has been uploaded or there is no logo to save
         {
@@ -1012,6 +1057,19 @@ $(document).ready(function(){
                 "LogoX": logoObject.getAttr('x'), 
                 "LogoY": logoObject.getAttr('y'),
             }
+        }
+
+        //Copy content from background
+        var backgroundCopyArray = [];
+
+        for(var i=0; i< backgroundArray.length; i++)
+        {
+            var backgroundCopyObj = {
+                "backgroundStartTime": backgroundArray[i].backgroundStartTime,
+                "fileName": backgroundArray[i].fileName,
+            }
+
+            backgroundCopyArray.push(backgroundCopyObj);
         }
 
 
@@ -1053,6 +1111,7 @@ $(document).ready(function(){
                 shape: copyShapeArray,
                 lyrics: lyricObjectCopy,
                 logo: logoCopyObject,
+                background: backgroundCopyArray,
 
                 //background: EditorManagerObj.getBackgroundArray(),
             }
@@ -1060,7 +1119,53 @@ $(document).ready(function(){
             console.log(response.msg);
             alert("Hello world");
 
-            //console.log(response.oldLogoFileName[0].file_name);
+            var backgroundFormData = new FormData();
+            var oldBGFileNames = response.oldBGFileNames;
+
+        
+            //Save Background Files to cloud storage
+            for(var i=0; i<backgroundArray.length; i++)
+            {
+                //Check if background object has a file to upload
+                if(backgroundArray[i].theFile !="")
+                    backgroundFormData.append('backgroundFile', backgroundArray[i].theFile);
+            }
+
+            //Store the old fileNames to an array
+            var oldBGNameArray = [];
+
+            for(var i=0; i<oldBGFileNames.length; i++)
+            {
+                backgroundFormData.append('oldBGFilesNames', oldBGFileNames[i].file_name);
+                //oldBGNameArray.push(oldBGFileNames[i].file_name);
+            } 
+
+            //console.log("OLDBGFILENAMES is : " + oldBGFileNames.length);
+
+            //pass the old file names to form to delete them from cloud storage
+            //backgroundFormData.append('oldBGFilesNames', oldBGNameArray);
+
+            //console.log(backgroundFormData.get('oldBGFilesNames').length);
+
+            $.ajax({
+                url: '/uploadBackgroundFiles',
+                method: 'POST', 
+                data: backgroundFormData,
+                processData: false,
+                contentType: false,
+                encType: "multipart/form-data",
+            }).done(response =>{
+                console.log("Finished uploading BG Files!");
+
+                //Rename all bg files
+                $.ajax({
+                    url: "/renameBGFiles", 
+                    method: "POST",
+                    data: {oldFileArray: response.UploadFileNames}
+                }).done(response =>{
+                    console.log("Finished renaming BG Files!");
+                });
+            });
 
 
             //Save Logo File to cloud storage

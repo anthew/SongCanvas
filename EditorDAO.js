@@ -34,6 +34,63 @@ class EditorDAO {
 		});
 	}
 
+	// *******************************************    Background    ******************************************
+	async saveBackgroundElement(currentProjectID, backgroundObject)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('insert into Background(Name, file_name, StartTime, ProjectID) Values(?, ?, ?, ?)', [backgroundObject.fileName, currentProjectID + "_BG_" + backgroundObject.fileName, backgroundObject.backgroundStartTime, currentProjectID], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+				
+				resolve(true);
+			});
+		});
+	}
+
+	async deleteBackgroundElements(currentProjectID){
+		return new Promise((resolve, reject)=>{
+			db.query('DELETE FROM Background WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+				
+				resolve(true);
+			});
+		});
+	}
+
+	async getAllBackgroundElements(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('SELECT * FROM Background WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+				
+				resolve(results);
+			});
+		});
+	}
+
+	async getPreviousBackgroundFileNames(currentProjectID)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('SELECT file_name FROM Background WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+				
+				resolve(results);
+			});
+		});
+	}
+	
+
 	// ********************************************     Logo        ******************************************
 	async saveLogoElement(currentProjectID, logoObject)
 	{

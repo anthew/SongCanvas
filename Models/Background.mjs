@@ -13,4 +13,29 @@ export class Background{
     {
         return this.backgroundObject;
     }
+
+    setBackgroundInputFile(fileInput)
+    {
+        this.backgroundObject.theFile = fileInput;
+    }
+
+    getBackgroundStartTime()
+    {
+        return this.backgroundObject.backgroundStartTime;
+    }
+
+    getBackgroundFileName()
+    {
+        return this.backgroundObject.fileName;
+    }
+
+    getBackgroundContentFile()
+    {
+        return this.backgroundObject.contentFile;
+    }
+
+    getBackgroundFileInput()
+    {
+        return this.backgroundObject.theFile;
+    }
 }

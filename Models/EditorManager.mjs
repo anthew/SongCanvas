@@ -628,7 +628,6 @@ export class EditorManager{
 
     getBackgroundObject(fileName)
     {
-        
         //Find the background object to update
         for(var i=0; i < this.backgroundArray.length; i++)
         {
