@@ -100,24 +100,24 @@ $(document).ready(function(){
             contentType: false,
             encType: "multipart/form-data",
         }).done(response => {
-            if(response.msg=="true")
-            {
-                alert("Project Successfuly Created");
+            // if(response.msg=="true")
+            // {
+            //     alert("Project Successfuly Created");
 
-                //Make another ajax request to change the name
-                $.ajax({
-                    url: '/changeFileName',
-                    method: "POST",
-                    data: {
-                        newFileName: response.newFileName, 
-                        oldFileName: response.oldFileName,
-                    }
-                }).done(response => {
-                    alert("Rename complete");
-                });
-            }
-            else
-                alert("Duplicate Project Found");
+            //     //Make another ajax request to change the name
+            //     $.ajax({
+            //         url: '/changeFileName',
+            //         method: "POST",
+            //         data: {
+            //             newFileName: response.newFileName, 
+            //             oldFileName: response.oldFileName,
+            //         }
+            //     }).done(response => {
+            //         alert("Rename complete");
+            //     });
+            // }
+            // else
+            //     alert("Duplicate Project Found");
             // alert(response.file);
             // console.log(response.file);
             // alert("function worked");
@@ -126,14 +126,8 @@ $(document).ready(function(){
     }
 });
 
-//var addProject = document.getElementById("projectSubmit");
-//addProject.addEventListener("click", requestAddProject);
-
-var projectArray = [];
 
 function requestAddProject(projectName, CreatedAt, updated_at, projectID){
-    //let projectName = document.getElementById("insertProjectName").value;
-    //let audioFile = document.getElementById("audioInput").value;
 
     let projectTable = document.getElementById("editorProjects");
 

@@ -1,19 +1,10 @@
-//Will have functions called by HTML actions
-
-//Will do the document.getElementByID stuff for properties and creating shapes. The values will be passed to the EditorManager.
-//import {createShape} from '/EditorManager.mjs';
-//import {createLogo} from '/EditorManager.mjs';
-//import {createBackground} from '/EditorManager.mjs';
-//import {createLyrics} from '/EditorManager.mjs';
-
-//import { Shape } from '../Models/Shape.mjs';
 import {EditorManager} from './EditorManager.mjs';
 
 //Create Manager Object
 var EditorManagerObj = new EditorManager();
 
-//Create event listner for key presses
-createKeyboardListner();
+//Create event listener for key presses
+createKeyboardListener();
 
 
 // ---------------------- Logo ------------------------------------------
@@ -110,14 +101,6 @@ function requestCreateShape()
     let shapeEndTime = document.getElementById("shapeEnd-Time").value;
     let shapeType = document.getElementById("shapeType").value;
     let shapeRadius = document.getElementById("shapeRadius").value;
-
-    // for some reason this didnt work, thats cool we can just do that in the testing
-    // if(shapeX >= 1050 && shapeX <= 0) {
-    //     alert(shapeX + " cannot be added. Out of range");
-    // }
-    // if(shapeY >= 500 && shapeY <= 0) {
-    //     alert(shapeY + " cannot be added. Out of range");
-    // }
     
     var duplicateFound = EditorManagerObj.createShape(shapeName, shapeWidth, shapeHeight, shapeFill_color, shapeStroke, shapeStrokeWidth, shapeX, shapeY, shapeSides, shapeAnimation_type, shapeOpacity, shapeStartTime, shapeEndTime, shapeType, shapeRadius);
 
@@ -166,9 +149,6 @@ export function requestDeleteShape(shapeName)
 export function requestShapeVisibility(shapeName)
 {
     var shape = EditorManagerObj.getShapeObject(shapeName).getKonvaShape();
-    //var shape = shapeObj.getKonvaShape();
-
-    //shape.setAttr("visible",!shape.getAttr("visible"));
 
     EditorManagerObj.modifyShapeSight(shapeName);
 }
@@ -234,7 +214,6 @@ export function showEditShapeSection(shapeName, shapeType)
         if(optionsList[i].value==ShapeObject.getAnimationType())
         {
             document.getElementById('editShapeAnimation').selectedIndex = i;
-
         }
     }
 
@@ -370,7 +349,6 @@ export function requestDeleteLyric(){
 
     //Redisplay the plus button for lyric
     document.getElementById("lyricsPlusButton").style.setProperty("visibility", "visible");
-    //document.getElementById("lyricsPlusButton").style.setProperty("float", "left");
 }
 
 //Hides the lyric object in the stage
@@ -404,8 +382,6 @@ function requestCreateBackground(){
     //Store the file user inputed
     EditorManagerObj.getBackgroundObject(fileName).theFile = document.getElementById('imgInput').files[0];
 
-    //console.log(EditorManagerObj.getBackgroundObject(fileName).getBackgroundFileInput().name);
-
     let table = document.getElementById("backgroundHierarchy");
     
     let template = `
@@ -432,7 +408,6 @@ function requestCreateBackground(){
 
 export function requestShowEditBackgroundSection(fileName)
 {
-    //EditorManagerObj.showEditBackgroundSection(fileName); 
     var backgroundObjectFound;
     
     //Make sure the file input of a prevous edit is gone 
@@ -537,7 +512,6 @@ function keyboardEnabled(event) {
             if (indexVal >= 1) {
                 indexVal -= 1;
                 text.setAttr('text', lyricArray[indexVal]);
-                //TextLayer.innerHTML = lyricArray[indexVal];
             }
             break;
 
@@ -562,7 +536,6 @@ function keyboardEnabled(event) {
 
             break;
 
-        //If any other button do nothing
         // restart button
         case "r":
             //Set the timer
@@ -592,6 +565,7 @@ function keyboardEnabled(event) {
             toggleFullScreen();
             break;
 
+        //If any other button do nothing
         default:
             return;
     }
@@ -602,7 +576,7 @@ function handler(event)
     keyboardEnabled(event);
 }
 
-export function createKeyboardListner()
+export function createKeyboardListener()
 {
     document.addEventListener('keydown', handler);
 }
@@ -789,9 +763,6 @@ function toggleFullScreen() {
 
 
 //============================================================================================================
-
-
-
 //Ajax request 
 $(document).ready(function(){
 
@@ -806,10 +777,8 @@ $(document).ready(function(){
         var shapes = response.shapeImportArray;
       
         //Set the src for the audio element
-        //document.getElementById('musicPlayer').setAttribute('src', "/" + response.SongFile[0].SongFile);
-        document.getElementById('musicPlayer').setAttribute('src', "https://storage.cloud.google.com/songcanvas.appspot.com/" + response.SongFile[0].SongFile);
-
-        //https://storage.cloud.google.com/songcanvas.appspot.com/Unknown-2.png
+        document.getElementById('musicPlayer').setAttribute('src', "/" + response.SongFile[0].SongFile);
+      
         //Once you get the shapeImportArray call the editor manager createShape function and iterate throguh array
         for(var i=0; i < shapes.length; i++)
         {
@@ -921,7 +890,6 @@ $(document).ready(function(){
 
         if(logo[0]!=undefined)
         {
-            // createLogo(logoName, logoPic, logoWidth, logoHeight, logoX, logoY, logoOpacity)
             //Create Logo with Editor Manager
             var fileLink = "https://storage.cloud.google.com/songcanvas.appspot.com/" + logo[0].file_name;
 
@@ -954,18 +922,6 @@ $(document).ready(function(){
         
         alert("Project Loaded");
     });
-
-
-    
-    // $.ajax({
-    //     url: '/openProject',
-    //     method: 'POST',
-    //     data: {
-    //         project_ID: theProjID,
-    //     },
-    // }).done(response=>{
-    //     window.location.href = "/EditorViews/editor.html";
-    // });
     
     const $saveToDB_Button = $('#saveToDB_Button');
     $saveToDB_Button.on("click", submitHandler);
@@ -1072,36 +1028,6 @@ $(document).ready(function(){
             backgroundCopyArray.push(backgroundCopyObj);
         }
 
-
-/* -------------------------Save Files to Cloud Stroage----------------------------- */
-        // if(logoFile!=undefined) //Check if we have a file to
-        // {
-        //     var logoForm = new FormData();
-
-        //     logoForm.append('logoFile', logoFile);
-
-        //     $.ajax({
-                // url:'/uploadLogoFile',
-                // method: 'POST',
-                // data: logoForm,
-                // processData: false,
-                // contentType: false,
-                // encType: "multipart/form-data",
-        //     }).done(response => {
-        //         console.log("Logo File Uploaded");
-
-        //         //Call another request to rename file and make it public
-        //         $.ajax({
-        //             url:'/renameLogoFile',
-        //             method: 'POST',
-        //             data: {"FileName": logoFile.name},
-        //         }).done(response => {
-        //             console.log("Logo file renamed and public");
-        //         });
-        //     });
-        // };
-
-
 /*--------------------------Save Project to DB----------------------------- */ 
         $.ajax({
             url: '/saveProjectData',
@@ -1112,95 +1038,9 @@ $(document).ready(function(){
                 lyrics: lyricObjectCopy,
                 logo: logoCopyObject,
                 background: backgroundCopyArray,
-
-                //background: EditorManagerObj.getBackgroundArray(),
             }
         }).done(response => {
             console.log(response.msg);
-            alert("Hello world");
-
-            var backgroundFormData = new FormData();
-            var oldBGFileNames = response.oldBGFileNames;
-
-        
-            //Save Background Files to cloud storage
-            for(var i=0; i<backgroundArray.length; i++)
-            {
-                //Check if background object has a file to upload
-                if(backgroundArray[i].theFile !="")
-                    backgroundFormData.append('backgroundFile', backgroundArray[i].theFile);
-            }
-
-            //Store the old fileNames to an array
-            var oldBGNameArray = [];
-
-            for(var i=0; i<oldBGFileNames.length; i++)
-            {
-                backgroundFormData.append('oldBGFilesNames', oldBGFileNames[i].file_name);
-                //oldBGNameArray.push(oldBGFileNames[i].file_name);
-            } 
-
-            //console.log("OLDBGFILENAMES is : " + oldBGFileNames.length);
-
-            //pass the old file names to form to delete them from cloud storage
-            //backgroundFormData.append('oldBGFilesNames', oldBGNameArray);
-
-            //console.log(backgroundFormData.get('oldBGFilesNames').length);
-
-            $.ajax({
-                url: '/uploadBackgroundFiles',
-                method: 'POST', 
-                data: backgroundFormData,
-                processData: false,
-                contentType: false,
-                encType: "multipart/form-data",
-            }).done(response =>{
-                console.log("Finished uploading BG Files!");
-
-                //Rename all bg files
-                $.ajax({
-                    url: "/renameBGFiles", 
-                    method: "POST",
-                    data: {oldFileArray: response.UploadFileNames}
-                }).done(response =>{
-                    console.log("Finished renaming BG Files!");
-                });
-            });
-
-
-            //Save Logo File to cloud storage
-            if(logoFile != undefined)
-            {
-                var logoForm = new FormData();
-                logoForm.append('logoFile', logoFile);
-                
-                logoForm.append('OldLogoFileName', response.oldLogoFileName);
-
-                $.ajax({
-                    url:'/uploadLogoFile',
-                    method: 'POST',
-                    data: logoForm,
-                    processData: false,
-                    contentType: false,
-                    encType: "multipart/form-data",
-                }).done(response => {
-                    console.log("Finish file upload");
-
-                    //Rename file with another ajax request
-                    $.ajax({
-                        url: '/renameLogoFile',
-                        method: 'POST', 
-                        data: {FileName: logoFile.name},
-                    }).done(repsonse =>{
-                        console.log("Finish renaming Logo file");
-                    });
-                });
-            }
-
-            //window.location.href = "Hello.html"
         });
-
-        //Save files to cloud storage
-
     }
 });

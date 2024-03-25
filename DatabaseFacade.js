@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {Storage} = require('@google-cloud/storage');
+
 const db = require("./database.js");
 const path = require('path');
+
 const LoginDAO = require("./LoginDAO.js");
 const EditorDAO = require("./EditorDAO.js");
-const Multer = require('multer');
+
+const fs = require('fs');
 
 //Keeps track of who is currently logged in
 var currentUser;
@@ -17,34 +19,21 @@ var loginDAOObject = new LoginDAO();
 
 var editorDAOObject = new EditorDAO();
 
-// Instantiate a storage client
-const storage = new Storage();
 
-//Keeps track of the current project being used
-const multer = Multer({
-	storage: Multer.memoryStorage(),
-	limits: {
-	  fileSize: 50 * 1024 * 1024, // 50mb file size limit
-	},
+var customFileName;
+const multer = require('multer');
+const storage = multer.diskStorage({
+	destination: function(req, file, cb)
+	{
+		cb(null, 'UserMedia/');
+	}, 
+
+	filename: function(req, file, cb){
+		console.log("Hello world");
+		cb(null, file.originalname); //Revert back to file.originalname
+	}
 });
-
-// A bucket is a container for objects (files).
-const bucket = storage.bucket("songcanvas.appspot.com");
-
-// var customFileName;
-// const multer = require('multer');
-// const storage = multer.diskStorage({
-// 	destination: function(req, file, cb)
-// 	{
-// 		cb(null, 'UserMedia/');
-// 	}, 
-
-// 	filename: function(req, file, cb){
-// 		console.log("Hello world");
-// 		cb(null, file.originalname); //Revert back to file.originalname
-// 	}
-// });
-// const upload = multer({storage: storage});
+const upload = multer({storage: storage});
 
 //Handle data from login form
 router.post('/loginAuth', async function(request, response){
@@ -166,7 +155,7 @@ router.post("/deleteProject", async function(req, res){
 });
 
 //Create project based on what values where entered by user in dashboard pop-up
-router.post("/createProject", multer.single('soundFile'), async function(req, res, next){
+router.post("/createProject", upload.single('soundFile'), async function(req, res, next){
 	//Grab the values from req (fileName and projectName)
 	var projectName = req.body.projectName;
 	var filePath = req.file.originalname;
@@ -180,43 +169,13 @@ router.post("/createProject", multer.single('soundFile'), async function(req, re
 	//Get the newFileName
 	var newFileName = await editorDAOObject.getFileName(projID[0].Project_ID);
 
+	//Rename sound File to have projId_Sound_originalFileName
 	console.log("New File name is : " + newFileName[0].SongFile);
 
-	await uploadSoundFile(filePath, req);
-
-	// Create a new blob in the bucket and upload the file data.
-	// const blob = bucket.file(filePath); // The name of the file as it was retrieved from uploading
-
-	// const blobStream = blob.createWriteStream({
-	//   resumable: false,
-	// });
-  
-	// blobStream.on('error', err => {
-	//   next(err);
-	// });
-
-	// blobStream.on('finish', () => {
-	// 	// The public URL can be used to directly access the file via HTTP.
-	// 	const publicUrl = format(
-	// 	  `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-	// 	);
-	
-	// 	//res.json({file: publicUrl});
-	// 	//res.status(200).send(publicUrl);
-	// });
-
-	// blobStream.end(req.file.buffer);
-
-
-	//await changeName(newFileName[0].SongFile, filePath);
-
-	// await bucket.file(req.file.originalname).move(newFileName[0].SongFile);
-	// await bucket.file(newFileName[0].SongFile).makePublic();
-
-	// await storage
-	// 	.bucket(bucketName)
-    // 	.file(srcFileName)
-    // 	.move(destFileName, moveOptions);
+	//await uploadSoundFile(filePath, req);
+	fs.rename('UserMedia/' + filePath, 'UserMedia/'+newFileName[0].SongFile, function(err){
+		if ( err ) console.log('ERROR: ' + err);
+	});
 
 	if(result==true) //Project Created
 		res.json({msg: "true", newFileName: newFileName[0].SongFile, oldFileName: filePath});
@@ -310,7 +269,7 @@ router.post("/loadProjectElementData", async function(req, res){
 
 
 /* --------------------Save project files to cloud storage----------------- */
-router.post("/uploadBackgroundFiles", multer.any('backgroundFile'), async function(req, res, next){
+router.post("/uploadBackgroundFiles", upload.any('backgroundFile'), async function(req, res, next){
 	//console.log("In the upload BG function");
 	var fileNames=[]; //Used to store the names of the files that were newly uploaded to the cloud storage
 
@@ -318,11 +277,15 @@ router.post("/uploadBackgroundFiles", multer.any('backgroundFile'), async functi
 		//Remove any old bg files if applicable
 		var oldBGFileNames = req.body.oldBGFilesNames;
 
+
 		//console.log("Old files are: "  + oldBGFileNames.length);
-		for(var i=0; i<oldBGFileNames.length; i++)
+		if(oldBGFileNames!=undefined)
 		{
-			//console.log(oldBGFileNames[i]);
-			await bucket.file(oldBGFileNames[i]).delete();
+			for(var i=0; i<oldBGFileNames.length; i++)
+			{
+				console.log(oldBGFileNames[i]);
+				await bucket.file(oldBGFileNames[i]).delete();
+			}
 		}
 
 		//console.log("New File NAmes are: ")
@@ -352,7 +315,7 @@ router.post("/uploadBackgroundFiles", multer.any('backgroundFile'), async functi
 router.post("/renameBGFiles", async function(req, res){
 	//console.log("In the renameBG Function");
 	//Get the new fileNames
-	var newFileNames = await getPreviousBackgroundFileNames(currentProjectID);
+	var newFileNames = await editorDAOObject.getPreviousBackgroundFileNames(currentProjectID);
 
 	//Go thorugh the oldFiles Array
 	for(var i=0; i<req.body.oldFileArray.length; i++)
@@ -366,7 +329,7 @@ router.post("/renameBGFiles", async function(req, res){
 
 
 
-router.post("/uploadLogoFile", multer.single('logoFile'), async function(req, res, next){
+router.post("/uploadLogoFile", upload.single('logoFile'), async function(req, res, next){
 
 	//Check if we have a existing logo added to project. If there is delete old file from cloud storage
 

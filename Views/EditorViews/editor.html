@@ -39,7 +39,6 @@
 
     <!-- JS files -->
     <script type="module" src="/EditorController.mjs"></script>
-    <!-- <script type="module" src="/EditorManager.mjs"></script> -->
 
     <!-- Added this for the Ajax server calls -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -113,8 +112,6 @@
                   <table class="table table-white">
                       <tbody>
                           <tr>
-                              <!-- <th scope="row">1</th> -->
-
                               <!-- Hierarchy Column -->
                                   <td style="background-color: lightslategray; width: 15%;">
                                       <!-- Hierarchy -->
@@ -137,16 +134,9 @@
                                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                       </div>
                                                       
-                                                      <!-- add for the input -->
-                                                      <!-- wait so this modal is properties? -->
                                                       <div class="modal-body"> 
-                                                        <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
-                                                          <!-- <button class="upload">
-                                                            Upload Image
-                                                          </button> -->
-                                                          
                                                           <b>Name:</b><br>
-                                                            <input type="text" name="logoName" id="logoName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()">
+                                                            <input type="text" name="logoName" id="logoName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListener()">
                                                             <br><br>
 
                                                           <b>File Input:</b><br>
@@ -299,7 +289,7 @@
                                                         
                                                         <!-- Input textfield for the lyrics -->
                                                           <b>Lyrics:</b><br>
-                                                          <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()"></textarea>
+                                                          <textarea id="lyricsTextArea" name="lyricsTextArea" rows="10" cols="99" placeholder="Enter your lyrics here"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListener()"></textarea>
                                                           <br><br>
 
                                                           <b>Font Type: </b><br>
@@ -446,14 +436,7 @@
                                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                       </div>
                                                       
-                                                      <!-- add for the input -->
-                                                      <!-- wait so this modal is properties? -->
                                                       <div class="modal-body"> 
-                                                        <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
-                                                          <!-- <button class="upload">
-                                                            Upload Image
-                                                          </button> -->
-
                                                           <b>Shape Type:</b><br>
                                                           <select name="shapeType" id="shapeType" onchange="shapeSelection();"> 
                                                             <option value="Rectangle">Rectangle</option>
@@ -462,7 +445,7 @@
                                                           <br><br>
                                                           
                                                           <b>Name:</b><br>
-                                                          <input type="text" name="shapeName" id="shapeName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()">
+                                                          <input type="text" name="shapeName" id="shapeName"  onclick="disableKeyboardListner()" onfocusout="createKeyboardListener()">
                                                           <br><br>
                                                           
                                                           <div id="PolygonOption" style="display:none;">
@@ -581,7 +564,6 @@
                                                           <b>End Time:</b><br>
                                                           <input type="text" name="shapeEnd-Time" id="shapeEnd-Time" placeholder="Enter as 'mm:ss.s'"> 
                                                           <br><br>                           
-                                                        <!-- </form> -->
                                                       </div>
 
                                                       <div class="modal-footer"> 
@@ -632,10 +614,10 @@
 
                                                 <!-- Functions to use with buttons in hierarchy table -->
                                                 <script type="module">
-                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility, createKeyboardListner, disableKeyboardListner, requestDeleteLyric, modifyLyricSight, toggleLogoVisibility, requestDeleteLogo} from "/EditorController.mjs";
+                                                  import {requestSaveBackgroundChanges, requestDeleteBackground, requestShowEditBackgroundSection, requestSaveShapeChanges, showEditShapeSection,requestDeleteShape, requestShapeVisibility, createKeyboardListener, disableKeyboardListner, requestDeleteLyric, modifyLyricSight, toggleLogoVisibility, requestDeleteLogo} from "/EditorController.mjs";
 
                                                   //Functions for keypress
-                                                  window.createKeyboardListner = createKeyboardListner;
+                                                  window.createKeyboardListener = createKeyboardListener;
                                                   window.disableKeyboardListner = disableKeyboardListner;
 
                                                   //Functions for Lyrics
@@ -678,31 +660,18 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         
-                                                        <!-- add for the input -->
-                                                        <!-- wait so this modal is properties? -->
                                                         <div class="modal-body"> 
-                                                          <!-- <form name="properties" id="prop" action="#" onsubmit="createPolygon()"> -->
-                                                            <!-- <button class="upload">
-                                                              Upload Image
-                                                            </button> -->
-                                                            
                                                             <b>File Input:</b><br>
                                                             <input type="file" id="imgInput">
                                                             <br><br>
                                                             
-                                                            <b>Start Time: 00:00.0</b><br>
+                                                            <b>Start Time:</b><br>
                                                             <input type="text" id="backgroundStart" name="backgroundStart" placeholder="00:00.0">
                                                             <br><br>
-
-                                                            <!-- <b>End Time:</b><br>
-                                                            <input type="text" id="backgroundEnd" name="backgroundEnd" placeholder="00:00.0">
-                                                            <br><br> -->
-                                                          <!-- </form> -->
                                                         </div>
     
                                                         <div class="modal-footer"> 
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <!-- <button type="button" id="fileSubmit" class="btn btn-primary">Add to Screen</button> -->
 
                                                             <button type="button" data-toggle="modal" data-target="#uploadFilesModal" class="btn btn-primary">
                                                               Add to screen
@@ -750,9 +719,6 @@
                                 
                                   <!-- Canvas Column -->
                                   <td id="CanvasColumn" style="width: 70%; background-color: lightslategray; border: rgb(83, 82, 82); border-style: solid; border-width: 2px;">
-                                      <!-- <div id="KonvaCanvas" style="background-color: beige;">
-                                        
-                                      </div> -->
                                       <div id="CanvasWindow">
                                         <div id="BackgroundLayer">
                                           <img id="imageContent" onload="this.style.display='block'" onerror="this.style.display='none'">
@@ -760,10 +726,6 @@
                                         </div>
                                         <div id="KonvaCanvas" style="width: 100%; height: 100%;">
                                         </div>
-
-                                        <!-- <div id="TextLayer">
-                                          
-                                        </div> -->
 
                                         <!-- Audio Element to play  -->
                                         <audio id="musicPlayer" preload="metadata">
@@ -781,7 +743,7 @@
 
                                       <!-- Might not make name editable unless we can modify the name of the shape in the heirarchy -->
                                       <label>Shape Name:</label>
-                                      <input type="text" id="editShapeName" placeholder="Enter Shape Name" onclick="disableKeyboardListner()" onfocusout="createKeyboardListner()"> 
+                                      <input type="text" id="editShapeName" placeholder="Enter Shape Name" onclick="disableKeyboardListner()" onfocusout="createKeyboardListener()"> 
 
                                       <!-- Might not use shape type -->
 
@@ -822,16 +784,13 @@
                                       <!-- Shape X location -->
                                       <br>
                                       <br><label for="editShapeX">X-Location:</label>
-                                      <!-- <br> -->
+                                      
                                       <input type="number" id="editShapeX" placeholder="Enter the X location">
 
                                       <!-- Shape Y location -->
-                                      <!-- <br> -->
                                       <br><label for="editShapeY">Y-Location:</label>
                                       <br>
                                       <input type="number" id="editShapeY" placeholder="Enter the Y location">
-
-                                      <!-- Shape animation *Note shapeType although used do determine what type of animation you chose eg. clockwise it is repurposed to hold konva.animation. May need to make a new attribute   -->
 
                                       <!-- Shape Opacity -->
                                       <label for="editShapeOpacity">Opacity:</label>
@@ -858,8 +817,6 @@
                                       <input type="text" id="editShapeEndTime" placeholder="Enter end time (00:00.0)">
                                       
                                       <!-- Save Changes -->
-
-                                      
                                       <br><br><button type="button" data-toggle="modal" data-target="#saveShapesModal">
                                         Save Changes
                                       </button>
@@ -889,8 +846,6 @@
 
 
                                     <div id ="editBackgroundPopUp" style="display: none;">
-                                      <!-- File Name -->
-                                      <!-- <label></label> -->
                                       <!-- File Input -->
                                       <label>File Input:</label><br>
                                       <input type="file" style="width: 80%;" id="editFileInput"><br>
@@ -1007,16 +962,6 @@
 
                 <div class="collapse navbar-collapse" style="background-color: #ecb5a2;" id="navbarNavAltMarkup">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-<!-- Path to file-->                                
-                            <a class="nav-link" href="#">
-                                &emsp;About Us
-<!-- Path to file-->                                    
-                                <!-- <div class="hover-gif">                                        
-                                    <img src="/images/music.gif" class="hover-gif-img">
-                                </div> -->
-                            </a>
-                        </li>
                         <li class="nav-item">
 <!-- Path to file-->                                
                             <a class="nav-link" href="#">&emsp;<img src="/navbar/question.png" class="mini-pic">&ensp;Q&A</a>
