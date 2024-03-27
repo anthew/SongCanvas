@@ -76,7 +76,7 @@ class EditorDAO {
 		});
 	}
 
-	async getPreviousBackgroundFileNames(currentProjectID)
+	async getBackgroundFileNames(currentProjectID)
 	{
 		return new Promise((resolve, reject)=>{
 			db.query('SELECT file_name FROM Background WHERE ProjectID=?', [currentProjectID], function(error, results, fields){
@@ -89,13 +89,45 @@ class EditorDAO {
 			});
 		});
 	}
+
+	async ifBackgroundFileExists(currentProjectID, fileName)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('SELECT file_name FROM Background WHERE ProjectID=? AND file_name=?', [currentProjectID, fileName], function(error, results, fields){
+				if (error){
+                    reject(error);
+                    return;
+                };
+				
+				if(results.length==0)
+					resolve(false);
+				else
+					resolve(true);
+
+			});
+		});
+	}
 	
 
 	// ********************************************     Logo        ******************************************
 	async saveLogoElement(currentProjectID, logoObject)
 	{
 		return new Promise((resolve, reject)=>{
-			db.query('insert into Logo(Name, file_name, opacity, height, width, x, y, ProjectID) Values(?, ?, ?, ?, ?, ?, ?, ?)', [logoObject.LogoName, currentProjectID + "_Logo_" + logoObject.LogoFileName, logoObject.LogoOpacity, logoObject.LogoHeight, logoObject.LogoWidth, logoObject.LogoX, logoObject.LogoY, currentProjectID], function(error, results, fields){
+			db.query('insert into Logo(Name, file_name, opacity, height, width, x, y, ProjectID) Values(?, ?, ?, ?, ?, ?, ?, ?)', [logoObject.LogoName, logoObject.LogoFileName, logoObject.LogoOpacity, logoObject.LogoHeight, logoObject.LogoWidth, logoObject.LogoX, logoObject.LogoY, currentProjectID], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+
+				resolve(true);
+			});
+		});
+	}
+
+	async updateLogoFileName(currentProjectID, fileName)
+	{
+		return new Promise((resolve, reject)=>{
+			db.query('UPDATE Logo Set file_name=? WHERE ProjectID=?', [fileName, currentProjectID], function(error, results, fields){
 				if (error){
 					reject(error);
 					return;
@@ -130,6 +162,22 @@ class EditorDAO {
 				};
 	
 				resolve(results);
+			});
+		});
+	}
+
+	async ifLogoElementExists(currentProjectID, fileName){
+		return new Promise((resolve, reject)=>{
+			db.query('Select * FROM Logo WHERE ProjectID=? AND file_name=?', [currentProjectID, fileName], function(error, results, fields){
+				if (error){
+					reject(error);
+					return;
+				};
+	
+				if(results.length==0)
+					resolve(false);
+				else
+					resolve(true);
 			});
 		});
 	}

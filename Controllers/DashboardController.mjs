@@ -1,7 +1,30 @@
 $(document).ready(function(){
 
+    $('#ProjectPlayButton').click(openProjectToPlayer)
+
+    function openProjectToPlayer(e)
+    {
+        e.preventDefault()
+
+        //Get the projectID from the value attribute in the radio
+        var theProjID = document.querySelector('input[name=project_list]:checked').value;
+
+        if(theProjID==null)
+            return;
+        
+        $.ajax({
+            url: '/openProjectPlayer',
+            method: 'POST',
+            data: {
+                project_ID: theProjID,
+            },
+        }).done(response=>{
+            alert("in player bro");
+            // window.location.href = "/EditorViews/Player.html";
+        });
+    }
     
-    $("#ProjectOpenButton").click(openExistingProject);
+    $("#openProjectEditorButton").click(openExistingProject);
 
     function openExistingProject(e)
     {
@@ -14,7 +37,7 @@ $(document).ready(function(){
             return;
 
         $.ajax({
-            url: '/openProject',
+            url: '/openProjectEditor',
             method: 'POST',
             data: {
                 project_ID: theProjID,
@@ -46,12 +69,15 @@ $(document).ready(function(){
                 project_ID: theProjID,
             },
         }).done(response=>{
+            //Remove the row of the project that we deleted from db
+            document.getElementById('editorProjects').deleteRow(document.getElementById(theProjID).rowIndex);
             alert("Performed Delete");
         });
     }
 
 
     $("#editorModal").click(populateEditorTable);
+    $('#playerModal').click(populateEditorTable);
 
     function populateEditorTable(e) {
         e.preventDefault()
@@ -65,7 +91,7 @@ $(document).ready(function(){
             var tableData = response.data;
 
 
-            console.log("Table data: " + tableData);
+            //console.log("Table data: " + tableData);
             //Clear the table            
             for (let i = table.rows.length - 1; i > 0; i--) {
                 table.deleteRow(i);
@@ -130,9 +156,11 @@ $(document).ready(function(){
 function requestAddProject(projectName, CreatedAt, updated_at, projectID){
 
     let projectTable = document.getElementById("editorProjects");
+    // <button style="background-color: white; border: none;">${projectName}</button>
+    //<input type="text" id="projectName${projectID}" name="projectName${projectID}" value="${projectName}" style="border: none"></input>
 
     let template = `
-            <tr colspan="4">
+            <tr colspan="4" id="${projectID}">
                 <td id="editShape " style="border: 1px solid black;">
                     <button style="background-color: white; border: none;">${projectName}</button>
                 </td>

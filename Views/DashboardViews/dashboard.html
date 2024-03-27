@@ -46,7 +46,7 @@
     <div class="dashboard">
         <div class="overlap">
 <!-- Path to file-->            
-            <a href="/EditorViews/editor.html" class="card-link">
+            <a class="card-link" id="playerModal" data-toggle="modal" data-target="#exampleModal" onclick="hideEditorOptions()">
                 <div class="player-view">
                     <div class="overlap-group">
                         <div class="rectangle"></div>
@@ -57,7 +57,7 @@
                 </div>
             </a>
 <!-- Path to file-->
-            <a class="card-link" id="editorModal" data-toggle="modal" data-target="#exampleModal" >
+            <a class="card-link" id="editorModal" data-toggle="modal" data-target="#exampleModal" onclick="hidePlayerOptions()">
                 <div class="editor-view">
                     <div class="div">
                         <div class="rectangle-2"></div>
@@ -68,6 +68,36 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Functions for hidding and diaplying content in project pop-up -->
+            <script>
+                function hideEditorOptions()
+                {
+                    
+                    //Hides the div with the "Open", "Delete", and "Modify" buttons
+                    document.getElementById("EditProjectOptions").style.setProperty('display', "none");
+
+                    //Hide the "+" button for adding new projects
+                    document.getElementById("projectAdder").style.setProperty('display', "none");
+
+                    //Show the "Play" button for viewing projects in Player view
+                    document.getElementById("PlayerProjectOptions").style.setProperty('display', "block");
+                }
+
+                function hidePlayerOptions()
+                {
+                    
+                    //Show the div with the "Open", "Delete", and "Modify" buttons
+                    document.getElementById("EditProjectOptions").style.setProperty('display', "block");
+
+                    //Show the "+" button for adding new projects
+                    document.getElementById("projectAdder").style.setProperty('display', "block");
+
+                    //Hide the "Play" button for viewing projects in Player view
+                    document.getElementById("PlayerProjectOptions").style.setProperty('display', "none");
+                }
+            </script>
+
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -86,12 +116,16 @@
                                         <th style="border: 1px solid black; width: 35%; text-align: center;">Project Name</th>
                                         <th style="border: 1px solid black; width: 30%; text-align: center;">Created At</th>
                                         <th style="border: 1px solid black; width: 30%; text-align: center;">Updated At</th>
-                                        <th style="width: 5%; border: none; margin: auto;"><input type="image" style="margin-top: 30%;" src="/EditorMedia/Plus.png" width="20" height="20" data-toggle="modal" data-target="#leaveModal" id="backgroundPlusButton"></th>
+                                        <th id="projectAdder" style="width: 5%; border: none; margin: auto;"><input type="image" style="margin-top: 30%;" src="/EditorMedia/Plus.png" width="20" height="20" data-toggle="modal" data-target="#leaveModal" id="backgroundPlusButton"></th>
                                     </tr>
                                 </table>
                                 <br>
-                                <div>
-                                    <button id="ProjectOpenButton">Open</button> <button id="ProjectDeleteButton">Delete</button> <button>Modify</button>
+
+                                <div id="EditProjectOptions">
+                                    <button id="openProjectEditorButton">Open</button> <button id="ProjectDeleteButton">Delete</button> <button>Modify</button>
+                                </div>
+                                <div id="PlayerProjectOptions">
+                                    <button id="ProjectPlayButton">Play</button>
                                 </div>
                                 <script type="module">
                                     // Controller the ids of the button

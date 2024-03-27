@@ -27,6 +27,8 @@ function requestCreateLogo(){
 
     EditorManagerObj.getLogoObject().setLogoFile(logoPic);
 
+    EditorManagerObj.getLogoObject().setLogoFileName(logoPic.name);
+
     //Create Logo row
     let table = document.getElementById("logoHierarchy");
     
@@ -817,7 +819,7 @@ $(document).ready(function(){
         {
 
             //Get the file url for background object
-            var backgroundFileLink = "https://storage.cloud.google.com/songcanvas.appspot.com/" + backgroundInputArray[i].file_name;
+            var backgroundFileLink = "/" + backgroundInputArray[i].file_name;
 
             //Create background object
             EditorManagerObj.createBackground(backgroundFileLink, backgroundInputArray[i].Name, backgroundInputArray[i].StartTime);
@@ -891,9 +893,11 @@ $(document).ready(function(){
         if(logo[0]!=undefined)
         {
             //Create Logo with Editor Manager
-            var fileLink = "https://storage.cloud.google.com/songcanvas.appspot.com/" + logo[0].file_name;
+            var fileLink = '/' + logo[0].file_name;
 
             EditorManagerObj.createLogo(logo[0].Name, fileLink, logo[0].width, logo[0].height, logo[0].x, logo[0].y, logo[0].opacity);
+
+            EditorManagerObj.getLogoObject().setLogoFileName(logo[0].file_name);
 
             //Create Logo row
             let table = document.getElementById("logoHierarchy");
@@ -999,13 +1003,17 @@ $(document).ready(function(){
         var logoCopyObject;
         var logoFile;
 
-        if(EditorManagerObj.getLogoObject() != undefined && EditorManagerObj.getLogoObject().getLogoFile() !=undefined) //No file has been uploaded or there is no logo to save
+        if(EditorManagerObj.getLogoObject()!=undefined && EditorManagerObj.getLogoObject().getLogoFile()!=undefined)
+        {
+            logoFile = EditorManagerObj.getLogoObject().getLogoFile(); 
+        }
+
+        if(EditorManagerObj.getLogoObject() != undefined) //No file has been uploaded or there is no logo to save
         {
             var logoObject = EditorManagerObj.getLogoObject().getKonvaLogo();
-            logoFile = EditorManagerObj.getLogoObject().getLogoFile();
 
             logoCopyObject = {
-                "LogoFileName": logoFile.name,
+                "LogoFileName": EditorManagerObj.getLogoObject().getLogoFileName(),
                 "LogoWidth": logoObject.getAttr('width'),
                 "LogoHeight": logoObject.getAttr('height'),
                 "LogoOpacity": logoObject.getAttr('opacity'),
@@ -1041,6 +1049,41 @@ $(document).ready(function(){
             }
         }).done(response => {
             console.log(response.msg);
+
+            //Store logo file to user media if available
+            if(logoFile!=undefined)
+            {
+                var LogoFormData = new FormData();
+
+                LogoFormData.append('LogoFile', logoFile);
+
+                $.ajax({
+                    url: '/uploadLogo',
+                    method: 'POST',
+                    data: LogoFormData,
+                    processData: false,
+                    contentType: false,
+                    encType: "multipart/form-data",
+                });
+            }
+
+            //Save Background Files
+            var backgroundFormData = new FormData();
+
+            for(var i=0; i<backgroundArray.length; i++)
+            {
+                if(backgroundArray[i].theFile != "")
+                    backgroundFormData.append('BackgroundFiles', backgroundArray[i].theFile);
+            }
+
+            $.ajax({
+                url: '/uploadBackgrounds',
+                method: 'POST',
+                data: backgroundFormData,
+                processData: false,
+                contentType: false,
+                encType: "multipart/form-data",
+            })
         });
     }
 });

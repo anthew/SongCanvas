@@ -17,6 +17,7 @@ export class Logo{
             id: "logo",
         });  
 
+
         //Add the fileInput to the imageObj
         imageObj.src = logoPic;
     }
@@ -25,6 +26,16 @@ export class Logo{
     setLogoFile(logoFileInput)
     {
         this.LogoFile = logoFileInput;
+    }
+
+    setLogoFileName(logoNameInput)
+    {
+        this.LogoFileName = logoNameInput;
+    }
+
+    getLogoFileName()
+    {
+        return this.LogoFileName;
     }
 
     //Get the inputed file user selected and save it to cloud storage

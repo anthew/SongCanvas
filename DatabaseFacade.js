@@ -137,10 +137,15 @@ router.post("/dashboardProjectsRetrieval", async function(req, res){
 });
 
 
-router.post("/openProject", async function(req, res){
+router.post("/openProjectEditor", async function(req, res){
 	//Assign req value to currentProjectID
 	currentProjectID = req.body.project_ID;
 
+	res.end();
+});
+
+router.post("/openProjectPlayer", async function(req, res){
+	currentProjectID = req.body.project_ID;
 	res.end();
 });
 
@@ -148,8 +153,48 @@ router.post("/deleteProject", async function(req, res){
 	//Grab the Project Name to send
 	var projID = req.body.project_ID;
 
-	//Call query and pass in project id + currentUser
-	await loginDAOObject.deleteProject(projID, currentUser)
+	//1. Remove the lyrics 
+	await editorDAOObject.removeLyricsElement(projID);
+
+	//2. Remove Design Elements
+	await editorDAOObject.removeAllDesignElements(projID);
+
+	//3. Remove Logo and it's file
+	var LogoResult = await editorDAOObject.getLogoElement(projID);
+
+	if(LogoResult.length !=0) //Check if there is a logo file to delete
+	{
+		//Remove logoFile from UserMedia 
+		fs.unlink('UserMedia/' + LogoResult[0].file_name, function (err) {
+			if (err) console.log(err);
+			else
+				console.log("File " + LogoResult[0].file_name + " deleted.");
+		});
+	}
+
+	await editorDAOObject.removeLogoElement(projID);
+
+	//4. Remove Backgrounds and it's elements
+	var BackgroundFileNames = await editorDAOObject.getBackgroundFileNames(projID);
+
+	if(BackgroundFileNames.length !=0) //Delete files of previous bg elements
+	{
+		for(var i=0; i<BackgroundFileNames.length; i++)
+		{
+			fs.unlink('UserMedia/' + BackgroundFileNames[i].file_name, function (err) {
+				if (err) console.log(err);
+				else
+					console.log("Background File Deleted");
+			});
+		}
+	}
+
+	await editorDAOObject.deleteBackgroundElements(projID);
+
+
+	//5. Remove Project and audio file
+ 	await loginDAOObject.deleteProject(projID, currentUser);
+
 	//End the 
 	res.end();
 });
@@ -170,9 +215,6 @@ router.post("/createProject", upload.single('soundFile'), async function(req, re
 	var newFileName = await editorDAOObject.getFileName(projID[0].Project_ID);
 
 	//Rename sound File to have projId_Sound_originalFileName
-	console.log("New File name is : " + newFileName[0].SongFile);
-
-	//await uploadSoundFile(filePath, req);
 	fs.rename('UserMedia/' + filePath, 'UserMedia/'+newFileName[0].SongFile, function(err){
 		if ( err ) console.log('ERROR: ' + err);
 	});
@@ -184,60 +226,6 @@ router.post("/createProject", upload.single('soundFile'), async function(req, re
 
 	res.end();
 });
-
-router.post("/changeFileName", async function (req, res, next)
-{
-	//Get the old and new file from body
-	var newFileName = req.body.newFileName;
-	var oldFileName = req.body.oldFileName;
-
-	await bucket.file(oldFileName).move(newFileName);
-	await bucket.file(newFileName).makePublic();
-
-	res.end();
-});
-
-async function changeName(newFileName, filePath)
-{
-	return new Promise((resolve, reject) => {
-		bucket.file(filePath).move(newFileName);
-		resolve (true);
-	});
-}
-
-async function changeToPublic(newFileName)
-{
-	return new Promise((resolve, reject) => {
-		bucket.file(newFileName).makePublic();
-		resolve (true);
-	});
-}
-
-async function uploadSoundFile(filePath, req)
-{
-	return new Promise((resolve, reject) => {
-		
-		const blob = bucket.file(filePath); // The name of the file as it was retrieved from uploading
-
-		const blobStream = blob.createWriteStream({
-			resumable: false,
-		});
-	
-		blobStream.on('error', err => {
-			reject(err);
-			return;
-		});
-
-		blobStream.end(req.file.buffer);
-
-		resolve(true);
-
-	});
-}
-
-
-
-
 
 /*--------------------------Get Project Data from DB----------------------------- */ 
 router.post("/loadProjectElementData", async function(req, res){
@@ -257,129 +245,23 @@ router.post("/loadProjectElementData", async function(req, res){
 	var soundFilepath = await editorDAOObject.getFileName(currentProjectID);
 	
 
-
-	//Get Background element data from table related to currentProjectID
-
-	//Get Logo element data from table related to currentProjectID
-
-	//Get Lyrics element data from table related to currentProjectID
+	//Send data to the editor controller
 	res.json({backgroundImportArray: backgroundArray, shapeImportArray: shapeArray, SongFile: soundFilepath, lyrics: lyricsObj, logo: logoObj});
-	res.end();
-});
-
-
-/* --------------------Save project files to cloud storage----------------- */
-router.post("/uploadBackgroundFiles", upload.any('backgroundFile'), async function(req, res, next){
-	//console.log("In the upload BG function");
-	var fileNames=[]; //Used to store the names of the files that were newly uploaded to the cloud storage
-
-	if(req.files.length > 0){ //Check if there are files to upload
-		//Remove any old bg files if applicable
-		var oldBGFileNames = req.body.oldBGFilesNames;
-
-
-		//console.log("Old files are: "  + oldBGFileNames.length);
-		if(oldBGFileNames!=undefined)
-		{
-			for(var i=0; i<oldBGFileNames.length; i++)
-			{
-				console.log(oldBGFileNames[i]);
-				await bucket.file(oldBGFileNames[i]).delete();
-			}
-		}
-
-		//console.log("New File NAmes are: ")
-		//Upload new files to cloud storage
-		req.files.forEach((file)=>{
-
-			//Get the name of the 
-			fileNames.push(file.originalname);
-			
-			const blob = bucket.file(file.originalname);
-
-			const blobStream = blob.createWriteStream({
-				resumable: false,
-			});
-
-			blobStream.on('error', err => {
-				next(err);
-			});
-		
-			blobStream.end(req.files.buffer);
-		});
-	}
-	res.json({"UploadFileNames": fileNames});
-	res.end();
-});
-
-router.post("/renameBGFiles", async function(req, res){
-	//console.log("In the renameBG Function");
-	//Get the new fileNames
-	var newFileNames = await editorDAOObject.getPreviousBackgroundFileNames(currentProjectID);
-
-	//Go thorugh the oldFiles Array
-	for(var i=0; i<req.body.oldFileArray.length; i++)
-	{
-		await bucket.file(req.body.oldFileArray[i]).move(newFileNames[i].file_name);
-		await bucket.file(newFileNames[i].file_name).makePublic();
-	}
-
-	res.end();
-});
-
-
-
-router.post("/uploadLogoFile", upload.single('logoFile'), async function(req, res, next){
-
-	//Check if we have a existing logo added to project. If there is delete old file from cloud storage
-
-	if(req.body.OldLogoFileName != "")
-	{
-		console.log("In the delete");
-
-		//Remove File
-		await bucket.file(req.body.OldLogoFileName).delete();
-	}
-
-	//Create File
-	const blob = bucket.file(req.file.originalname); // The name of the file as it was retrieved from uploading
-
-	const blobStream = blob.createWriteStream({
-		resumable: false,
-	});
-	
-	blobStream.on('error', err => {
-		next(err);
-	});
-
-	blobStream.end(req.file.buffer);
-
-	res.end();
-});
-
-router.post("/renameLogoFile", async function(req, res){
-
-	//Get the necessary values
-	var oldFileName = req.body.FileName; //Name that was used to make the newly created file
-	var newFileName = await editorDAOObject.getLogoElement(currentProjectID); //The new name for the file
-
-	await bucket.file(oldFileName).move(newFileName);
-	await bucket.file(newFileName).makePublic();
-
 	res.end();
 });
 
 /*--------------------------Save Project to DB----------------------------- */ 
 router.post("/saveProjectData", async function(req, res){
 	
-	//Save Design Elements 
+	//**************Save Design Elements******************* 
 	var shapeArray = req.body.shape;
 
-	if(shapeArray!=undefined)
-	{ 			
-		//Remove all DesignElement Data in the DB for new data
-		await editorDAOObject.removeAllDesignElements(currentProjectID); 
+	//Remove all DesignElement Data in the DB for new data
+	await editorDAOObject.removeAllDesignElements(currentProjectID);
 
+	//check if there is any data to save for design elements
+	if(shapeArray!=undefined)
+	{ 			 
 		//Insert all design elements into Database
 		for(var i=0; i<shapeArray.length; i++)
 		{
@@ -387,66 +269,128 @@ router.post("/saveProjectData", async function(req, res){
 		}
 	}
 
-	//Save Lyrics
+	//***********************Save Lyrics*****************
 	var lyricsObj = req.body.lyrics;
-	
+
+	//Remove any old existing lyric
+	await editorDAOObject.removeLyricsElement(currentProjectID);
+
+	//Add the lyrics object to the db if available
 	if(lyricsObj!=undefined)
 	{
-		//Remove any old existing lyric
-		await editorDAOObject.removeLyricsElement(currentProjectID);
-
 		//Add the lyrics object to table
 		await editorDAOObject.saveLyricsElement(currentProjectID, lyricsObj);
 	}
 
-	//Save Logo
+	//**************************Save Logo************************
 	var logoObject = req.body.logo;
 	var oldLogoFileName="";
 
+	//Get the name of the previous logo element
+	var LogoResult= await editorDAOObject.getLogoElement(currentProjectID);
+
+	//Remove any old existing logo
+	await editorDAOObject.removeLogoElement(currentProjectID);
+
+	//Add logo object to the table if available
 	if(logoObject!=undefined)
 	{
-		//Obtain filePath of old logo if available
-		var LogoResult= await editorDAOObject.getLogoElement(currentProjectID);
-
-		if(LogoResult.length !=0)
-			oldLogoFileName = LogoResult[0].file_name;
-
-		//Remove any old existing logo
-		await editorDAOObject.removeLogoElement(currentProjectID);
-
-		//Add logo object to the table
 		await editorDAOObject.saveLogoElement(currentProjectID, logoObject);
 	}
 
-	//Save Background
+	//Check if there is any files to delete
+	if(LogoResult.length !=0)
+	{
+		console.log("In the logo delete function");
+		oldLogoFileName = LogoResult[0].file_name;
+
+		//Check if the old file_name still exists in the table 
+		var LogoExistResult = await editorDAOObject.ifLogoElementExists(currentProjectID, oldLogoFileName);
+
+		//Remove logoFile from UserMedia 
+		if(LogoExistResult==false)
+		{
+			fs.unlink('UserMedia/' + oldLogoFileName, function (err) {
+				if (err) console.log(err);
+				else
+					console.log("File " + oldLogoFileName + " deleted.");
+			});
+		}
+	}
+
+	//******************Save Background*****************
 	var backgroundArray = req.body.background;
-	var previousBGFileNames="";
+
+	//Get the file names of any pre-exisitng background objects
+	var PreviousBGResult = await editorDAOObject.getBackgroundFileNames(currentProjectID);
+	
+	//Remove all background objects belonging to project
+	await editorDAOObject.deleteBackgroundElements(currentProjectID);
 
 	if(backgroundArray !=undefined)
 	{
-		//Get the file name of any pre-exisitng background objects
-		var BGResult = await editorDAOObject.getPreviousBackgroundFileNames(currentProjectID);
-
-		if(BGResult.length !=0)
-			previousBGFileNames = BGResult;
-		//Remove all background objects belonging to project
-		await editorDAOObject.deleteBackgroundElements(currentProjectID);
-
-		//Add background objects to table
+		//Add background objects to table and to User Media
 		for(let i=0; i<backgroundArray.length; i++)
 		{
 			await editorDAOObject.saveBackgroundElement(currentProjectID, backgroundArray[i]);
 		}
 	}
 
-	//Grab the values from background array and send to Backgrounds Table using currentProjectID
+	//Delete files of previous bg elements
+	if(PreviousBGResult.length !=0)
+	{
+		for(var i=0; i<PreviousBGResult.length; i++)
+		{
+			var result = await editorDAOObject.ifBackgroundFileExists(currentProjectID, PreviousBGResult[i].file_name);
 
+			//Delete file if it doesnt exist in the table
+			if(result==false)
+			{
+				fs.unlink('UserMedia/' + PreviousBGResult[i].file_name, function(err){
+					if (err) console.log(err);
+					else
+						console.log("Background File Deleted");
+				});
+			}
+		}
+	}
+
+	
 	//Return the old fileNames of Logo
-	res.json({msg: "done", oldLogoFileName: oldLogoFileName, oldBGFileNames: previousBGFileNames});
+	res.json({msg: "done"});
 	res.end();
 });
 
+router.post("/uploadLogo", upload.single('LogoFile'), async function(req, res){
+	//Get the name of the logo file
+	var newFileName = currentProjectID + "_Logo_" + req.file.originalname;
 
+	//Have the db update the logo file_name
+	await editorDAOObject.updateLogoFileName(currentProjectID, newFileName);
+
+	//Rename sound File to have projId_Sound_originalFileName
+	fs.rename('UserMedia/' + req.file.originalname, 'UserMedia/'+ newFileName, function(err){
+		if ( err ) console.log('ERROR: ' + err);
+	});
+
+	res.end();
+});
+
+router.post("/uploadBackgrounds", upload.any(), async function(req, res){
+	//Get the name of the 
+	console.log("In the upload BG function");
+
+	req.files.forEach((file)=>{
+		fs.rename('UserMedia/'+file.originalname, 'UserMedia/'+currentProjectID+"_BG_"+file.originalname, function(err){
+			if (err) 
+				console.log('ERROR: ' + err);
+			else
+				console.log('BGFile ' + currentProjectID+"_BG_"+file.originalname + " uploaded");
+		});
+	});
+
+	res.end();
+});
 
 router.post("/something", function(req, res){
 	console.log(req.body.shape);
